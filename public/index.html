@@ -1,277 +1,435 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flebitech — Tutor de Flebitis Química y Terapia IV</title>
+    <meta name="description" content="Asistente educativo de prevención de flebitis química para enfermería. Alianza laCardio &amp; Universidad de La Sabana.">
+    <meta name="theme-color" content="#0F172A">
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: { 50:'#EEF4FF', 100:'#D9E6FF', 200:'#B3CCFE', 300:'#7EAAFD', 400:'#4D87FA', 500:'#1D5FC6', 600:'#0B47A3', 700:'#0A3882', 800:'#082D66', 900:'#061E45' },
+                        clinical: { success:'#059669', warning:'#D97706', danger:'#DC2626', info:'#2563EB' }
+                    },
+                    animation: { 'fade-in':'fadeIn 0.3s ease-out', 'slide-up':'slideUp 0.35s ease-out' },
+                    keyframes: {
+                        fadeIn: { from:{ opacity:'0' }, to:{ opacity:'1' }},
+                        slideUp: { from:{ opacity:'0', transform:'translateY(12px)' }, to:{ opacity:'1', transform:'translateY(0)' }}
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Marked for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
-        .tab-btn.active { border-bottom: 3px solid #0056B3; color: #0056B3; font-weight: 700; }
-        .chat-bubble-user { background: linear-gradient(135deg, #0056B3, #003366); color: white; }
-        .chat-bubble-ai { background: #FFFFFF; border: 1px solid #E2E8F0; color: #1E293B; }
-        .badge-lacardio { background-color: #002B66; color: white; }
-        .badge-sabana { background-color: #004080; color: #FFD100; }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid #E2E8F0; }
+        * { scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
+        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+        /* Chat bubbles */
+        .bubble-user {
+            background: linear-gradient(135deg, #1D5FC6 0%, #0A3882 100%);
+            color: white;
+            border-radius: 20px 20px 6px 20px;
+        }
+        .bubble-ai {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            color: #1E293B;
+            border-radius: 20px 20px 20px 6px;
+        }
+        .bubble-ai p { margin: 0.35em 0; }
+        .bubble-ai ul, .bubble-ai ol { margin: 0.5em 0; padding-left: 1.25em; }
+        .bubble-ai li { margin: 0.15em 0; }
+        .bubble-ai strong { color: #0A3882; }
+        .bubble-ai code { background: #F1F5F9; padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+
+        /* Tabs */
+        .tab-btn { position: relative; transition: color 0.2s; }
+        .tab-btn.active { color: #1D5FC6; font-weight: 700; }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1D5FC6, #4D87FA);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Risk colors */
+        .risk-extreme { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+        .risk-high { background: #FFF7ED; border-color: #FED7AA; color: #9A3412; }
+        .risk-moderate { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
+        .risk-low { background: #F0FDF4; border-color: #BBF7D0; color: #166534; }
+
+        /* Glassmorphism */
+        .glass { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+        /* Pill button */
+        .pill-btn {
+            transition: all 0.2s;
+            border: 1px solid #E2E8F0;
+        }
+        .pill-btn:hover {
+            border-color: #1D5FC6;
+            color: #1D5FC6;
+            background: #EEF4FF;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(29,95,198,0.12);
+        }
+
+        /* Typing indicator */
+        .typing-dot { animation: typingBounce 1.4s infinite ease-in-out; }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-slate-800">
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800">
 
-    <!-- HEADER INSTITUCIONAL -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-700 flex items-center justify-center text-white text-xl shadow-md">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">Flebitech</h1>
-                        <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-blue-100 text-blue-800">MVP v1.0</span>
+    <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+    <header class="bg-white/90 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <!-- Top row -->
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center text-white text-lg shadow-md shadow-brand-600/30">
+                        <i class="fa-solid fa-syringe"></i>
                     </div>
-                    <p class="text-xs text-slate-500 font-medium">Prevención de Flebitis Química y Terapia Intravenosa</p>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Flebitech</h1>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-brand-100 text-brand-700 hidden sm:inline">v1.1</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Prevención de Flebitis Química · Terapia IV</p>
+                    </div>
+                </div>
+
+                <!-- Institutional badges -->
+                <div class="flex items-center gap-2">
+                    <div class="hidden md:flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-slate-900 text-white shadow-sm">
+                        <i class="fa-solid fa-heart-pulse text-red-400"></i>
+                        <span>laCardio</span>
+                    </div>
+                    <div class="hidden md:flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-lg bg-brand-800 text-yellow-300 shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>U. de La Sabana</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-full border border-emerald-200">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span class="font-semibold">RAG Activo</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- LOGOS / ALIANZA INSTITUCIONAL -->
-            <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg badge-lacardio shadow-sm">
-                    <i class="fa-solid fa-heart-pulse text-red-400"></i>
-                    <span>laCardio</span>
-                </div>
-                <div class="hidden sm:flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg badge-sabana shadow-sm">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Univ. de La Sabana</span>
-                </div>
-                <div class="flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="font-semibold">RAG Estricto Activo</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- TABS DE NAVEGACIÓN -->
-        <div class="max-w-7xl mx-auto px-4 flex space-x-6 text-sm font-medium text-slate-600 border-t border-slate-100">
-            <button onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn active py-3 flex items-center gap-2">
-                <i class="fa-solid fa-comments"></i> Chat Educativo
-            </button>
-            <button onclick="switchTab('meds')" id="tab-btn-meds" class="tab-btn py-3 flex items-center gap-2">
-                <i class="fa-solid fa-pills"></i> Biblioteca de Medicamentos
-            </button>
-            <button onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn py-3 flex items-center gap-2">
-                <i class="fa-solid fa-user-doctor"></i> Casos Clínicos Simulados
-            </button>
-            <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn py-3 flex items-center gap-2">
-                <i class="fa-solid fa-chart-line"></i> Métricas y Brechas
-            </button>
+            <!-- Navigation tabs -->
+            <nav class="flex gap-1 -mb-px overflow-x-auto" id="nav-tabs">
+                <button onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-comments"></i> Chat Educativo
+                </button>
+                <button onclick="switchTab('meds')" id="tab-btn-meds" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-pills"></i> Medicamentos
+                </button>
+                <button onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-user-doctor"></i> Casos Clínicos
+                </button>
+                <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-chart-line"></i> Métricas
+                </button>
+            </nav>
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+    <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5">
 
-        <!-- ============================================== -->
-        <!-- TAB 1: CHAT EDUCATIVO -->
-        <!-- ============================================== -->
-        <section id="tab-chat" class="tab-content block">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <!-- COLUMNA PRINCIPAL DE MENSAJES -->
-                <div class="lg:col-span-3 flex flex-col h-[72vh] glass-card rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    
-                    <!-- Sugerencias Rápidas -->
-                    <div class="p-3 bg-slate-50 border-b border-slate-200 flex items-center gap-2 overflow-x-auto text-xs whitespace-nowrap scrollbar-none">
-                        <span class="font-bold text-slate-500 flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> Preguntas Rápidas:</span>
-                        <button onclick="askPreset('¿Qué es la valoración DIVA y cuándo usarla?')" class="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-600 transition">🔍 Escala DIVA</button>
-                        <button onclick="askPreset('¿Qué medicamentos requieren vía central obligatoria?')" class="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-600 transition">⚠️ Vía Central Mandatoria</button>
-                        <button onclick="askPreset('¿Cómo se clasifica la flebitis según la escala INS?')" class="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-600 transition">📊 Escala INS (0-4)</button>
-                        <button onclick="askPreset('¿Cuáles son los cuidados y dilución con la Vancomicina?')" class="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-600 transition">💊 Vancomicina</button>
-                        <button onclick="askPreset('¿Qué riesgos tiene el Cloruro de Potasio (KCl) periférico?')" class="px-2.5 py-1 rounded-full bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-600 transition">⚡ KCl Periférico</button>
+        <!-- ─────────── TAB 1: CHAT EDUCATIVO ─────────── -->
+        <section id="tab-chat" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                <!-- Chat column -->
+                <div class="lg:col-span-3 flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" style="height:calc(100vh - 180px);min-height:500px;">
+
+                    <!-- Quick suggestions -->
+                    <div class="px-4 py-2.5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-100 flex items-center gap-2 overflow-x-auto" id="suggestions-bar">
+                        <span class="text-slate-400 text-xs font-semibold shrink-0 flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-400"></i>Rápidas:</span>
+                        <button onclick="askPreset('¿Qué es la valoración DIVA y cuándo usarla?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🔍 Escala DIVA</button>
+                        <button onclick="askPreset('¿Qué medicamentos requieren vía central obligatoria?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚠️ Vía Central</button>
+                        <button onclick="askPreset('¿Cómo se clasifica la flebitis según la escala INS?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">📊 Escala INS</button>
+                        <button onclick="askPreset('¿Cuáles son los cuidados y dilución con la Vancomicina?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">💊 Vancomicina</button>
+                        <button onclick="askPreset('¿Qué riesgos tiene el Cloruro de Potasio (KCl) periférico?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚡ KCl</button>
+                        <button onclick="askPreset('¿Qué calibre de catéter debo elegir según el tratamiento?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🩹 Catéteres</button>
                     </div>
 
-                    <!-- Mensajes del Chat -->
-                    <div id="chat-messages" class="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm shrink-0 shadow">
+                    <!-- Chat messages -->
+                    <div id="chat-messages" class="flex-1 px-4 sm:px-6 py-5 overflow-y-auto space-y-5">
+                        <!-- Welcome message -->
+                        <div class="flex items-start gap-3 animate-fade-in">
+                            <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-600/20">
                                 <i class="fa-solid fa-robot"></i>
                             </div>
-                            <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-4 max-w-2xl shadow-sm text-sm leading-relaxed">
-                                <p class="font-semibold text-blue-900 mb-1">¡Hola! Soy el asistente educativo de Flebitech 🏥</p>
-                                <p>Estoy entrenado con los protocolos de <strong>laCardio</strong> y la <strong>Universidad de La Sabana</strong> para resolver tus dudas sobre accesos vasculares, escalas de riesgo (DIVA, INS) y compatibilidad físico-química de medicamentos. ¿Qué deseas consultar hoy?</p>
+                            <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed">
+                                <p class="font-bold text-brand-800 mb-1.5">¡Hola! Soy el asistente educativo de Flebitech 🏥</p>
+                                <p class="text-slate-600">Estoy entrenado con los protocolos de <strong>laCardio</strong> y la <strong>Universidad de La Sabana</strong> para resolver tus dudas sobre:</p>
+                                <ul class="mt-2 space-y-1 text-slate-600">
+                                    <li>💉 Accesos vasculares y selección de catéter</li>
+                                    <li>📊 Escalas de riesgo (DIVA, INS, VHP)</li>
+                                    <li>💊 Compatibilidad fisicoquímica de 15 medicamentos IV</li>
+                                    <li>🛡️ Criterios de pH, osmolaridad y prevención de flebitis</li>
+                                </ul>
+                                <p class="mt-2 text-slate-500 text-xs">Selecciona una pregunta rápida arriba o escribe tu consulta abajo.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Input Box -->
+                    <!-- Input -->
                     <div class="p-3 sm:p-4 bg-white border-t border-slate-200">
                         <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-2">
-                            <input type="text" id="user-input" placeholder="Pregunta sobre flebitis, medicamentos, pH, osmolaridad o catéteres..." 
-                                   class="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm shadow-inner" required />
-                            <button type="submit" id="send-btn" class="px-5 py-3 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-xl text-sm transition flex items-center gap-2 shadow">
-                                <span>Enviar</span>
+                            <input type="text" id="user-input"
+                                   placeholder="Escribe tu pregunta sobre flebitis, medicamentos, pH, osmolaridad..."
+                                   class="flex-1 px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm transition-all" required>
+                            <button type="submit" id="send-btn"
+                                    class="px-5 py-3 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md shadow-brand-600/20 active:scale-95">
+                                <span class="hidden sm:inline">Enviar</span>
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
                         </form>
                     </div>
                 </div>
 
-                <!-- SIDEBAR LATERAL INFORMATIVO -->
-                <div class="space-y-4">
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <!-- Sidebar -->
+                <div class="space-y-4 hidden lg:block">
+                    <!-- Safety Rules -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                         <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-blue-600"></i> Reglas de Oro de Seguridad
+                            <i class="fa-solid fa-shield-halved text-brand-600"></i> Reglas de Seguridad
                         </h3>
-                        <ul class="text-xs text-slate-600 space-y-2.5">
-                            <li class="flex items-start gap-2">
-                                <span class="text-red-500 font-bold">•</span>
-                                <span><strong>pH Crítico:</strong> Medicamentos con pH &lt; 5 o &gt; 9 dañan la íntima vascular rápidamente.</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-amber-500 font-bold">•</span>
-                                <span><strong>Osmolaridad &gt; 600 mOsm/L:</strong> Produce flebitis química periférica en &lt; 24h.</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-purple-600 font-bold">•</span>
-                                <span><strong>Osmolaridad &gt; 900 mOsm/L:</strong> Prohibido por vía periférica. Exige Vía Central mandatoria.</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <span class="text-blue-600 font-bold">•</span>
-                                <span><strong>Regla de Punciones:</strong> Máximo 2 intentos de punción por profesional.</span>
-                            </li>
-                        </ul>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex items-start gap-2.5">
+                                <div class="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">!</div>
+                                <div><span class="font-bold text-red-800">pH &lt; 5 o &gt; 9</span><br><span class="text-slate-500">Daña la íntima vascular rápidamente.</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <div class="w-5 h-5 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">!</div>
+                                <div><span class="font-bold text-amber-800">Osm &gt; 600 mOsm/L</span><br><span class="text-slate-500">Flebitis química periférica en &lt;24h.</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <div class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">!</div>
+                                <div><span class="font-bold text-purple-800">Osm &gt; 900 mOsm/L</span><br><span class="text-slate-500">Vía Central mandatoria.</span></div>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">2</div>
+                                <div><span class="font-bold text-blue-800">Máx. 2 punciones</span><br><span class="text-slate-500">Por profesional por paciente.</span></div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl text-xs text-blue-900 shadow-sm">
-                        <p class="font-bold flex items-center gap-1.5 mb-1"><i class="fa-solid fa-circle-info text-blue-600"></i> Herramienta Educativa</p>
-                        <p>Flebitech opera bajo un sistema de <strong>RAG estricto</strong>: nunca inventa información y solo responde basándose en la documentación oficial indexada.</p>
+                    <!-- Info card -->
+                    <div class="bg-brand-50 border border-brand-200 p-4 rounded-2xl text-xs text-brand-900">
+                        <p class="font-bold flex items-center gap-1.5 mb-1"><i class="fa-solid fa-circle-info text-brand-600"></i> Herramienta Educativa</p>
+                        <p class="text-brand-700">Flebitech opera con <strong>RAG estricto</strong>: solo responde con información de la documentación oficial indexada. Nunca inventa datos clínicos.</p>
+                    </div>
+
+                    <!-- Session stats mini -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Esta sesión</h3>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-500">Preguntas:</span>
+                            <span id="sidebar-count" class="font-bold text-brand-700">0</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs mt-1">
+                            <span class="text-slate-500">Resueltas:</span>
+                            <span id="sidebar-resolved" class="font-bold text-emerald-600">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- TAB 2: BIBLIOTECA DE MEDICAMENTOS -->
-        <!-- ============================================== -->
+        <!-- ─────────── TAB 2: BIBLIOTECA DE MEDICAMENTOS ─────────── -->
         <section id="tab-meds" class="tab-content hidden">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <div>
-                        <h2 class="text-lg font-bold text-slate-900">💊 Biblioteca Farmacológica de Flebitech</h2>
-                        <p class="text-xs text-slate-500">Parámetros fisicoquímicos y cuidados de enfermería para 15 fármacos críticos</p>
+                        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-pills text-brand-600"></i> Biblioteca Farmacológica
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Parámetros fisicoquímicos y cuidados de enfermería · 15 fármacos críticos</p>
                     </div>
-                    <div class="relative w-full sm:w-72">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
-                        <input type="text" id="med-search" oninput="filterMeds()" placeholder="Buscar fármaco..." 
-                               class="w-full pl-9 pr-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-600 outline-none" />
+                    <div class="relative w-full sm:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                        <input type="text" id="med-search" oninput="filterMeds()" placeholder="Buscar fármaco (ej. Vancomicina, KCl, Amiodarona)..."
+                               class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-brand-500 outline-none transition-all">
                     </div>
                 </div>
-
-                <div id="meds-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Cards se cargan dinámicamente vía JS -->
+                <div id="meds-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div class="col-span-full text-center py-8 text-slate-400"><i class="fa-solid fa-spinner animate-spin text-lg mr-2"></i> Cargando medicamentos...</div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- TAB 3: CASOS CLÍNICOS SIMULADOS -->
-        <!-- ============================================== -->
+        <!-- ─────────── TAB 3: CASOS CLÍNICOS ─────────── -->
         <section id="tab-cases" class="tab-content hidden">
             <div class="max-w-4xl mx-auto space-y-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <h2 class="text-lg font-bold text-slate-900 mb-1">🎯 Simulador de Toma de Decisiones Clínicas</h2>
-                    <p class="text-xs text-slate-500 mb-6">Evalúa tu criterio clínico en situaciones reales de enfermería hospitalaria.</p>
+                <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-stethoscope text-brand-600"></i> Simulador de Decisiones Clínicas
+                    </h2>
+                    <p class="text-xs text-slate-500 mb-6">Evalúa tu criterio clínico con escenarios reales de enfermería hospitalaria.</p>
 
                     <div class="space-y-6">
                         <!-- CASO 1 -->
-                        <div class="border border-slate-200 rounded-xl p-5 bg-slate-50">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-xs">Caso 1</span>
-                                <h3 class="font-bold text-slate-800 text-sm">Paciente con DIVA Elevado y Prescripción de Vancomicina</h3>
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-brand-50 to-slate-50 px-5 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 bg-brand-600 text-white rounded-lg font-bold text-xs">Caso 1</span>
+                                    <h3 class="font-bold text-slate-800 text-sm">Paciente con DIVA Elevado y Vancomicina</h3>
+                                </div>
                             </div>
-                            <p class="text-xs text-slate-600 mb-4">Mujer de 68 años hospitalizada por neumonía con orden de <em>Vancomicina 1 g IV c/12h por 10 días</em>. Tiene historial de accesos venosos difíciles y venas no visibles ni palpables (DIVA = 4).</p>
-                            <div class="space-y-2 text-xs">
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50">
-                                    <input type="radio" name="case1" value="A" class="text-blue-600">
-                                    <span>A) Canalizar a ciegas una vénula de 1 mm en el dorso de la mano con catéter 18G.</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50">
-                                    <input type="radio" name="case1" value="B" class="text-blue-600">
-                                    <span>B) Solicitar valoración para Catéter de Línea Media (Midline) o PICC guiado por ecografía.</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50">
-                                    <input type="radio" name="case1" value="C" class="text-blue-600">
-                                    <span>C) Administrar en bolo directo rápido para no maltratar la vena.</span>
-                                </label>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    Mujer de 68 años hospitalizada por neumonía con orden de <em class="font-semibold text-slate-800">Vancomicina 1 g IV c/12h por 10 días</em>. Historial de accesos venosos difíciles: venas no visibles ni palpables (<strong>DIVA = 4</strong>).
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case1" value="A" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>A) Canalizar a ciegas una vénula de 1 mm en el dorso de la mano con catéter 18G.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case1" value="B" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>B) Solicitar valoración para Catéter de Línea Media (Midline) o PICC guiado por ecografía.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case1" value="C" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>C) Administrar en bolo directo rápido para no maltratar la vena.</span>
+                                    </label>
+                                </div>
+                                <button onclick="evaluateCase(1)" class="mt-4 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                    <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
+                                </button>
+                                <div id="case1-feedback" class="mt-3 hidden animate-slide-up"></div>
                             </div>
-                            <button onclick="evaluateCase(1)" class="mt-3 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs font-semibold">Evaluar Decisión</button>
-                            <div id="case1-feedback" class="mt-3 text-xs hidden"></div>
                         </div>
 
                         <!-- CASO 2 -->
-                        <div class="border border-slate-200 rounded-xl p-5 bg-slate-50">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-xs">Caso 2</span>
-                                <h3 class="font-bold text-slate-800 text-sm">Dolor y Eritema Agudo Durante Infusión de KCl</h3>
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-brand-50 to-slate-50 px-5 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 bg-brand-600 text-white rounded-lg font-bold text-xs">Caso 2</span>
+                                    <h3 class="font-bold text-slate-800 text-sm">Dolor y Eritema Agudo Durante Infusión de KCl</h3>
+                                </div>
                             </div>
-                            <p class="text-xs text-slate-600 mb-4">Paciente con reposición de <em>Cloruro de Potasio (KCl) 40 mEq en 500 ml SSN</em>. A las 2 horas presenta eritema y dolor ardoroso en sitio de punción (Flebitis INS Grado 2).</p>
-                            <div class="space-y-2 text-xs">
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50">
-                                    <input type="radio" name="case2" value="A" class="text-blue-600">
-                                    <span>A) Aumentar la velocidad para terminar la solución rápidamente.</span>
-                                </label>
-                                <label class="flex items-center gap-2 p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50">
-                                    <input type="radio" name="case2" value="B" class="text-blue-600">
-                                    <span>B) Detener la infusión inmediatamente, RETIRAR el catéter venoso periférico y rotar de sitio con mayor dilución.</span>
-                                </label>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    Paciente con reposición de <em class="font-semibold text-slate-800">KCl 40 mEq en 500 ml SSN</em>. A las 2 horas presenta eritema y dolor ardoroso en sitio de punción (<strong>Flebitis INS Grado 2</strong>).
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case2" value="A" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>A) Aumentar la velocidad para terminar la solución rápidamente.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case2" value="B" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>B) Detener la infusión, RETIRAR el catéter venoso periférico y rotar de sitio con mayor dilución.</span>
+                                    </label>
+                                </div>
+                                <button onclick="evaluateCase(2)" class="mt-4 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                    <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
+                                </button>
+                                <div id="case2-feedback" class="mt-3 hidden animate-slide-up"></div>
                             </div>
-                            <button onclick="evaluateCase(2)" class="mt-3 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-xs font-semibold">Evaluar Decisión</button>
-                            <div id="case2-feedback" class="mt-3 text-xs hidden"></div>
+                        </div>
+
+                        <!-- CASO 3 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-brand-50 to-slate-50 px-5 py-3 border-b border-slate-200">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 bg-brand-600 text-white rounded-lg font-bold text-xs">Caso 3</span>
+                                    <h3 class="font-bold text-slate-800 text-sm">NPT por Vía Periférica</h3>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                                    Paciente con orden de <em class="font-semibold text-slate-800">Nutrición Parenteral Total (NPT)</em> con osmolaridad calculada de <strong>1200 mOsm/L</strong>. El equipo médico solicita que se administre por catéter periférico en antebrazo.
+                                </p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case3" value="A" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>A) Administrar por vía periférica lentamente para reducir el riesgo.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case3" value="B" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>B) Informar al equipo médico que la NPT con &gt;900 mOsm/L requiere Vía Central (CVC o PICC) obligatoria.</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all text-sm">
+                                        <input type="radio" name="case3" value="C" class="text-brand-600 focus:ring-brand-500 shrink-0">
+                                        <span>C) Diluir la NPT con SSN para bajar la osmolaridad y poder pasarla periféricamente.</span>
+                                    </label>
+                                </div>
+                                <button onclick="evaluateCase(3)" class="mt-4 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                    <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
+                                </button>
+                                <div id="case3-feedback" class="mt-3 hidden animate-slide-up"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================== -->
-        <!-- TAB 4: MÉTRICAS Y BRECHAS -->
-        <!-- ============================================== -->
+        <!-- ─────────── TAB 4: MÉTRICAS ─────────── -->
         <section id="tab-analytics" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center">
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Preguntas</p>
-                    <p id="metric-total" class="text-3xl font-extrabold text-blue-900 mt-1">0</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Preguntas</p>
+                    <p id="metric-total" class="text-3xl font-extrabold text-brand-800 mt-1">0</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center">
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Respondidas con Éxito</p>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Respondidas</p>
                     <p id="metric-answered" class="text-3xl font-extrabold text-emerald-600 mt-1">0</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center">
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Brechas Detectadas</p>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Brechas</p>
                     <p id="metric-gaps" class="text-3xl font-extrabold text-red-600 mt-1">0</p>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tasa Resolución</p>
+                    <p id="metric-rate" class="text-3xl font-extrabold text-brand-600 mt-1">100%</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-blue-600"></i> Historial Reciente de Consultas
+                    <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-brand-600"></i> Historial Reciente
                     </h3>
-                    <div id="recent-list" class="space-y-2.5 text-xs">
-                        <p class="text-slate-400 italic">Cargando interacciones...</p>
+                    <div id="recent-list" class="space-y-2 text-sm max-h-96 overflow-y-auto">
+                        <p class="text-slate-400 italic text-sm py-4 text-center">Sin consultas registradas aún.</p>
                     </div>
                 </div>
-
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Brechas de Conocimiento para Docentes
+                    <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Brechas de Conocimiento
                     </h3>
-                    <div id="gaps-list" class="space-y-2.5 text-xs">
-                        <p class="text-slate-400 italic">No se han detectado brechas pendientes.</p>
+                    <div id="gaps-list" class="space-y-2 text-sm max-h-96 overflow-y-auto">
+                        <p class="text-emerald-600 font-semibold text-sm py-4 text-center">🎉 No hay brechas pendientes.</p>
                     </div>
                 </div>
             </div>
@@ -279,15 +437,23 @@
 
     </main>
 
-    <!-- JAVASCRIPT DE LA APLICACIÓN -->
-    <script>
-        let allMedications = [];
+    <!-- Footer -->
+    <footer class="py-3 text-center text-[11px] text-slate-400 border-t border-slate-100">
+        Flebitech v1.1 · Alianza laCardio &amp; Universidad de La Sabana · Herramienta educativa con RAG estricto
+    </footer>
 
-        // Cambiar pestañas
+    <!-- ═══════════════════════════ JAVASCRIPT ═══════════════════════════ -->
+    <script>
+        // ─── State ───
+        let allMedications = [];
+        let sessionQuestions = 0;
+        let sessionResolved = 0;
+
+        // ─── Tab Switching ───
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
+
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             document.getElementById('tab-btn-' + tabId).classList.add('active');
 
@@ -295,13 +461,13 @@
             if (tabId === 'analytics') loadMetrics();
         }
 
-        // Consultar preset
+        // ─── Preset Question ───
         function askPreset(text) {
             document.getElementById('user-input').value = text;
             handleChatSubmit(new Event('submit'));
         }
 
-        // Manejar envío de chat
+        // ─── Chat Submit ───
         async function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('user-input');
@@ -309,9 +475,9 @@
             if (!query) return;
 
             input.value = '';
+            input.focus();
             appendMessage('user', query);
 
-            // Placeholder de cargando
             const loadingId = appendLoading();
 
             try {
@@ -320,45 +486,72 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ query: query, session_id: 'web_session' })
                 });
+
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+
                 const data = await res.json();
                 removeLoading(loadingId);
                 appendMessage('ai', data.response, data.sources, data.had_answer, data.latency_ms);
+
+                // Update session counters
+                sessionQuestions++;
+                if (data.had_answer) sessionResolved++;
+                updateSidebarCounters();
             } catch (err) {
                 removeLoading(loadingId);
-                appendMessage('ai', 'ℹ️ Error conectando con el servidor de Flebitech. Intenta nuevamente.', [], false, 0);
+                appendMessage('ai', '⚠️ Error conectando con el servidor de Flebitech. Verifica tu conexión e intenta nuevamente.', [], false, 0);
             }
         }
 
+        function updateSidebarCounters() {
+            const countEl = document.getElementById('sidebar-count');
+            const resolvedEl = document.getElementById('sidebar-resolved');
+            if (countEl) countEl.textContent = sessionQuestions;
+            if (resolvedEl) resolvedEl.textContent = sessionResolved;
+        }
+
+        // ─── Render Messages ───
         function appendMessage(role, text, sources = [], hadAnswer = true, latency = 0) {
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
-            div.className = lex items-start gap-3 ;
+            div.className = 'flex items-start gap-3 animate-slide-up';
 
-            const htmlContent = marked.parse(text);
+            const htmlContent = typeof marked !== 'undefined' ? marked.parse(text) : text.replace(/\n/g, '<br>');
 
             if (role === 'user') {
-                div.innerHTML = 
-                    <div class="chat-bubble-user rounded-2xl rounded-tr-sm p-3.5 max-w-xl text-sm shadow-md">
-                        
-                    </div>
-                ;
+                div.innerHTML = `
+                    <div class="ml-auto bubble-user p-3.5 max-w-xl text-sm shadow-md leading-relaxed">
+                        ${escapeHtml(text)}
+                    </div>`;
             } else {
                 let sourceBadge = '';
                 if (sources && sources.length > 0 && hadAnswer) {
-                    sourceBadge = <div class="mt-2 text-[11px] text-slate-500 font-medium flex items-center gap-1"><i class="fa-solid fa-book-bookmark text-blue-600"></i> Fuentes:  ·  ms</div>;
+                    const srcNames = sources.map(s => '<span class="font-semibold">' + escapeHtml(s) + '</span>').join(' · ');
+                    sourceBadge = `<div class="mt-3 pt-2 border-t border-slate-100 text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-bookmark text-brand-500"></i> Fuentes: ${srcNames} · ${Math.round(latency)} ms
+                    </div>`;
+                } else if (!hadAnswer) {
+                    sourceBadge = `<div class="mt-3 pt-2 border-t border-slate-100 text-[11px] text-amber-500 flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-exclamation"></i> Fuera del alcance documental de Flebitech
+                    </div>`;
                 }
-                div.innerHTML = 
-                    <div class="w-8 h-8 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm shrink-0 shadow">
+                div.innerHTML = `
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-600/20">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-4 max-w-2xl shadow-sm text-sm leading-relaxed prose prose-sm max-w-none">
-                        
-                        
-                    </div>
-                ;
+                    <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed">
+                        ${htmlContent}
+                        ${sourceBadge}
+                    </div>`;
             }
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
 
         function appendLoading() {
@@ -366,15 +559,19 @@
             const id = 'loading-' + Date.now();
             const div = document.createElement('div');
             div.id = id;
-            div.className = 'flex items-start gap-3';
-            div.innerHTML = 
-                <div class="w-8 h-8 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm shrink-0">
-                    <i class="fa-solid fa-spinner animate-spin"></i>
+            div.className = 'flex items-start gap-3 animate-fade-in';
+            div.innerHTML = `
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-600/20">
+                    <i class="fa-solid fa-robot"></i>
                 </div>
-                <div class="chat-bubble-ai rounded-2xl rounded-tl-sm p-3 max-w-xs shadow-sm text-xs text-slate-500 flex items-center gap-2">
-                    <span>Consultando base de Flebitech...</span>
-                </div>
-            ;
+                <div class="bubble-ai p-4 shadow-sm flex items-center gap-2">
+                    <div class="flex gap-1">
+                        <div class="typing-dot w-2 h-2 rounded-full bg-brand-400"></div>
+                        <div class="typing-dot w-2 h-2 rounded-full bg-brand-400"></div>
+                        <div class="typing-dot w-2 h-2 rounded-full bg-brand-400"></div>
+                    </div>
+                    <span class="text-xs text-slate-400 ml-1">Consultando base documental...</span>
+                </div>`;
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
             return id;
@@ -385,108 +582,149 @@
             if (el) el.remove();
         }
 
-        // Cargar medicamentos
+        // ─── Medications ───
         async function loadMedications() {
             try {
                 const res = await fetch('/api/medications');
                 allMedications = await res.json();
                 renderMedications(allMedications);
             } catch (e) {
-                console.error(e);
+                document.getElementById('meds-container').innerHTML =
+                    '<p class="col-span-full text-center text-red-500 py-4">Error cargando medicamentos. Recarga la página.</p>';
             }
+        }
+
+        function getRiskClass(risk) {
+            const r = (risk || '').toLowerCase();
+            if (r.includes('extremo') || r.includes('vesicante')) return 'risk-extreme';
+            if (r.includes('muy alto') || r.includes('alto')) return 'risk-high';
+            if (r.includes('moderado')) return 'risk-moderate';
+            return 'risk-low';
         }
 
         function renderMedications(meds) {
             const container = document.getElementById('meds-container');
-            container.innerHTML = '';
-            meds.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md transition space-y-2 text-xs';
-                card.innerHTML = 
-                    <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-slate-900 text-sm"></h4>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold "></span>
+            if (!meds.length) {
+                container.innerHTML = '<p class="col-span-full text-center text-slate-400 py-8">No se encontraron medicamentos con ese nombre.</p>';
+                return;
+            }
+            container.innerHTML = meds.map(m => {
+                const riskClass = getRiskClass(m.riesgo_flebitis);
+                return `
+                <div class="p-4 rounded-xl border border-slate-200 bg-white hover:shadow-lg transition-all duration-200 space-y-3 group">
+                    <div class="flex justify-between items-start gap-2">
+                        <h4 class="font-bold text-slate-900 text-sm group-hover:text-brand-700 transition-colors">${escapeHtml(m.nombre)}</h4>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border shrink-0 ${riskClass}">${escapeHtml(m.riesgo_flebitis || '')}</span>
                     </div>
-                    <p class="text-slate-500"></p>
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-                        <div><span class="text-slate-400 font-semibold">pH:</span> <code class="font-bold text-slate-700"></code></div>
-                        <div><span class="text-slate-400 font-semibold">Osmolaridad:</span> <code class="font-bold text-slate-700"></code></div>
+                    <p class="text-xs text-slate-400">${escapeHtml(m.grupo || '')}</p>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs">
+                        <div><span class="text-slate-400">pH:</span> <code class="font-bold text-slate-700">${escapeHtml(m.ph || '')}</code></div>
+                        <div><span class="text-slate-400">Osmolaridad:</span> <code class="font-bold text-slate-700">${escapeHtml(m.osmolaridad || '')}</code></div>
                     </div>
-                    <div class="pt-2 text-slate-600">
-                        <p><strong>Vía:</strong> </p>
-                        <p class="mt-1 text-slate-500"><strong>Diluyente:</strong> </p>
+                    <div class="text-xs text-slate-600 space-y-1">
+                        <p><strong class="text-slate-500">Vía:</strong> ${escapeHtml(m.via_recomendada || '')}</p>
+                        <p><strong class="text-slate-500">Diluyente:</strong> ${escapeHtml(m.diluyente_recomendado || '')}</p>
+                        <p><strong class="text-slate-500">Infusión:</strong> ${escapeHtml(m.tiempo_infusion_minimo || '')}</p>
                     </div>
-                ;
-                container.appendChild(card);
-            });
+                    <div class="pt-2 border-t border-slate-100">
+                        <p class="text-[11px] text-amber-700 bg-amber-50 rounded-lg p-2 border border-amber-100">
+                            <i class="fa-solid fa-user-nurse text-amber-500 mr-1"></i>
+                            ${escapeHtml(m.observaciones_enfermeria || '')}
+                        </p>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function filterMeds() {
             const q = document.getElementById('med-search').value.toLowerCase();
-            const filtered = allMedications.filter(m => m.nombre.toLowerCase().includes(q) || (m.grupo && m.grupo.toLowerCase().includes(q)));
+            const filtered = allMedications.filter(m =>
+                (m.nombre || '').toLowerCase().includes(q) ||
+                (m.grupo || '').toLowerCase().includes(q) ||
+                (m.riesgo_flebitis || '').toLowerCase().includes(q)
+            );
             renderMedications(filtered);
         }
 
-        // Evaluar Casos
+        // ─── Clinical Cases ───
         function evaluateCase(caseNum) {
-            const feedback = document.getElementById(case-feedback);
+            const feedback = document.getElementById('case' + caseNum + '-feedback');
             feedback.classList.remove('hidden');
 
-            if (caseNum === 1) {
-                const sel = document.querySelector('input[name="case1"]:checked');
-                if (sel && sel.value === 'B') {
-                    feedback.className = 'mt-3 p-3 bg-emerald-50 text-emerald-800 rounded-lg border border-emerald-200';
-                    feedback.innerHTML = '✅ <strong>¡Correcto!</strong> Con DIVA = 4 y terapia ácida prolongada (10 días), la indicación de elección es Línea Media o PICC guiado por ecografía.';
-                } else {
-                    feedback.className = 'mt-3 p-3 bg-red-50 text-red-800 rounded-lg border border-red-200';
-                    feedback.innerHTML = '❌ <strong>Incorrecto.</strong> Canalizar vénulas distales a ciegas con fármacos irritantes produce flebitis química rápida.';
-                }
-            } else if (caseNum === 2) {
-                const sel = document.querySelector('input[name="case2"]:checked');
-                if (sel && sel.value === 'B') {
-                    feedback.className = 'mt-3 p-3 bg-emerald-50 text-emerald-800 rounded-lg border border-emerald-200';
-                    feedback.innerHTML = '✅ <strong>¡Correcto!</strong> En Flebitis INS Grado 2 el retiro es mandatorio para evitar progresión a cordón palpable o trombosis.';
-                } else {
-                    feedback.className = 'mt-3 p-3 bg-red-50 text-red-800 rounded-lg border border-red-200';
-                    feedback.innerHTML = '❌ <strong>Incorrecto.</strong> Nunca forzar la infusión ni mantener el catéter con signos de flebitis Grado 2.';
-                }
+            const sel = document.querySelector('input[name="case' + caseNum + '"]:checked');
+            if (!sel) {
+                feedback.className = 'mt-3 p-4 bg-slate-50 text-slate-600 rounded-xl border border-slate-200 text-sm animate-slide-up';
+                feedback.innerHTML = '<i class="fa-solid fa-hand-pointer mr-1"></i> Selecciona una opción antes de evaluar.';
+                return;
+            }
+
+            const cases = {
+                1: { correct: 'B', ok: '✅ <strong>¡Correcto!</strong> Con DIVA = 4 y terapia ácida prolongada (10 días), la indicación de elección es <strong>Línea Media o PICC guiado por ecografía</strong>. La Vancomicina (pH 2.5-4.5) es altamente irritante y requiere un acceso de mayor calibre y duración.', fail: '❌ <strong>Incorrecto.</strong> Canalizar vénulas distales a ciegas con fármacos irritantes como Vancomicina (pH 2.5-4.5) produce flebitis química rápida. Con DIVA 4, se necesita acceso guiado por ecografía.' },
+                2: { correct: 'B', ok: '✅ <strong>¡Correcto!</strong> En <strong>Flebitis INS Grado 2</strong> (eritema + dolor), el retiro del catéter es mandatorio para evitar progresión a cordón palpable, trombosis o infección.', fail: '❌ <strong>Incorrecto.</strong> Nunca forzar la infusión ni mantener el catéter con signos de flebitis Grado 2. Aumentar la velocidad agrava el daño endotelial.' },
+                3: { correct: 'B', ok: '✅ <strong>¡Correcto!</strong> La NPT con osmolaridad >900 mOsm/L es <strong>obligatoriamente de Vía Central</strong> (CVC o PICC con punta en vena cava superior). Nunca se administra periféricamente.', fail: '❌ <strong>Incorrecto.</strong> La NPT con osmolaridad de 1200 mOsm/L supera ampliamente el umbral de 900 mOsm/L. Es mandatorio administrar exclusivamente por Vía Central. Diluirla alteraría su formulación nutricional.' }
+            };
+
+            const c = cases[caseNum];
+            if (sel.value === c.correct) {
+                feedback.className = 'mt-3 p-4 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-sm animate-slide-up';
+                feedback.innerHTML = c.ok;
+            } else {
+                feedback.className = 'mt-3 p-4 bg-red-50 text-red-800 rounded-xl border border-red-200 text-sm animate-slide-up';
+                feedback.innerHTML = c.fail;
             }
         }
 
-        // Cargar Métricas
+        // ─── Metrics ───
         async function loadMetrics() {
             try {
                 const res = await fetch('/api/metrics');
                 const data = await res.json();
-                document.getElementById('metric-total').innerText = data.stats.total_preguntas;
-                document.getElementById('metric-answered').innerText = data.stats.respondidas;
-                document.getElementById('metric-gaps').innerText = data.stats.brechas_detectadas;
+
+                document.getElementById('metric-total').textContent = data.stats.total_preguntas;
+                document.getElementById('metric-answered').textContent = data.stats.respondidas;
+                document.getElementById('metric-gaps').textContent = data.stats.brechas_detectadas;
+                document.getElementById('metric-rate').textContent = data.stats.tasa_resolucion + '%';
 
                 const recentEl = document.getElementById('recent-list');
                 if (data.recent && data.recent.length > 0) {
-                    recentEl.innerHTML = data.recent.map(r => 
-                        <div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
-                            <span class="font-bold text-slate-700">[]</span> 
+                    recentEl.innerHTML = data.recent.map(r => `
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-start gap-2">
+                            <span class="shrink-0 mt-0.5 ${r.had_answer ? 'text-emerald-500' : 'text-red-400'}">
+                                <i class="fa-solid ${r.had_answer ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+                            </span>
+                            <div class="min-w-0">
+                                <p class="font-semibold text-slate-700 text-xs truncate">${escapeHtml(r.query || '')}</p>
+                                <p class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(r.topic || '')} · ${escapeHtml(r.timestamp || '')}</p>
+                            </div>
                         </div>
-                    ).join('');
+                    `).join('');
                 } else {
-                    recentEl.innerHTML = '<p class="text-slate-400">Sin consultas registradas.</p>';
+                    recentEl.innerHTML = '<p class="text-slate-400 text-center py-4">Sin consultas registradas.</p>';
                 }
 
                 const gapsEl = document.getElementById('gaps-list');
                 if (data.gaps && data.gaps.length > 0) {
-                    gapsEl.innerHTML = data.gaps.map(g => 
-                        <div class="p-2 bg-red-50 text-red-800 rounded-lg border border-red-200">
-                            <strong></strong> (): 
+                    gapsEl.innerHTML = data.gaps.map(g => `
+                        <div class="p-3 bg-red-50 text-red-800 rounded-lg border border-red-200 text-xs">
+                            <p class="font-semibold">${escapeHtml(g.query || '')}</p>
+                            <p class="text-red-500 mt-0.5">${escapeHtml(g.topic || '')} · ${escapeHtml(g.timestamp || '')}</p>
                         </div>
-                    ).join('');
+                    `).join('');
                 } else {
-                    gapsEl.innerHTML = '<p class="text-emerald-600 font-semibold">🎉 No hay brechas de conocimiento sin responder.</p>';
+                    gapsEl.innerHTML = '<p class="text-emerald-600 font-semibold text-center py-4">🎉 Sin brechas de conocimiento pendientes.</p>';
                 }
             } catch (e) {
-                console.error(e);
+                console.error('Error loading metrics:', e);
             }
         }
+
+        // ─── Keyboard shortcut ───
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.getElementById('user-input').focus();
+            }
+        });
     </script>
 </body>
 </html>

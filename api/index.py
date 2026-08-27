@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Punto de entrada Serverless para Vercel (FastAPI).
 Gestiona los endpoints de la API de Flebitech.
@@ -20,13 +20,16 @@ from typing import Optional, List, Dict, Any
 
 from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
-from backend.metrics import log_question, get_session_stats, get_recent_interactions, get_knowledge_gaps
+from backend.metrics import (
+    log_question, get_session_stats, get_recent_interactions,
+    get_knowledge_gaps, detect_topic
+)
 
 # Inicializar FastAPI
 app = FastAPI(
     title="Flebitech API",
     description="API Educativa sobre Flebitis Química para Enfermería (laCardio & Universidad de La Sabana)",
-    version="1.0.0"
+    version="1.1.0"
 )
 
 # Habilitar CORS para integración web y widget embebible
@@ -43,10 +46,12 @@ kb_path = os.path.join(root_dir, "knowledge_base")
 rag = RAGEngine(knowledge_base_path=kb_path)
 groq = GroqClient()
 
+
 # Modelos Pydantic
 class ChatRequest(BaseModel):
     query: str
     session_id: Optional[str] = "web_session"
+
 
 class ChatResponse(BaseModel):
     response: str
@@ -55,21 +60,39 @@ class ChatResponse(BaseModel):
     topic: str
     latency_ms: float
 
+
+# ----- ENDPOINTS -----
+
 @app.get("/")
 def read_root():
     return {
         "status": "online",
-        "service": "Flebitech API",
+        "service": "Flebitech API v1.1",
         "institution": "laCardio & Universidad de La Sabana",
         "indexed_chunks": len(rag.chunks),
         "medications_count": len(rag.medications)
     }
+
+
+@app.get("/api/health")
+def health_check():
+    """Endpoint de health check para Vercel y monitoreo."""
+    return {
+        "status": "healthy",
+        "rag_chunks": len(rag.chunks),
+        "medications": len(rag.medications),
+        "groq_configured": groq.client is not None
+    }
+
 
 @app.post("/api/chat", response_model=ChatResponse)
 def chat_endpoint(req: ChatRequest):
     query = req.query.strip()
     if not query:
         raise HTTPException(status_code=400, detail="La consulta no puede estar vacía.")
+
+    if len(query) > 500:
+        raise HTTPException(status_code=400, detail="La consulta es demasiado larga (máx. 500 caracteres).")
 
     # 1. Búsqueda RAG
     context, sources, has_match = rag.search(query, top_k=3)
@@ -80,10 +103,10 @@ def chat_endpoint(req: ChatRequest):
     is_gap = "Esa información no está disponible en el material de Flebitech" in response_text or not has_match
     had_answer = not is_gap
 
-    # 3. Registro en métricas SQLite
-    from backend.metrics import detect_topic
+    # 3. Clasificación temática
     topic = detect_topic(query)
-    
+
+    # 4. Registro en métricas
     try:
         log_question(
             query=query,
@@ -104,9 +127,11 @@ def chat_endpoint(req: ChatRequest):
         latency_ms=round(latency, 1)
     )
 
+
 @app.get("/api/medications")
 def get_medications():
     return rag.medications
+
 
 @app.get("/api/suggested")
 def get_suggested():
@@ -116,8 +141,11 @@ def get_suggested():
         "¿Cómo se clasifica la flebitis según la escala INS?",
         "¿Cuáles son los cuidados con la Vancomicina e infusión?",
         "¿Qué riesgos tiene el Cloruro de Potasio (KCl) periférico?",
-        "¿Cuáles son los criterios de pH y osmolaridad críticos?"
+        "¿Cuáles son los criterios de pH y osmolaridad críticos?",
+        "¿Qué calibre de catéter debo elegir según el tratamiento?",
+        "¿Cuál es el protocolo de antisepsia con Clorhexidina?"
     ]
+
 
 @app.get("/api/metrics")
 def get_metrics(session_id: Optional[str] = None):

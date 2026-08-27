@@ -1,0 +1,125 @@
+{
+  "name": "Reto01-Credito-Hiperpersonalizado",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "credito/oferta",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-entrada",
+      "name": "Entrada afiliado (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.body.consentimiento_datos }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "if-consentimiento",
+      "name": "¿Hay consentimiento? (Habeas Data)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://scoring-service:8000/oferta",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParametersJson": "={{ JSON.stringify($json.body) }}",
+        "options": {}
+      },
+      "id": "http-scoring",
+      "name": "Motor de scoring (Python)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [700, 220],
+      "notes": "Llama a scoring_engine.py expuesto como microservicio. Devuelve oferta + justificacion."
+    },
+    {
+      "parameters": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParametersJson": "={\"x-goog-api-key\": \"{{ $env.GEMINI_API_KEY }}\"}",
+        "sendBody": true,
+        "bodyParametersJson": "={{ JSON.stringify({ contents: [{ parts: [{ text: 'PROMPT: ver gemini_prompts_credito.md, inyectando ' + JSON.stringify($json) }] }] }) }}",
+        "options": {}
+      },
+      "id": "http-gemini",
+      "name": "Redacción de oferta (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [940, 220],
+      "notes": "Genera el mensaje personalizado por canal a partir de la oferta y la justificacion."
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "oferta",
+        "options": {}
+      },
+      "id": "db-guardar",
+      "name": "Guardar oferta (DB)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1180, 220],
+      "notes": "Persiste en la tabla 'oferta' del schema_credito.sql para trazabilidad."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "responder-ok",
+      "name": "Responder oferta",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1400, 220]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseCode": 403,
+        "responseBody": "={ \"error\": \"Falta consentimiento de tratamiento de datos (Habeas Data).\" }"
+      },
+      "id": "responder-sin-consentimiento",
+      "name": "Rechazar sin consentimiento",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [700, 420]
+    }
+  ],
+  "connections": {
+    "Entrada afiliado (Webhook)": {
+      "main": [[{ "node": "¿Hay consentimiento? (Habeas Data)", "type": "main", "index": 0 }]]
+    },
+    "¿Hay consentimiento? (Habeas Data)": {
+      "main": [
+        [{ "node": "Motor de scoring (Python)", "type": "main", "index": 0 }],
+        [{ "node": "Rechazar sin consentimiento", "type": "main", "index": 0 }]
+      ]
+    },
+    "Motor de scoring (Python)": {
+      "main": [[{ "node": "Redacción de oferta (Gemini)", "type": "main", "index": 0 }]]
+    },
+    "Redacción de oferta (Gemini)": {
+      "main": [[{ "node": "Guardar oferta (DB)", "type": "main", "index": 0 }]]
+    },
+    "Guardar oferta (DB)": {
+      "main": [[{ "node": "Responder oferta", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "_comment": "Esqueleto importable en n8n (Import from File). El nodo IF hace cumplir Habeas Data antes de personalizar: sin consentimiento, no hay oferta. Sustituye scoring-service por la URL real del microservicio de scoring_engine.py."
+}

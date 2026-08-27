@@ -1,0 +1,132 @@
+{
+  "name": "Reto02-Venta-Automatizada-Seguros",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "seguros/conversar",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-chat",
+      "name": "Mensaje del afiliado (Webhook)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParametersJson": "={\"x-goog-api-key\": \"{{ $env.GEMINI_API_KEY }}\"}",
+        "sendBody": true,
+        "bodyParametersJson": "={{ JSON.stringify({ contents: [{ parts: [{ text: 'SYSTEM: ver gemini_prompts_seguros.md. Historial: ' + JSON.stringify($json.body) }] }] }) }}",
+        "options": {}
+      },
+      "id": "gemini-agente",
+      "name": "Agente conversacional (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [480, 300],
+      "notes": "Hace preguntas mínimas, detecta la necesidad y devuelve JSON estructurado con las respuestas."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            { "value1": "={{ $json.necesidad_completa }}", "value2": true }
+          ]
+        }
+      },
+      "id": "if-listo-para-cotizar",
+      "name": "¿Necesidad detectada?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://quote-service:8001/cotizar",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParametersJson": "={{ JSON.stringify($json.respuestas) }}",
+        "options": {}
+      },
+      "id": "http-cotizar",
+      "name": "Motor de cotización (Python)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [960, 220],
+      "notes": "Llama a quote_engine.py. Devuelve producto, cobertura, prima e idoneidad."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            { "value1": "={{ $json.acepta }}", "value2": true },
+            { "value1": "={{ $json.consentimiento }}", "value2": true }
+          ],
+          "combineOperation": "all"
+        }
+      },
+      "id": "if-cierre",
+      "name": "¿Acepta + consiente?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1200, 220]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "table": "poliza",
+        "options": {}
+      },
+      "id": "db-emitir",
+      "name": "Emitir póliza (DB)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2,
+      "position": [1440, 140],
+      "notes": "Cierre 24/7: inserta en 'poliza'. Registra consentimiento para venta adecuada."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "responder",
+      "name": "Responder al afiliado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1680, 220]
+    }
+  ],
+  "connections": {
+    "Mensaje del afiliado (Webhook)": {
+      "main": [[{ "node": "Agente conversacional (Gemini)", "type": "main", "index": 0 }]]
+    },
+    "Agente conversacional (Gemini)": {
+      "main": [[{ "node": "¿Necesidad detectada?", "type": "main", "index": 0 }]]
+    },
+    "¿Necesidad detectada?": {
+      "main": [
+        [{ "node": "Motor de cotización (Python)", "type": "main", "index": 0 }],
+        [{ "node": "Responder al afiliado", "type": "main", "index": 0 }]
+      ]
+    },
+    "Motor de cotización (Python)": {
+      "main": [[{ "node": "¿Acepta + consiente?", "type": "main", "index": 0 }]]
+    },
+    "¿Acepta + consiente?": {
+      "main": [
+        [{ "node": "Emitir póliza (DB)", "type": "main", "index": 0 }],
+        [{ "node": "Responder al afiliado", "type": "main", "index": 0 }]
+      ]
+    },
+    "Emitir póliza (DB)": {
+      "main": [[{ "node": "Responder al afiliado", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {},
+  "_comment": "Esqueleto importable en n8n (Import from File). Loop conversacional: el agente pregunta hasta detectar la necesidad; luego cotiza; el cierre solo ocurre con aceptación Y consentimiento (venta adecuada + protección al consumidor). Sustituye quote-service por la URL real del microservicio de quote_engine.py."
+}

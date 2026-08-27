@@ -1,0 +1,123 @@
+<svg viewBox="0 0 1120 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9FB0C8"/></marker>
+  <marker id="ah0" markerWidth="9" markerHeight="9" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="#9FB0C8"/></marker>
+</defs>
+<rect width="1120" height="750" fill="#FFFFFF"/>
+
+<text x="40" y="46" font-size="30" font-weight="bold" fill="#1B2A4A">Cómo se ve la idea: infraestructura y marco lógico</text>
+<text x="40" y="73" font-size="15" fill="#6B7688">Boceto de ideación (jueves 23). Para afinar en equipo, no está cerrado.</text>
+<line x1="40" y1="88" x2="1080" y2="88" stroke="#D3DEEC" stroke-width="1"/>
+
+<!-- BAND A -->
+<text x="40" y="140" font-size="13" font-weight="bold" fill="#6B7688">EL AFILIADO</text>
+<rect x="455" y="104" width="360" height="60" rx="12" fill="#1B2A4A"/>
+<text x="635" y="130" font-size="18" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Afiliado</text>
+<text x="635" y="151" font-size="12.5" fill="#C9D6EE" text-anchor="middle">Voz cálida · chat · con o sin WhatsApp</text>
+<line x1="635" y1="168" x2="635" y2="198" stroke="#9FB0C8" stroke-width="2" marker-start="url(#ah0)" marker-end="url(#ah)"/>
+<text x="655" y="188" font-size="11" fill="#6B7688">la compañía va a él, y él a ella</text>
+
+<!-- BAND B -->
+<text x="40" y="252" font-size="13" font-weight="bold" fill="#6B7688">MARCO LÓGICO</text>
+<text x="40" y="270" font-size="11" fill="#6B7688">lo que él vive</text>
+
+<rect x="210" y="212" width="160" height="94" rx="10" fill="#F1F5FB" stroke="#D3DEEC"/>
+<circle cx="236" cy="238" r="14" fill="#2D6CDF"/><text x="236" y="243" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="290" y="272" font-size="13.5" font-weight="bold" fill="#1B2A4A" text-anchor="middle">Propensión</text>
+<text x="290" y="291" font-size="11" fill="#6B7688" text-anchor="middle">¿quién y por qué?</text>
+
+<rect x="382" y="212" width="160" height="94" rx="10" fill="#F1F5FB" stroke="#D3DEEC"/>
+<circle cx="408" cy="238" r="14" fill="#1BA5B8"/><text x="408" y="243" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="462" y="272" font-size="13.5" font-weight="bold" fill="#1B2A4A" text-anchor="middle">Recomienda</text>
+<text x="462" y="291" font-size="11" fill="#6B7688" text-anchor="middle">oferta por perfil</text>
+
+<rect x="554" y="212" width="160" height="94" rx="10" fill="#F1F5FB" stroke="#D3DEEC"/>
+<circle cx="580" cy="238" r="14" fill="#3B4EA0"/><text x="580" y="243" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="634" y="272" font-size="13" font-weight="bold" fill="#1B2A4A" text-anchor="middle">Compara y ajusta</text>
+<text x="634" y="291" font-size="11" fill="#6B7688" text-anchor="middle">coberturas</text>
+
+<rect x="726" y="212" width="160" height="94" rx="10" fill="#F1F5FB" stroke="#D3DEEC"/>
+<circle cx="752" cy="238" r="14" fill="#F5A623"/><text x="752" y="243" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="806" y="272" font-size="13" font-weight="bold" fill="#1B2A4A" text-anchor="middle">Consentimiento</text>
+<text x="806" y="291" font-size="11" fill="#6B7688" text-anchor="middle">+ idoneidad</text>
+
+<rect x="898" y="212" width="160" height="94" rx="10" fill="#F1F5FB" stroke="#D3DEEC"/>
+<circle cx="924" cy="238" r="14" fill="#2E9E7B"/><text x="924" y="243" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">5</text>
+<text x="978" y="272" font-size="13.5" font-weight="bold" fill="#1B2A4A" text-anchor="middle">Asegurado</text>
+<text x="978" y="291" font-size="11" fill="#6B7688" text-anchor="middle">+ resumen</text>
+
+<text x="376" y="266" font-size="24" fill="#C7D2DE" text-anchor="middle">›</text>
+<text x="548" y="266" font-size="24" fill="#C7D2DE" text-anchor="middle">›</text>
+<text x="720" y="266" font-size="24" fill="#C7D2DE" text-anchor="middle">›</text>
+<text x="892" y="266" font-size="24" fill="#C7D2DE" text-anchor="middle">›</text>
+
+<!-- link B to infra -->
+<line x1="285" y1="308" x2="285" y2="350" stroke="#9FB0C8" stroke-width="2" marker-end="url(#ah)"/>
+
+<!-- BAND C -->
+<text x="40" y="404" font-size="13" font-weight="bold" fill="#6B7688">INFRAESTRUCTURA</text>
+<text x="40" y="422" font-size="11" fill="#6B7688">el cuarto de máquinas</text>
+
+<rect x="210" y="352" width="150" height="158" rx="12" fill="#2D6CDF"/>
+<text x="285" y="424" font-size="15" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Orquestador</text>
+<text x="285" y="446" font-size="12" fill="#DCE6F6" text-anchor="middle">(n8n o API)</text>
+
+<rect x="380" y="344" width="468" height="176" rx="14" fill="#F7FAFD" stroke="#E7EEF8"/>
+<line x1="360" y1="431" x2="392" y2="431" stroke="#9FB0C8" stroke-width="2" marker-end="url(#ah)"/>
+
+<rect x="398" y="356" width="214" height="66" rx="10" fill="#1BA5B8"/>
+<text x="505" y="384" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Motor de propensión</text>
+<text x="505" y="403" font-size="11" fill="#E6F6F9" text-anchor="middle">segmenta: quién necesita qué</text>
+
+<rect x="398" y="442" width="214" height="66" rx="10" fill="#1B2A4A"/>
+<text x="505" y="470" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Motor de cotización</text>
+<text x="505" y="489" font-size="11" fill="#C9D6EE" text-anchor="middle">determinista: precio y cobertura</text>
+
+<rect x="624" y="356" width="214" height="66" rx="10" fill="#3B4EA0"/>
+<text x="731" y="384" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">LLM · Gemini</text>
+<text x="731" y="403" font-size="11" fill="#D8DEF4" text-anchor="middle">conversa y redacta el porqué</text>
+
+<rect x="624" y="442" width="214" height="66" rx="10" fill="#F5A623"/>
+<text x="731" y="470" font-size="14" font-weight="bold" fill="#1E2433" text-anchor="middle">Base de datos</text>
+<text x="731" y="489" font-size="11" fill="#5A4415" text-anchor="middle">trazabilidad + consentimiento</text>
+
+<text x="866" y="378" font-size="13" fill="#1E2433">La IA conversa.</text>
+<text x="866" y="399" font-size="13" fill="#1E2433">Los motores deciden y</text>
+<text x="866" y="420" font-size="13" fill="#1E2433">calculan (no inventan).</text>
+<text x="866" y="447" font-size="13" fill="#1E2433">La base de datos deja</text>
+<text x="866" y="468" font-size="13" fill="#1E2433">la prueba de por qué.</text>
+
+<text x="398" y="536" font-size="11" fill="#6B7688">Determinista = mismo dato, mismo resultado.    ·    Trazabilidad = adiós “caja negra”.</text>
+
+<!-- link C to D -->
+<line x1="614" y1="522" x2="614" y2="556" stroke="#9FB0C8" stroke-width="2" marker-end="url(#ah)"/>
+
+<!-- BAND D -->
+<text x="40" y="602" font-size="13" font-weight="bold" fill="#6B7688">VISIÓN MaaS</text>
+<text x="40" y="620" font-size="11" fill="#6B7688">mismo núcleo,</text>
+<text x="40" y="634" font-size="11" fill="#6B7688">más módulos</text>
+
+<text x="210" y="566" font-size="12" fill="#1E2433">El núcleo (memoria del afiliado + motores + voz) es el mismo. Cambian los módulos.</text>
+
+<rect x="210" y="578" width="135" height="62" rx="10" fill="#F5A623"/>
+<text x="277" y="606" font-size="14" font-weight="bold" fill="#1E2433" text-anchor="middle">Seguros</text>
+<text x="277" y="625" font-size="10.5" font-weight="bold" fill="#5A4415" text-anchor="middle">AHORA</text>
+
+<rect x="357" y="578" width="135" height="62" rx="10" fill="#E7EEF8" stroke="#D3DEEC"/>
+<text x="424" y="614" font-size="12.5" font-weight="bold" fill="#2D6CDF" text-anchor="middle">Educación</text>
+
+<rect x="504" y="578" width="135" height="62" rx="10" fill="#E7EEF8" stroke="#D3DEEC"/>
+<text x="571" y="614" font-size="12.5" font-weight="bold" fill="#2D6CDF" text-anchor="middle">Crédito</text>
+
+<rect x="651" y="578" width="135" height="62" rx="10" fill="#E7EEF8" stroke="#D3DEEC"/>
+<text x="718" y="614" font-size="12" font-weight="bold" fill="#2D6CDF" text-anchor="middle">Citas de salud</text>
+
+<rect x="798" y="578" width="135" height="62" rx="10" fill="#E7EEF8" stroke="#D3DEEC"/>
+<text x="865" y="614" font-size="12" font-weight="bold" fill="#2D6CDF" text-anchor="middle">Domicilios red</text>
+
+<rect x="945" y="578" width="135" height="62" rx="10" fill="#E7EEF8" stroke="#D3DEEC"/>
+<text x="1012" y="614" font-size="12.5" font-weight="bold" fill="#2D6CDF" text-anchor="middle">Turismo</text>
+
+<line x1="40" y1="686" x2="1080" y2="686" stroke="#D3DEEC" stroke-width="1"/>
+<text x="40" y="712" font-size="12" fill="#6B7688">Foco del reto: Seguros. Lo demás muestra a dónde escala. Se valida con el equipo antes de construir.</text>
+</svg>

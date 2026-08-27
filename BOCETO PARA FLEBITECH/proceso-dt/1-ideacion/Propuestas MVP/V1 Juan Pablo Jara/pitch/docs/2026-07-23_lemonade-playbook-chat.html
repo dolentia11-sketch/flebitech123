@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lemonade Playbook — Diseño de chat de venta de seguros</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--line:#2a323d;--tx:#e8edf3;--tx2:#9fb0c3;--tx3:#6b7a8d;--acc:#5b8cff;--acc2:#3ad0a0;--warn:#f0b429}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 28px 70px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(91,140,255,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+  h2{font-size:20px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px;color:#fff}
+  p,li{font-size:14.5px;color:var(--tx)}
+  li{margin:4px 0}
+  blockquote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;margin:14px 0;padding:12px 16px;color:var(--tx2)}
+  blockquote p{margin:4px 0;color:var(--tx2);font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:var(--acc2)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto}
+  pre code{border:none;background:none;padding:0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  strong{color:#fff}
+  .back{display:inline-block;margin-bottom:20px;font-size:13px;font-weight:600}
+  .metabar{font-size:12px;color:var(--tx3);margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+</style></head><body><div class="wrap">
+<a class="back" href="../2026-07-22_avances-jara.html">&larr; Volver al reporte</a>
+<div class="metabar">Hackathon Colsubsidio × 30X · Scala Labs · Reto 02 — entregable del repo (investigacion/2026-07-23_lemonade-playbook-chat.md)</div>
+<h1>Lemonade Playbook — Diseño de chat de venta de seguros</h1>
+<blockquote>
+<p>Construido con Claude Sonnet 4.6 (investigación web dirigida). Fecha: 2026-07-23.</p>
+</blockquote>
+<hr />
+<h2>Resumen ejecutivo</h2>
+<ul>
+<li><strong>Maya hace entre 10 y 17 preguntas en conversación uno-a-uno</strong>, y entrega un quote en menos de 90 segundos. El proceso completo de bind (póliza activa con número) tarda entre 90 segundos y 2 minutos. Más del 90% de las pólizas se venden hoy a través de bots sin intervención humana.</li>
+<li><strong>El precio aparece como &ldquo;momento mágico&rdquo; después de las preguntas</strong>, no al inicio. Lemonade identificó que mostrar el precio demasiado pronto causaba abandono masivo; simplificaron esa pantalla a solo el precio y un botón de compra.</li>
+<li><strong>AI Jim (claims) es el principal argumento de confianza en la venta</strong>: &ldquo;firmás una honesty pledge, grabás un video, y recibís el pago en segundos&rdquo; es el counter-narrative contra el miedo histórico a los seguros. El récord documentado es 2 segundos; el caso fundacional fue 3 segundos.</li>
+<li><strong>El diseño conductual anticipa el fraude desde el flujo de venta</strong>: la &ldquo;honesty pledge&rdquo; en claims (y su equivalente en onboarding) está inspirada en la ciencia del comportamiento de Dan Ariely — el compromiso explícito de honestidad antes de declarar reduce las declaraciones falsas.</li>
+<li><strong>Lemonade solo opera en EE.UU. y algunos países de Europa</strong>: no tiene presencia en Colombia ni Latinoamérica. Sus mecanismos regulatorios (disclosures por estado, licencias NAIC) no son trasladables directamente, pero sus patrones de UX y conversión sí lo son.</li>
+</ul>
+<hr />
+<h2>El flujo de Maya paso a paso</h2>
+<h3>Fuentes verificadas</h3>
+<p>Las fuentes no publican el script completo de Maya (Lemonade no lo ha divulgado). Lo que sigue es la reconstrucción más fiel posible a partir de reviews de UX, artículos de producto y descripciones de usuarios reales.</p>
+<h3>Estructura general (renters insurance como caso base)</h3>
+<p><strong>Pantalla 0 — Bienvenida y creación de cuenta</strong>
+- Email + contraseña (o login social).
+- Maya se presenta: nombre, tono amigable, conversacional.</p>
+<p><strong>Bloque 1 — Datos de contexto (≈ 3–5 preguntas)</strong></p>
+<p>Los datos recopilados en este bloque determinan el riesgo base y el precio:</p>
+<ol>
+<li>¿Dónde vives? (dirección / ZIP code) — define el mercado y las regulaciones aplicables.</li>
+<li>¿Qué tipo de residencia? (apartamento, casa, estudio) — determina tipo de cobertura.</li>
+<li>¿Cuántas personas viven contigo? — afecta cobertura de responsabilidad civil.</li>
+<li>Fecha de inicio de la cobertura (selector de fecha).</li>
+</ol>
+<p><strong>Bloque 2 — Necesidades de cobertura (≈ 4–6 preguntas)</strong></p>
+<ol start="5">
+<li>¿Cuánto valen tus pertenencias? (slider con rangos predefinidos como ancla visual).</li>
+<li>¿Tienes objetos de alto valor? (joyería, instrumentos, bicicleta) — dispara riders adicionales.</li>
+<li>¿Tienes dispositivos de seguridad en casa? (alarma, extintores, detector de humo) — descuento documentado.</li>
+<li>¿Has tenido reclamos en los últimos 5 años? (SÍ/NO — afecta precio).</li>
+</ol>
+<p><strong>Bloque 3 — Datos personales (≈ 2–3 preguntas)</strong></p>
+<ol start="9">
+<li>Nombre completo.</li>
+<li>Fecha de nacimiento.</li>
+<li>Número de teléfono (verificación posterior por SMS).</li>
+</ol>
+<p><strong>Pantalla del Quote — &ldquo;Momento mágico&rdquo;</strong></p>
+<ul>
+<li>Maya muestra el precio mensual / anual en una pantalla limpia, sin jargón.</li>
+<li>Hay un slider para ajustar el deducible y ver cómo cambia el precio en tiempo real.</li>
+<li>Botón de &ldquo;Get Discounts&rdquo; que permite agregar información adicional (alarmas, etc.) para bajar el precio.</li>
+<li>Lemonade eliminó toda la navegación y el jargón de esta pantalla después de detectar caída masiva de conversión aquí. Solo precio + botón.</li>
+</ul>
+<p><strong>Pantalla de pago y bind</strong></p>
+<ul>
+<li>Ingreso de datos de tarjeta.</li>
+<li>Confirmación de cobertura.</li>
+<li>Pantalla de éxito: número de póliza, fecha de inicio, acceso a la app.</li>
+</ul>
+<p><strong>Post-bind</strong></p>
+<ul>
+<li>Verificación del número de teléfono.</li>
+<li>Activación de notificaciones push.</li>
+<li>Bienvenida a la comunidad (Giveback: el afiliado elige una causa social).</li>
+</ul>
+<h3>Tiempos documentados</h3>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Tiempo reportado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quote completo (inicio a precio)</td>
+<td>&lt; 90 segundos</td>
+</tr>
+<tr>
+<td>Proceso completo (inicio a póliza activa)</td>
+<td>≈ 90 segundos – 2 minutos</td>
+</tr>
+<tr>
+<td>Pago de claims (casos simples, AI Jim)</td>
+<td>2–3 segundos (récord verificado)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fuentes:</strong> <a href="https://pageflows.com/post/ios/onboarding/lemonade/">PageFlows — Lemonade iOS onboarding (48 pantallas)</a>, <a href="https://medium.com/@musingmurmurs/ux-review-of-lemonade-insurance-c5648593e7f9">UX Review Medium</a>, <a href="https://getperspective.ai/blog/lemonade-case-study-conversational-ai-insurance">Perspective AI case study</a>, <a href="https://uxreactor.com/lemonade-ai-disrupts-insurance-industry/">UXReactor</a>.</p>
+<hr />
+<h2>Patrones de diseño extraíbles para un chat de 5 preguntas</h2>
+<p>Estos patrones son accionables y directamente aplicables al MVP del hackathon.</p>
+<h3>1. Orden de preguntas: contexto → necesidad → datos personales</h3>
+<p><strong>Patrón de Lemonade:</strong> Primero las preguntas que construyen el contexto de riesgo (¿dónde?, ¿qué tipo?), luego las que revelan la necesidad (¿cuánto vale?, ¿qué tienes?), y solo al final los datos personales (nombre, fecha de nacimiento, teléfono).</p>
+<p><strong>Por qué funciona:</strong> Pedirle el nombre y la cédula a alguien antes de demostrarle valor genera abandono. El afiliado primero ve que el sistema &ldquo;lo entiende&rdquo;, y recién entonces entrega datos sensibles.</p>
+<p><strong>Aplicación para 5 preguntas:</strong>
+1. ¿Qué quieres proteger? (vida, hogar, accidente, educación) — detección de necesidad
+2. ¿Cuántas personas dependen de ti? — contexto de exposición
+3. ¿Cuánto puedes pagar al mes? (rangos: menos de $30K / $30–80K / más de $80K COP) — ancla de precio y suitability
+4. ¿Tienes algún seguro actualmente? — idoneidad y oportunidad de mejora
+5. ¿Cuál es tu correo o celular? — captura de contacto solo al final, cuando ya hay intención</p>
+<h3>2. Una pregunta a la vez (nunca formulario)</h3>
+<p><strong>Patrón de Lemonade:</strong> Maya presenta siempre UNA sola pregunta en pantalla. No hay un formulario visible ni barra de progreso explícita en algunas versiones. Esto reduce la ansiedad cognitiva (&ldquo;¿cuánto falta?&rdquo;) y aumenta la tasa de completación.</p>
+<p><strong>Microcopy clave:</strong> Las preguntas usan lenguaje coloquial, no técnico. &ldquo;¿Cuánto valen tus cosas más o menos?&rdquo; en vez de &ldquo;Indique el valor de los bienes asegurados&rdquo;.</p>
+<h3>3. El precio como recompensa, no como punto de entrada</h3>
+<p><strong>Patrón de Lemonade:</strong> El quote solo aparece DESPUÉS de responder todas las preguntas. Mixpanel documentó que mostrar el precio en una pantalla con jargón causaba caída masiva de conversión; al simplificarla, lograron un aumento de 250% en la tasa de conversión quote-a-compra.</p>
+<p><strong>Aplicación:</strong> Después de la pregunta 5, mostrar la prima calculada en pantalla limpia. Solo el número, el periodo (mensual) y un botón verde. Nada más.</p>
+<h3>4. Sliders con anclas visuales para el precio</h3>
+<p><strong>Patrón de Lemonade:</strong> El afiliado puede mover un slider de deducible y ver el precio cambiar en tiempo real. Esto crea engagement y da sensación de control. El rango del slider está diseñado para que la opción &ldquo;media&rdquo; (la más seleccionada) sea la más rentable para Lemonade.</p>
+<p><strong>Aplicación:</strong> En el paso de la suma asegurada, usar rangos pre-definidos en botones (ej. &ldquo;Protección básica $10M / Protección media $30M / Protección completa $50M&rdquo;) en lugar de campo libre. El del medio siempre estará pre-seleccionado.</p>
+<h3>5. Consentimiento integrado en el flujo, no en una cláusula al final</h3>
+<p><strong>Patrón de Lemonade:</strong> Los disclosures aparecen inline, en lenguaje simple, en el momento en que son relevantes (no en un bloque de texto legal al final). El consentimiento de datos aparece antes de pedir información personal. La &ldquo;honesty pledge&rdquo; en claims aparece como primer paso del proceso, no al final.</p>
+<p><strong>Aplicación para Colombia (venta adecuada / SFC):</strong>
+- Antes de la pregunta 4 (¿tienes seguro actualmente?): &ldquo;Voy a hacerte una pregunta sobre tu situación actual para asegurarme de recomendarte lo que más te conviene, no lo más caro.&rdquo;
+- Antes de mostrar el quote: &ldquo;Con base en tus respuestas, encontré la cobertura más adecuada para ti. Aquí está tu prima:&rdquo;
+- Antes del pago: checkbox explícito &ldquo;Entiendo que estoy contratando [nombre del producto] por [prima] mensuales. He leído el [link resumen de póliza].&rdquo;</p>
+<h3>6. Tono: amigable pero directo, sin jerga técnica</h3>
+<p><strong>Patrón de Lemonade:</strong> Maya usa primera persona (&ldquo;Hola, soy Maya&rdquo;), frases cortas, emojis ocasionales, y nunca usa términos como &ldquo;prima de riesgo&rdquo;, &ldquo;deducible por evento&rdquo;, &ldquo;coaseguro&rdquo;. Todo se traduce: &ldquo;lo que pagas al mes&rdquo;, &ldquo;lo que pones tú cuando hay un reclamo&rdquo;.</p>
+<p><strong>Microcopy recomendado para el MVP:</strong>
+- En vez de &ldquo;suma asegurada&rdquo;: &ldquo;¿cuánto necesitas que te cubra el seguro?&rdquo;
+- En vez de &ldquo;vigencia&rdquo;: &ldquo;¿desde cuándo quieres estar cubierto?&rdquo;
+- En vez de &ldquo;exclusiones&rdquo;: &ldquo;esto es lo que no cubre este plan&rdquo; (con lista clara)
+- En vez de &ldquo;póliza emitida&rdquo;: &ldquo;listo, ya estás asegurado&rdquo;</p>
+<h3>7. Momento del número de póliza: inmediato y celebratorio</h3>
+<p><strong>Patrón de Lemonade:</strong> Al finalizar el pago, la pantalla de éxito muestra el número de póliza de forma prominente, junto con una confirmación por email/SMS. No hay &ldquo;proceso de aprobación pendiente&rdquo;. La póliza es instantánea.</p>
+<p><strong>Aplicación MVP:</strong> La pantalla final del chat debe mostrar:
+- Número de póliza (formato legible, ej. COL-2026-XXXXX)
+- Nombre del producto y coberturas
+- Prima mensual confirmada
+- Fecha de inicio y fecha de primer cobro
+- CTA: &ldquo;Descargar certificado de seguro&rdquo;</p>
+<hr />
+<h2>Cómo AI Jim integra confianza en la venta</h2>
+<h3>El mecanismo</h3>
+<p>AI Jim es el bot de claims de Lemonade. El flujo de un reclamo simple es:</p>
+<ol>
+<li>El afiliado abre la app y describe el siniestro.</li>
+<li>Firma una <strong>honesty pledge</strong> digital (compromiso explícito de veracidad — ciencia conductual).</li>
+<li>Graba un <strong>video corto</strong> explicando qué pasó.</li>
+<li>AI Jim ejecuta <strong>18 algoritmos anti-fraude simultáneamente</strong> (verificación de póliza, análisis del video, patrones históricos, etc.).</li>
+<li>Si todo pasa, el pago se transfiere al banco <strong>en segundos</strong>. El récord verificado documentado es de <strong>2 segundos</strong> (pagado en diciembre de 2016); el caso publicado en prensa fue de 3 segundos.</li>
+<li>Si hay señales de fraude o el reclamo es complejo, se escala automáticamente a un experto humano.</li>
+</ol>
+<p><strong>Automatización actual (Q2 2025):</strong> 55% de los reclamos se procesan completamente por IA sin intervención humana. El 96% de los primeros avisos de siniestro son gestionados por chatbots.</p>
+<h3>Por qué esto sirve como argumento de venta</h3>
+<p>El miedo histórico a los seguros no es &ldquo;¿puedo pagarlo?&rdquo; — es <strong>&ldquo;¿me van a pagar cuando lo necesite?&rdquo;</strong>. Lemonade invierte el argumento: la velocidad del claims es el cierre de venta. En el chat de venta, mencionan explícitamente: &ldquo;Si algo pasa, lo resolvemos en minutos, no en semanas.&rdquo;</p>
+<p><strong>Aplicación para el MVP:</strong> En la pantalla post-quote (antes del pago), agregar un bloque de confianza con el argumento de velocidad de pago. No necesitas récord Guinness — con &ldquo;respuesta en menos de 24 horas&rdquo; y &ldquo;sin papeleo&rdquo; ya diferencias frente al modelo tradicional de Colsubsidio.</p>
+<h3>Nota importante sobre la honesty pledge</h3>
+<p>La investigación conductual de Dan Ariely (Chief Behavioral Officer de Lemonade, 2015–2020) que sustentaba la efectividad del pledge para reducir fraude fue cuestionada en 2021 por estar basada en datos fabricados. Sin embargo, el mecanismo de video + compromiso sigue siendo parte del producto de Lemonade, y la práctica de obtener compromisos explícitos antes de declarar información sigue siendo una técnica de diseño válida y usada en la industria. <strong>Fuente:</strong> <a href="https://www.insurancethoughtleadership.com/personal-lines/behavioral-science-scandal">Insurance Thought Leadership — A Behavioral Science Scandal</a>.</p>
+<hr />
+<h2>Métricas del funnel de Lemonade (datos verificados)</h2>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Valor</th>
+<th>Fuente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tiempo hasta quote</td>
+<td>&lt; 90 segundos</td>
+<td>Múltiples fuentes</td>
+</tr>
+<tr>
+<td>Tiempo hasta bind</td>
+<td>90 seg – 2 min</td>
+<td>Reviews de usuarios</td>
+</tr>
+<tr>
+<td>% de pólizas vendidas por bots</td>
+<td>&gt; 90%</td>
+<td>Trixly AI case study (Q2 2025)</td>
+</tr>
+<tr>
+<td>% de reclamos automatizados completamente</td>
+<td>55%</td>
+<td>Velocity AI / Trixly (Q2 2025)</td>
+</tr>
+<tr>
+<td>% primeros avisos de siniestro por bot</td>
+<td>96%</td>
+<td>Velocity AI</td>
+</tr>
+<tr>
+<td>Récord de pago de reclamo (AI Jim)</td>
+<td>2 segundos</td>
+<td>AI Magazine / Insurtech Insights</td>
+</tr>
+<tr>
+<td>Aumento en conversión quote-a-compra</td>
+<td>250% (Extra Coverage)</td>
+<td>Mixpanel case study</td>
+</tr>
+<tr>
+<td>Aumento en conversión Extra Coverage</td>
+<td>50%</td>
+<td>Mixpanel case study</td>
+</tr>
+<tr>
+<td>NPS / tasa de renovación</td>
+<td>94% renovación</td>
+<td>Insurnest case study</td>
+</tr>
+<tr>
+<td>Clientes que recomendarían</td>
+<td>96%</td>
+<td>Insurnest case study</td>
+</tr>
+<tr>
+<td>Satisfacción en claims</td>
+<td>97%</td>
+<td>Insurnest case study</td>
+</tr>
+<tr>
+<td>Calificación en app stores</td>
+<td>4.9/5</td>
+<td>UXReactor</td>
+</tr>
+<tr>
+<td>IFP (prima en vigor) a Q2 2025</td>
+<td>&gt; $1 mil millones USD</td>
+<td>Perspective AI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Qué NO copiar: contexto EE.UU. que no aplica a Colombia</h2>
+<h3>1. El modelo de flat fee + Giveback</h3>
+<p>Lemonade cobra un fee fijo del 20–25% de la prima y devuelve el excedente de siniestros a causas sociales elegidas por el afiliado. Este modelo requiere una licencia específica (Public Benefit Corp.) y estructura de reservas que no existe en Colombia. Colsubsidio tiene su propio modelo de subsidio. <strong>No replicar este modelo de negocio en el MVP — sí se puede replicar el mensaje de &ldquo;sin conflicto de interés&rdquo;.</strong></p>
+<h3>2. El flujo de &ldquo;video de claims&rdquo; como requisito regulatorio</h3>
+<p>En EE.UU., el video es una decisión de producto de Lemonade, no un requisito legal. En Colombia, el proceso de liquidación de siniestros está regulado por la SFC y los productos de Colsubsidio tienen sus propios protocolos. El chat del MVP es solo para la venta — no para el claims.</p>
+<h3>3. Los disclosures por estado (state-specific)</h3>
+<p>Lemonade adapta sus disclosures por cada estado de EE.UU. (California tiene reglas distintas a Nueva York). En Colombia, el marco es nacional (Decreto 2673/2012, Circular Externa 050/2018 de la SFC sobre canales digitales de venta). Los disclosures del MVP deben seguir el marco colombiano.</p>
+<h3>4. La arquitectura de reaseguro y underwriting propios</h3>
+<p>Lemonade hace su propio underwriting con ML propio. Para el hackathon, el underwriting es el de Colsubsidio — el chat solo captura datos y los pasa al motor de cotización existente. No inventar underwriting propio.</p>
+<h3>5. La personalidad &ldquo;startup hipster&rdquo; de Maya</h3>
+<p>Maya usa un tono muy informal, con referencias a cultura pop y humor irreverente que funciona para millennials urbanos de Nueva York. Para afiliados de Colsubsidio (amplio rango de edades y perfiles), el tono debe ser cálido y accesible, pero no necesariamente irreverente. Cuidado con sonar como si estuvieras vendiendo seguros en Brooklyn.</p>
+<h3>6. La integración de Giveback como argumento principal</h3>
+<p>El Giveback (donar el excedente) es el pilar de confianza de Lemonade. Colsubsidio ya tiene un propósito social institucional fuerte — usar eso como argumento de confianza es más honesto y relevante que copiar el Giveback.</p>
+<hr />
+<h2>Fuentes</h2>
+<p>Todas las afirmaciones con URL verificada:</p>
+<ul>
+<li><a href="https://uxreactor.com/lemonade-ai-disrupts-insurance-industry/">UXReactor — Lemonade AI disrupts insurance</a></li>
+<li><a href="https://medium.com/marketing-in-the-age-of-digital/love-at-first-chat-with-lemonades-ai-chatbot-maya-7b4a105824bd">Medium — Love at first chat with Maya</a></li>
+<li><a href="https://medium.com/@musingmurmurs/ux-review-of-lemonade-insurance-c5648593e7f9">Medium / ProductSins — UX Review of Lemonade Insurance</a> — fuente del dato &ldquo;17 preguntas, 1.5 minutos&rdquo;</li>
+<li><a href="https://pageflows.com/post/ios/onboarding/lemonade/">PageFlows — Lemonade iOS Onboarding (48 pantallas)</a></li>
+<li><a href="https://getperspective.ai/blog/lemonade-case-study-conversational-ai-insurance">Perspective AI — Lemonade conversational AI case study</a></li>
+<li><a href="https://www.trixlyai.com/blog/our-blog-1/agentic-ai-insurance-lemonade-case-study-28">Trixly AI — Agentic AI in Insurance: Lemonade</a></li>
+<li><a href="https://aimagazine.com/articles/lemonade-sets-world-record-with-2-second-ai-insurance-claim">AI Magazine — Lemonade 2-second claim record</a></li>
+<li><a href="https://www.insurtechinsights.com/lemonade-sets-new-record-by-settling-claim-in-two-seconds/">Insurtech Insights — Lemonade 2-second claim</a></li>
+<li><a href="https://iireporter.com/lemonade-reports-insurance-claim-paid-in-3-seconds-with-no-paperwork/">IIReporter — 3-second claim original story</a></li>
+<li><a href="https://insights.velocityaipartners.co/case-studies/lemonade-ai-claims-processing-insurance">Velocity AI Partners — Lemonade AI claims case study</a></li>
+<li><a href="https://mixpanel.com/customers/lemonade-drives-growth-mixpanels-user-insights/">Mixpanel — Lemonade drives 6x growth</a> — fuente del dato 250% conversión</li>
+<li><a href="https://insurnest.com/blog/lemonade-insurance-case-study/">Insurnest — Lemonade case study</a></li>
+<li><a href="https://getperspective.ai/blog/ai-native-insurance-onboarding-2026-from-application-to-activation">Perspective AI — AI-native insurance onboarding 2026</a></li>
+<li><a href="https://www.fastcompany.com/3068506/lemonade-is-using-behavioral-science-to-onboard-customers-and-keep-them-honest">Fast Company — Lemonade behavioral science</a></li>
+<li><a href="https://www.insurancethoughtleadership.com/personal-lines/behavioral-science-scandal">Insurance Thought Leadership — Behavioral Science Scandal (Ariely)</a></li>
+<li><a href="https://s24.q4cdn.com/139015699/files/doc_presentations/2024/Lemonade-Investor-Day-2024.pdf">Lemonade Investor Day 2024 PDF</a> — [no verificado: archivo excedió límite de carga]</li>
+<li><a href="https://www.lemonade.com/transparency">Lemonade — Transparency page</a> — [no verificado: página devolvió 403]</li>
+<li><a href="https://www.lemonade.com/blog/secret-behind-lemonades-instant-insurance/">Lemonade — Blog &ldquo;Secret behind instant insurance&rdquo;</a> — [no verificado: página devolvió 403]</li>
+</ul>
+<h3>Afirmaciones no verificadas (marcadas explícitamente)</h3>
+<ul>
+<li><strong>[no verificado]</strong> Número exacto de preguntas: la fuente &ldquo;17 preguntas&rdquo; viene de una sola review de UX (ProductSins/Medium) de una versión antigua del flujo. El flujo actual puede ser diferente. PageFlows cuenta 48 pantallas totales en iOS, que incluyen creación de cuenta, verificación, onboarding, ajustes de cobertura y pago — no 48 preguntas puras.</li>
+<li><strong>[no verificado]</strong> Métricas del Investor Day 2024: el PDF estuvo inaccesible durante la investigación. Los datos citados de Q2 2025 vienen de fuentes secundarias (Trixly AI, Velocity AI), no del documento de Lemonade directamente.</li>
+<li><strong>[no verificado]</strong> Datos del S-1 de la SEC: el documento devolvió 403. Los datos de S-1 citados (% clientes bajo 35, crecimiento de GWP) vienen de TechCrunch y análisis de terceros del IPO.</li>
+<li><strong>[no verificado]</strong> Detalles internos del flujo conversacional de Maya en 2025: Lemonade no publica el script de Maya. La reconstrucción del flujo en esta investigación es una síntesis de múltiples reviews de usuarios y análisis de UX, no una documentación oficial.</li>
+</ul>
+</div></body></html>

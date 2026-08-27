@@ -1,0 +1,39 @@
+# === Secretos y entorno — NUNCA subir ===
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+credentials.json
+config.local.*
+
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# === Bases de datos generadas (regenerables desde schema_seguros.sql) ===
+*.db
+*.sqlite
+*.sqlite3
+
+# === Node (si el frontend crece) ===
+node_modules/
+npm-debug.log*
+
+# === Office / LibreOffice temporales ===
+.~lock.*#
+~$*
+*.tmp
+
+# === Renders de verificación / temporales de PDF ===
+pg-*.jpg
+
+# === Sistema operativo ===
+.DS_Store
+Thumbs.db
+desktop.ini

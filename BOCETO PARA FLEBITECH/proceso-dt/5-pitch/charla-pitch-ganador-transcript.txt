@@ -1,0 +1,1181 @@
+[00:03] Buenas tardes a todos los que ya se
+[00:05] están conectando a nuestra charla de
+[00:07] hoy, que va a ser justamente sobre
+[00:09] Peach, sobre cómo podemos realmente
+[00:12] vender esta solución, porque muchas
+[00:14] veces cuando estamos en los hackatons
+[00:15] pensamos que simplemente decir ya aquí
+[00:17] tengo mi producto, ya tengo mi MVP y
+[00:20] simplemente miren cómo funciona, está
+[00:22] listo. con que eso funcione,
+[00:24] consideramos que de una vez los jurados
+[00:26] van a decir, "Uf, me encanta, voy con
+[00:28] toda, con este, tiene que ser el
+[00:30] ganador." Pero realmente no funciona
+[00:32] tanto así. Nosotros les dimos como o les
+[00:34] comentamos que tenemos eh 2 minutos
+[00:37] donde ustedes van a tener o van a poder
+[00:39] subir su pit de 2 minutos donde pues la
+[00:42] idea es que hablen un poco del proyecto
+[00:44] y de una muestren cómo funciona y
+[00:45] justamente para eso, para aprender cómo
+[00:48] hacer el mejor pit posible en esos
+[00:49] minutos. Hoy traemos a Ángela que la
+[00:53] conozco desde hace bastante tiempo y
+[00:54] tengo la fortuna de haber estado en
+[00:56] conjunto eh trabajando con ella en
+[00:58] hackatons, tanto desde el lado de
+[00:59] mentorías también como el lado de
+[01:01] participantes. Y sé que ha ganado varios
+[01:03] hackaton justamente gracias a esa
+[01:04] habilidad de vender muy bien esa idea
+[01:07] que se desarrolló. Así que hoy
+[01:09] justamente ella nos va a comentar un
+[01:11] poco pues cómo podemos hacer eso, cómo
+[01:13] podemos utilizar esos 2 minutos de la
+[01:14] mejor forma posible para crear el mejor
+[01:16] pitch posible. Y yo creo que esto es uno
+[01:18] de los talleres o una de las charlas que
+[01:20] realmente puede ser un poco
+[01:21] menospreciado porque todo el mundo
+[01:23] piensa, tengo que enfocarme en construir
+[01:24] en hacer el mejor producto, pero
+[01:26] realmente es una de las charlas más
+[01:28] importantes porque tienes 2 minutos para
+[01:30] convencer a los jurados de que tu
+[01:33] solución es la mejor y para que sigan
+[01:35] viendo exactamente cómo funciona,
+[01:36] etcétera. Así que por eso llamamos esta
+[01:39] charla gana el mejor pit, aprende cómo
+[01:41] hacerlo para que ustedes puedan salir de
+[01:43] aquí con todas las herramientas para
+[01:44] hacer el mejor pit posible. Así que
+[01:47] Ángela, te doy la bienvenida por acá. Me
+[01:49] encantaría que te presentaras, que nos
+[01:50] cuentes un poquito quién eres y de una
+[01:52] comenzamos la las charlas.
+[01:55] Ah, Sandra, qué bueno ah verte por acá.
+[01:59] Como como lo mencionas y hemos tenido la
+[02:01] oportunidad de participar en varios
+[02:02] hackatons y yo hoy quisiera como intro
+[02:05] solo decir, me encantaría compartirles
+[02:07] un poquito de todo lo que la vida nos ha
+[02:08] enseñado con estos ejercicios. Así que
+[02:10] nada, feliz de estar acá.
+[02:14] Me encanta. Bueno, el escenario es tuyo
+[02:15] para que nos puedas compartir cómo hacer
+[02:17] ese pH. Así que cualquier cosa, yo estoy
+[02:19] por detrás. Cualquier apoyo que
+[02:21] necesites, levanta la mano aquí ando y
+[02:23] te después de que finalices tu charla
+[02:26] vamos a ver los comentarios, vamos a ver
+[02:28] qué preguntas hay y apoyamos a resolver
+[02:30] todas esas dudas.
+[02:32] Buenísimo. Entonces, podemos comenzar.
+[02:34] Bien, dicho eso, quiero empezar diciendo
+[02:37] que comencé analizando el website que
+[02:41] tienen de Colicidio y 30X. genial
+[02:43] iniciativa, no solo para Colombia, sino
+[02:45] para el resto de la región en este
+[02:47] formato híbrido. Y hoy quisiera
+[02:49] compartirles ah algunos aprendizajes
+[02:53] para poder que se disfruten este hacaton
+[02:55] al máximo y además le puedan sacar todo
+[02:57] el provecho. Partiendo por decir que
+[02:59] construir es solo la mitad de participar
+[03:01] en un hackaton. La otra mitad es que eso
+[03:04] que construyeron se entienda en 2
+[03:07] minutos. Ah, y parece simple. ah puede
+[03:11] llegar a serlo. Ah, pero como Sandra
+[03:13] mencionó al principio, también puede
+[03:15] llegar a ser un poco olvidado. Entonces,
+[03:17] ah, también creo que algo que quisiera
+[03:19] comunicarles es que el hackaton no es
+[03:21] solo llegar, construir una idea y
+[03:23] explicarla. Yo creo que muchas veces
+[03:26] menospreciamos la importancia de estas
+[03:28] iniciativas y para mí tiene tres cosas
+[03:30] fundamentales. Uno, que pueden aprender
+[03:32] un montón, desde nuevos koss técnicos
+[03:34] hasta nuevas habilidades sociales. Eh, y
+[03:38] además con todo esto, la inteligencia
+[03:39] artificial nos ayuda a acelerar un
+[03:41] montón este espacio de construcción para
+[03:44] que aceleremos el aprendizaje, pero
+[03:46] también hagamos muchas conexiones y
+[03:48] utilicemos esto en pro del desarrollo de
+[03:50] nuestras carreras profesionales. ¿Por
+[03:52] qué? Porque también tenemos la capacidad
+[03:54] de hacer networking, hablar con
+[03:56] personas, con mentores, hacer nuevos
+[03:58] amigos y, ¿por qué no?, construir su red
+[04:01] profesional. Yo creo que esta es una de
+[04:02] las formas en las que yo más he hecho
+[04:04] conexiones en el tiempo, sobre todo
+[04:06] amigos en el tiempo. Ah, así que eso,
+[04:08] creo que a veces se nos olvida que estos
+[04:10] eh actividades son un gran espacio
+[04:12] también para desarrollar a nuestras
+[04:14] redes de ah contacto. Para además ah
+[04:18] conectarlo con el portafolio. Creo que
+[04:20] una de las cosas que he cambiado con
+[04:23] tanta inteligencia artificial es que es
+[04:25] mucho más difícil allá afuera solo
+[04:28] aplicar a a una a un trabajo y que nos
+[04:31] llamen directamente. Por eso hoy en día
+[04:33] es mucho más clave poder mostrar qué si
+[04:36] hacer con lo que tengo. Y los proyectos
+[04:38] de Jaatons, además de que podrían darnos
+[04:40] posibles premios, también nos permiten
+[04:43] generar o crear este portafolio que
+[04:45] muestre nuestro valor profesional y
+[04:46] cuáles son las habilidades que puedo
+[04:48] llevar a a ejecución y cuáles son los
+[04:50] proyectos que puedo llevar a ejecución
+[04:52] con esta suma de cosas que tengo. En
+[04:54] resumen, para mí un hack es un
+[04:56] simulario, un simulacro, un simulacro de
+[04:59] el trabajo real que puedo llevar
+[05:01] haciendo con mis amigos o compañeros o
+[05:04] mi equipo, en el que hay que empezar a
+[05:07] hablar, desarrollar ideas, qué haces tú,
+[05:09] qué hago yo, en el que me comunico no
+[05:11] solo con mi equipo, sino con personas
+[05:13] allá afuera, stakeholders o como quieran
+[05:15] llamarlo, además de que tengo que vender
+[05:18] esta idea o iniciativa que tengo y por
+[05:20] supuesto ah termino ganando mucha
+[05:22] habilidad. Dicho eso, ustedes se
+[05:23] preguntarán, "Bueno, pero ¿de dónde has
+[05:26] aprendido esto, Ángela?" Ahora sí me
+[05:28] puedo sentar. Eh, yo tuve la oportunidad
+[05:30] de ah dirigir uno de los proyectos de
+[05:32] educación más lindos ah y más grandes de
+[05:35] la región en Plati y la escuela de
+[05:36] blockchain. Y luego de eso, en un
+[05:38] momento en mi en mi carrera en el que no
+[05:40] sabía qué dirección a seguir, decidí
+[05:43] participar en hackatons. Gané algunos de
+[05:45] ellos online y también en persona. Ah, y
+[05:48] lo más curioso es que en el camino esos
+[05:50] hackatons me llevaron a conectar con
+[05:52] mentores que luego me dieron la
+[05:53] oportunidad de organizar estos
+[05:55] hackatons. Básicamente algo así como,
+[05:57] mira, tú ya has participado en varios de
+[05:59] esos, ¿no te gustaría ayudarme a
+[06:00] organizar uno? Y terminé por un tiempo
+[06:02] en mi vida organizando a estas
+[06:05] competencias a nivel global y en persona
+[06:07] con algunos de ellos más de $100,000 eh
+[06:10] en premios. Y finalmente, yo diría que
+[06:12] hoy en mi trabajo actual es una de las
+[06:16] tareas que más realizo viajando por el
+[06:18] mundo, ya no solo desde la tarea de
+[06:20] organizadora, sino es de jurado.
+[06:22] Entonces, digamos que puedo tener un
+[06:23] cúmulo de experiencias desde alguien que
+[06:26] ha participado, alguien que los ha
+[06:27] organizado y quien está del otro lado eh
+[06:30] juzgando a estos proyectos. Así que
+[06:33] finalmente esperemos que hoy podamos
+[06:35] aprender a entender cómo ganar estas
+[06:39] presentando el mejor pitch. Para ello
+[06:41] quiero dividir esta charla rápidamente
+[06:43] en tres temas. Uno, cómo aprovechar las
+[06:46] acato. Esto es más que una oportunidad
+[06:48] para pichar. Es algo que va mucho más
+[06:50] allá y que podría ser antes y un después
+[06:52] en sus carreras oíidas. Ah, lo segundo
+[06:55] es cómo hacer el pat ganador. Simple, un
+[06:58] prompt sencillito o un cúmulo de
+[07:01] instrucciones sencillas. Ah, y luego
+[07:03] recomendaciones post hackaton de cómo
+[07:05] pueden sacarle provecho a eso. Lo
+[07:07] primero es, enfoquémonos en el ahora.
+[07:09] Ustedes empezaron a hackear ayer, ah,
+[07:11] deberían estar entregando el domingo.
+[07:13] Todavía quedan un poco de días. Si están
+[07:15] en con subsidio en este momento o están
+[07:17] online, todos pueden aprovechar esta
+[07:19] oportunidad. Y yo comenzaría con lo que
+[07:21] la mayoría ignora, hablen con los
+[07:23] mentores desde el día uno o en ese caso
+[07:26] el día dos porque ustedes ya comenzaron.
+[07:30] Ah, y eso significa vayan y pidan ayuda
+[07:33] o hagan las preguntas a las personas que
+[07:35] ya han pasado por algunos de estos retos
+[07:37] profesionales, sea a través de un canal,
+[07:40] no sé si están usando WhatsApp o qué
+[07:41] canal de comunicación, ah, o en persona.
+[07:45] La razón es que la inteligencia
+[07:48] artificial o los agentes los van a tener
+[07:49] ahí todos los días, pero estas personas
+[07:52] no las van a poder potencialmente tener
+[07:54] tan cerca todo el tiempo. Esta es la
+[07:56] oportunidad. Es que soy tímida. Sí, te
+[07:58] toca hacerlo. ¿Por qué? Porque también
+[08:00] es una gran forma de aprender de otro
+[08:02] tipo de conocimientos, de tener una
+[08:03] nueva forma de argumentar o básicamente
+[08:05] de potencialmente conectar con personas
+[08:07] que en el futuro te puedan eh conectar a
+[08:10] otras cosas. Ah, lo segundo es conecta
+[08:12] con otros equipos, participantes,
+[08:14] mentores. En serio, aunque por eso la la
+[08:17] parte más incómoda de una hackatun a la
+[08:20] que más se le puede sacar provecho. No
+[08:22] en el sentido de hola, te conozco y esto
+[08:25] es lo que necesito de ti, sino con
+[08:27] curiosidad genuina de ir a preguntar, la
+[08:30] verdad es que este es mi primer
+[08:31] hackaton. Me gustaría saber si tienes
+[08:33] algunos consejos. Hola, estos son los
+[08:35] tracks de esta jacaton de col subsidio
+[08:37] 30x. Esta es mi idea, pero no sé qué
+[08:39] opinas. podrías darme algún consejo o
+[08:42] básicamente, hola, la verdad es que
+[08:44] estoy construyendo esta interfaz, pero
+[08:46] no sé dónde poner este o este botón o
+[08:50] mira, esto es lo que propone mi agente,
+[08:51] ¿será que me puedes ayudar a hacer A, B
+[08:54] o Z? Esto lo puedes preguntar a todos,
+[08:56] equipos, participantes, mentores, de
+[08:59] nuevo, empiecen por lo que la mayoría
+[09:01] ignora y es ahora tenemos la oportunidad
+[09:03] de crear más rápido. Conecte, es
+[09:06] diferencial y es el diferencial o la
+[09:08] clave más importante en estos días.
+[09:09] Luego alinean al equipo antes de
+[09:11] escribir código. Eh, yo creo que esto
+[09:14] fue algo ah que tenía escrito hace
+[09:17] mucho. Yo participaba en Hackatons antes
+[09:19] de que ahí fuese tan ah popular o
+[09:23] estuviese tan enrutado en nuestras
+[09:25] vidas. Ah, y en el que escribir código
+[09:28] era manito. Ah, así que esto se me queda
+[09:30] muy en la mente, pero igual lo quería
+[09:32] compartir. Yo creo que hoy lo que hace
+[09:34] diferente eh trabajar en un equipo a
+[09:36] antes es que de pronto la parte técnica
+[09:39] está ahí, pero es muy importante estar
+[09:41] comunicados para poder saber hacia qué
+[09:43] dirección llevar un proyecto. Y esto va
+[09:44] a pasar en una hackaton, pero también va
+[09:46] a pasar en cualquier otro trabajo. Así
+[09:48] que alguien en el equipo va a tener que
+[09:50] tomar la decisión de sentarse y entender
+[09:54] cuáles son las expectativas de cada uno.
+[09:57] En el pasado, como ejemplo,
+[09:59] participábamos con varios amigos y
+[10:01] algunos en el camino no nos
+[10:02] comprometíamos tanto, me incluyo en el
+[10:04] paquete, o en otros, por ejemplo, nos
+[10:06] bloqueábamos y no sabíamos cómo
+[10:08] comunicar ese bloqueo. Lo importante
+[10:11] entonces es que definan roles, que
+[10:12] entiendan cuáles son sus escenarios
+[10:14] esperados y por supuesto que desde el
+[10:16] principio elijan quién va a presentar.
+[10:19] Busquen a la persona que se sienta capaz
+[10:22] de hacer la presentación y en el camino
+[10:24] todos le van a ayudar a prepararse. Ojo,
+[10:26] todos se ponen nerviosos y nerviosas en
+[10:28] el momento de hacer una de estas
+[10:29] presentaciones, créanme, todos. Ah,
+[10:32] entonces eso muy claro, definen roles
+[10:35] quién presenta desde el inicio y además
+[10:37] creen estos escenarios. Mi consejo es
+[10:39] que creen tres, muy simple. Keep
+[10:41] example, escenario uno es lo mínimo que
+[10:43] funcione. Yo voy a crear una empresa de
+[10:45] crédito. ¿Qué significa eso? Voy a tener
+[10:47] un botón en el que voy a poder prestar a
+[10:50] 4% anual. Claro, eso ya es algo mucho
+[10:53] más simple, es un botón. Escenario dos,
+[10:55] si nos sobra tiempo, entonces también
+[10:57] voy a agregar una landing que explique
+[10:58] de qué es el producto. Perfecto. Y si
+[11:00] nos sobra tiempo, entonces voy a crear
+[11:02] esta aplicación completa que tiene A B y
+[11:05] C feature o AB C Ah. cosas ah que
+[11:09] podrían usar mis usuarios. Definan eso
+[11:12] desde el inicio porque a pesar de que el
+[11:14] tiempo corre y ustedes dirán, "El
+[11:15] domingo todavía está muy lejos", se va a
+[11:18] pasar. Y al final es donde las emociones
+[11:20] afloran y donde el equipo tiene que
+[11:22] mantenerse alineado. De nuevo, esto es
+[11:25] un simulacro de un trabajo real, así que
+[11:27] úsenlo como tal. Cuiden la energía,
+[11:29] turnos, descanso, comida, tanto si están
+[11:32] en persona como si están en online, en
+[11:34] muchas oportunidades. Nos teníamos que
+[11:36] quedar hasta tarde durmiendo y cuando
+[11:38] hay poco sueño y no hay
+[11:40] buen cuidado de la energía, de nuevo,
+[11:42] las emociones salen a flote y eso puede
+[11:44] pasar no solo en una hackaton, sino en
+[11:46] un trabajo. Usen esto como una
+[11:47] oportunidad para incrementar eh cada uno
+[11:50] de esos skills. Ah, y créanme, cerca del
+[11:53] pitch es cuando la cosa se pone
+[11:55] emocionante. Entonces eso, conecten con
+[11:57] la gente, diviértanse, pero también
+[11:59] alineen sus expectativas desde el
+[12:00] inicio. Yo soy Pepito Pérez, mi plan es
+[12:04] ganar o morir o ganar y ganar.
+[12:07] O mi plan es la verdad me quiero
+[12:09] divertir o yo solo quiero aprender a
+[12:12] usar esta nueva herramienta en este
+[12:13] jackaton. Entonces, cuando ya eso está
+[12:15] claro, tú sabes a qué nivel de
+[12:17] compromiso puedes esperar y qué puedes
+[12:19] esperar de tus compañeros al mismo
+[12:21] tiempo. Construye pensando en el final,
+[12:24] algo pequeño le que funcione le gana a
+[12:26] una idea enorme a medias. Es decir,
+[12:28] enfóquense en que las cosas al final se
+[12:31] vean bien y que se puedan usar, porque a
+[12:33] veces nos emocionamos con que voy a
+[12:35] construir Facebook en un día, pero luego
+[12:38] termina un poco roto, cuando la ambición
+[12:41] se va a quiero hacer todo a la vez y no
+[12:43] me enfoco de poco a mucho, eh, y voy al
+[12:46] paso contrario. Documenten también
+[12:48] mientras avanzan. Esto lo digo porque
+[12:51] funciona mucho para quien presenta tener
+[12:53] como todo el cúmulo de ideas de qué ha
+[12:55] ido pasando en el camino para al final
+[12:56] entender cómo
+[12:59] mostrar esto. Otra cosa que funciona,
+[13:01] esto puede ser un poco más
+[13:03] de lado técnico quizás, pero mantener
+[13:06] commits limpios, qué hice en esto qué
+[13:07] hice en lo otro hoy no es superfácil
+[13:10] preguntarle a la gente y que vaya
+[13:12] subiendo los cambios respectivamente.
+[13:14] Si no han usado esto, pregúntenle a su
+[13:17] gente que los guíe para integrar todo
+[13:19] esto en GitHub o en Git y de esa forma
+[13:22] pueden tener como trazabilidad de hacia
+[13:24] dónde están yendo esos cambios. Ah,
+[13:26] cuando alguien audita, además, es decir,
+[13:28] cuando los jurados a nivel técnico vayan
+[13:30] a revisar su código, si ocurre, es mucho
+[13:34] más fácil tener comits limpios que solo
+[13:36] un comid y todo el repo
+[13:38] y luego prioriza el camino a que vas a
+[13:41] mostrar en la demo. Cuando vayan a hacer
+[13:43] la presentación, ya vamos a ir a ello,
+[13:45] es muy importante que puedan mostrar
+[13:47] cómo su aplicación hace aquellos que
+[13:49] ustedes están tratando de explicar.
+[13:50] Entonces, para mí es super importante
+[13:52] que creen, se enfoquen en el demo. Es
+[13:54] como que yo estoy construyendo una casa
+[13:57] ah, y tengo una sala y tengo una cocina
+[13:59] y tengo unas oficinas, pero mi misión es
+[14:02] mostrar la sala porque en la sala es
+[14:04] donde está lo más lindo de mi casa.
+[14:07] Listo, enfóquense en que eso quede muy
+[14:08] bien para que luego puedan grabar eh ese
+[14:11] recorrido de la de la aplicación,
+[14:15] pero con criterio. ¿Y por qué digo esto?
+[14:18] Ah, jugando un montón de aplicaciones
+[14:20] durante el último año o dos, me doy
+[14:23] cuenta que, de nuevo, a veces esa esa
+[14:26] esas ganas de hacer todo rápido hace que
+[14:29] que la alucine un poquito y que termine
+[14:32] con landing pages que tienen 1000
+[14:35] botones y que las personas no saben
+[14:37] explicar qué o por qué. Entonces, mi
+[14:39] recomendación muy concreta es usen el
+[14:42] plan mode, es decir, vayan a una gente y
+[14:45] hablen con vos si pueden. Ah, y díganle,
+[14:48] "Esto es lo que quiero hacer. Hazme
+[14:49] todas las preguntas que necesites para
+[14:51] tener todo el contexto a mi lado y así
+[14:54] que me puedas dar un un un plan que
+[14:58] podamos revisar juntos antes de que
+[15:00] ocurra o antes de que ejecutes. Mi otra
+[15:02] mi otra consejo es pídele que te dé dos
+[15:05] o tres versiones de ese proyecto que
+[15:08] tanto visualizas en tu cabeza.
+[15:09] Finalmente, compara a los agentes. Por
+[15:12] ejemplo, yo suelo usar diferentes
+[15:13] modelos y uno le pregunta al otro o el
+[15:15] uno lo argumenta con otro. pueden usar,
+[15:17] no sé, Cloud o Cursor o Cognition o
+[15:20] Gemini, lo que sea, pero creo que esto
+[15:23] es muy importante. Es decir, no tienen
+[15:25] que hacer tramajo manual, eso quedó en
+[15:27] el pasado, pero sí tienen que usar las
+[15:28] herramientas que hoy existen con
+[15:30] criterio para poder generar el mejor
+[15:32] resultado posible. y cuiden la interfaz.
+[15:35] Es muy ah, no sé si les pasa, pero a mí
+[15:38] me pasa que hoy es muy obvio entender
+[15:40] cuando un texto fue escrito con así como
+[15:43] una interfaz o algún proyecto o algún
+[15:45] producto fue hecho con AI. Hay ciertas
+[15:47] cosas que a nivel diseño ya tú dices,
+[15:50] "Okay, esto lo hizo una gente y alguien
+[15:52] ah decidió dejar eh ese tipo de cosas."
+[15:56] Ahorita les voy a dar un par de
+[15:57] herramientas que seguramente les van a
+[15:59] hacer la vida mucho más fácil, pero yo
+[16:01] diría eso. La está ahí para apalancar,
+[16:03] pero úsenla con mucho criterio. Usen el
+[16:05] planote, hablen con vos si pueden, es
+[16:07] buenísimo. Revisen el plan y luego sí
+[16:10] ejecutan. Es la diferencia total entre
+[16:14] que alguien vea su producto y diga, "Ah,
+[16:16] wow, esto me gusta." Ah, oh, wow, esto
+[16:19] alguien más se lo pidió a una y no saben
+[16:21] lo que hicieron. Ojalá se entienda, eh,
+[16:24] pero creo que es bastante importante. Y
+[16:26] luego algunas herramientas que les
+[16:27] podrían servir. Ah, yo en particular
+[16:29] creo que estas son cosas un poco
+[16:32] básicas, pero que capaz eh cuando entren
+[16:35] van a decir, "Wow, wow, wow, eh no sé
+[16:37] cómo usar esto." Denle 5 minutos a cada
+[16:39] una y luego pueden continuar. La primera
+[16:41] es vecero de Versel. Ah, este les
+[16:43] permite prototipar las interfaces muy
+[16:46] fácil, eh, solo pidiéndole con lenguaje
+[16:49] natural, es decir, "Hola, eh, veero, yo
+[16:51] quiero hacer una aplicación para
+[16:54] gestionar seguros en Colombia, eh, que
+[16:56] creo que era uno de los tracks." O
+[16:58] también puede buscar templates, es
+[17:00] decir, otras personas que ya han hecho
+[17:03] plataformas en el pasado y que te dejan
+[17:05] como una ah sí, como un template
+[17:08] parecido a lo que a ti te gustaría
+[17:09] lograr. De esa forma ya tienes eh algo
+[17:12] por lo cual empezar. Eh, luego tienes
+[17:15] Versel Mentlefy. Cuando los jueces vayan
+[17:18] a ver su producto, ustedes necesitan un
+[17:20] demo, es decir, un lugar en el que los
+[17:21] jueces vayan y prueben que lo que
+[17:22] ustedes dijeron que hicieron funcione.
+[17:24] Versel o Metle F les van a ayudar con el
+[17:26] deployment. Ya les hablé de los agentes
+[17:29] ah y de GitHub para que puedan subir
+[17:31] esos cambios. Hoy la lo ha hecho mucho,
+[17:33] mucho, mucho más fácil. No se abrumen, 5
+[17:36] minutos y van a poder continuar. Eh,
+[17:38] honestamente no deberían hacer nada
+[17:40] malo. Cloud, cursor, cognition, Codex,
+[17:43] Gemini, pensar, codear, destrabarse, lo
+[17:45] que quieran. Todas estas herramientas
+[17:47] están evolucionando en paso increíble.
+[17:49] Yo las uso en mi día a día, así que
+[17:51] definitivamente vayan eh con ello. Si
+[17:54] necesitan bases de datos, Neon o Supase.
+[17:56] Ah, lo escribí mal, pero Supase. Es la
+[17:58] base de datos. Neon es increíble
+[18:00] también, de hecho es mucho más ah
+[18:02] barata. el tier free les debería
+[18:05] alcanzar para hacer todo el proyecto de
+[18:07] estas acaton. Entonces también échenlo
+[18:08] el ojo. Este es más para trabajo en
+[18:11] equipo. Entonces, por ejemplo, a mí me
+[18:13] sirve diagramar lo que está en mi cabeza
+[18:15] y poder compartirlo. Excalidro eh es una
+[18:18] pizarra online en la que puedes colocar
+[18:20] todos tus pensamientos. Eh, y también
+[18:22] capaz si hay algo que no saben cómo
+[18:24] explicárselo a la gente o a sus
+[18:26] compañeros, lo ponen ahí y luego debería
+[18:28] ser eh mucho más ah fácil continuar con
+[18:31] el proyecto. Y finalmente, skills. Si
+[18:33] van a a internet skills.shsh,
+[18:37] esta es una herramienta que lanzó Versel
+[18:38] y que básicamente tiene un montón de
+[18:40] instrucciones muy concretas para que
+[18:43] puedan acelerar sus proyectos. Hay unas
+[18:45] en particular que tienen que ver con las
+[18:47] interfaces que ya mencioné. Entonces,
+[18:49] pueden buscar las de Antropic para
+[18:52] diseño o las de Versel para diseño.
+[18:55] Busquen toda la lista de skills que hay
+[18:57] y pues de acuerdo al proyecto que
+[18:58] necesiten también podrían potencialmente
+[19:01] usarlas, que es un skill, una serie de
+[19:03] instrucciones que tu agente tiene para
+[19:05] que no tengas que repetir el contexto,
+[19:07] sino que ya esté como en el core del
+[19:09] proyecto en particular. Entonces repito,
+[19:11] Bero Vero, Blify, cualquiera de sus
+[19:14] agents, base de datos Neon y Supabase
+[19:17] Excalidroid Skills. Yo creo que además
+[19:20] de que se usan en una hackaton, es algo
+[19:22] que se usa en un entorno de trabajo en
+[19:24] el día a día. Entonces, si le dan la
+[19:26] oportunidad de 5 minutos a cada una, se
+[19:28] llevan un montón ah de de un nuevo stack
+[19:31] para que puedan eh trabajar. Si no son
+[19:33] personas técnicas, les prometo que si le
+[19:35] dan 5 minutos a cada una, al menos
+[19:38] tendrán un poco más de perspectiva de
+[19:39] panorama de cómo funciona este mundo. Y
+[19:41] de verdad, la vida se los va a hacer eh
+[19:43] mucho más fácil. Denle, denle una
+[19:45] oportunidad. Esto es hoy un parte del
+[19:47] stack ah de desarrollo allí afuera.
+[19:49] Luego, ahora sí vamos a al pitch. Tienen
+[19:52] 2 minutos, 2 minutos y ya han
+[19:55] aprovechado jueves, viernes, sábado, han
+[19:58] hablado con su equipo, les han dicho,
+[19:59] "Muchachos, el viernes yo voy a dormir o
+[20:01] todas las noches yo voy a dormir no
+[20:02] negociable. Esto va a ser lo que pueden
+[20:04] esperar de mí. Ah, yo voy a preparar el
+[20:06] pitch o no. ¿Yo voy a hacer el backend o
+[20:09] no? Yo voy a hacer ah los lights. Ya
+[20:12] están todos organizados. Es momento de
+[20:14] preparar el pitch. Lo primero es,
+[20:16] empiecen con tiempo. No dejen esto para
+[20:17] el domingo una hora antes. Quien sea que
+[20:20] se vaya a dedicar a hacer el pitch,
+[20:21] dedíquenle, por favor tiempo. Y tienen
+[20:23] dos. Así que mi propuesta es, empiecen
+[20:25] con un hook o algo que llame la atención
+[20:27] y explicando el problema. 20 segundos.
+[20:29] ¿Qué construiste? 20 segundos. Demo en
+[20:31] vivo, 50 segundos. El texta o o cuál fue
+[20:35] la infraestructura o qué herramientas
+[20:36] usaron y por qué importa. 10. El equipo
+[20:39] que sigue el cierre 20 segundos.
+[20:41] Instrucción clara. Tómle una foto a
+[20:42] esto. Ah, y ya se los voy a explicar a
+[20:45] detalles. ¿Qué hacen los primeros 20
+[20:46] segundos? Explican, ah, o empiezan con
+[20:50] una pregunta fuerte. La mayoría de las
+[20:52] personas comienzan diciendo, "Hola, me
+[20:54] llamo Ángela y soy de Venezuela y vivo
+[20:57] en Colombia y entonces yo participo en
+[21:00] esta hackaton. 20 minutos gun, 20
+[21:02] segundos gun, se fueron." Y los jueces,
+[21:04] honestamente, no van a prestar la misma
+[21:06] atención a que si empiezan dejando un
+[21:09] problema claro con una sola frase o con
+[21:11] un solo texto. Ah, y también es muy
+[21:13] importante si tienen eh utilizar datos o
+[21:17] analogías que conecten a esa idea.
+[21:19] Entonces, por ejemplo, fui a los tracks
+[21:20] y vi que hay una de ah viviendas. En
+[21:23] Colombia en 2025 cerca de 4.8 millones
+[21:26] de hogares se quedaron en déficit de
+[21:28] vivienda. ¿Cuántos de ellos califican
+[21:30] para un subsidio y nunca lo reclaman? No
+[21:31] por falta de plata solamente, sino por
+[21:33] falta de información. Ahí la cosa
+[21:36] cambia. En 20 segundos estoy diciendo,
+[21:38] ¿de qué está hablando esta muchacha? Y
+[21:40] qué me trata de presentar versus
+[21:42] simplemente comenzar con una eh
+[21:44] introducción
+[21:46] normal, pero que en este caso no es tan
+[21:48] necesaria porque tenemos que ir a prisa.
+[21:51] ¿Qué construiste en 20 segundos?
+[21:53] Describe el producto en una frase. ¿Qué
+[21:55] lo hace distinto? el caso de uso central
+[21:57] y no la lista de features. ¿Qué creaste
+[22:00] a partir de ese problema que
+[22:01] presentaste? Ah, construimos mi
+[22:03] subsidio. En tres preguntas te dice a
+[22:05] qué subsidio calificas y te arma una
+[22:07] solicitud. 20 segundos. Continuamos.
+[22:09] Demo en vivo. En este momento, mi
+[22:11] recomendación es que en el ejemplo de la
+[22:13] sala vayan y graben solo ese paso en
+[22:15] particular en el que se quieren enfocar.
+[22:17] Que la website es muy linda y que tienes
+[22:19] un montón de features y un montón de
+[22:21] colores. Perfecto. Acá te vas a enfocar
+[22:23] en el problema que estás eh tratando
+[22:25] resolver. Entonces, enseña el flujo
+[22:26] real, responde las tres preguntas, match
+[22:28] de subsidios, solicitud generada, pum,
+[22:31] sigo. Ah, otra recomendación sería que
+[22:34] si no sé cómo funcionan las submissions,
+[22:37] eh, Sandra nos dirá en un momento, pero
+[22:39] si es submitir a un form, entonces
+[22:41] graben el backup. E si si tienen que
+[22:45] presentarlo en vivo, graben el backup
+[22:47] por si fai y el wifi. Si no, grábense la
+[22:49] pantalla y después le ponen boss and off
+[22:51] o voz por encima cuando estén grabando
+[22:54] esto. Entonces,
+[22:56] Sandra, ¿tú sabes acá cómo funciona?
+[22:59] Claro. Sí. Eh, justamente lo que vamos a
+[23:01] hacer es que ellos van a tener una
+[23:02] plataforma donde van a creer, van a
+[23:04] crear sus equipos y adicional a eso, el
+[23:07] domingo van a poder subir pues su
+[23:08] proyecto. Igual el proyecto lo van a
+[23:10] poder crear por allí. Y yo sé que
+[23:11] ahorita todo el mundo me va a reventar
+[23:12] el WhatsApp diciendo, "¿Dónde está la
+[23:13] plataforma?",
+[23:14] Pero ya se la vamos a compartir durante
+[23:17] el día de hoy, no se preocupen, sigan
+[23:18] enfocados en el trabajo de de su
+[23:21] proyecto, pero sí, allí van a poder
+[23:23] poner toda la información y en este caso
+[23:25] el pitch es pregrabado y después estamos
+[23:28] haciendo lo mismo, un algo parecido a
+[23:30] Global donde tomamos los finalistas y
+[23:32] esos son los últimos que se van a
+[23:33] presentar frente al jurado final,
+[23:37] mejor dicho, la tenemos más clara que
+[23:38] nunca. Lo primero que van a hacer es
+[23:40] para la presentación de esta plataforma
+[23:42] que Sandra les va a enviar. graben la
+[23:44] pantalla y luego sobre esa pantalla le
+[23:47] ponen la voz o mientras van grabando van
+[23:49] poniendo la voz y eso lo ponen eh es un
+[23:52] en su presentación final. Ah, hay muchas
+[23:54] aplicaciones CapCut, ah la el mismo
+[23:58] Instagram o el celular les ayuda. Eh,
+[24:01] ustedes resolverán, pero esa es como mi
+[24:04] recomendación principal. Ahora, si
+[24:06] tienen que hacer una presentación en
+[24:07] vivo, practiquen muy bien ese paso a
+[24:10] paso para que si son finalistas se
+[24:12] puedan defender mejor con los jueces. Y
+[24:14] luego en 10 segundos o un poquito más
+[24:17] menos el ah stack tecnológico o el cumo
+[24:20] de las herramientas que usaron o por qué
+[24:21] usaron esas herramientas y por qué
+[24:23] importa. De nuevo, importante, van al
+[24:25] punto, ¿qué usaron? ¿Por qué importa
+[24:27] esta solución? ¿Y por qué col subsidio y
+[24:29] 30x deberían seguir desarrollando estos
+[24:32] proyectos después de las acatonas? ¿Por
+[24:33] qué? ¿Por qué están en las hacat de col
+[24:36] subsidio y 30X? Y esto es muy distinto
+[24:38] al page que se hace a ONBC en donde hay
+[24:41] otras variables en juego. Acá lo
+[24:42] importante es qué usé y por qué es
+[24:45] importante. Entonces yo honestamente uso
+[24:47] un agente para desarrollar este ejemplo.
+[24:49] No sé si los números son 100% accurate,
+[24:51] pero quería proveerles de algo mucho más
+[24:53] concreto que solo un montón de bullets.
+[24:56] Entonces, basado en esto, en Colombia en
+[24:58] 2025 cerca de 4.8 millones de hogares se
+[25:01] registraron en déficit de vivienda.
+[25:03] ¿Cuántos de ellos califican por un
+[25:04] subsidio y nunca lo reclaman? No solo
+[25:06] por falta de dinero, sino también por
+[25:07] falta de información. Construimos mi
+[25:09] subsidio para responder a esta problema.
+[25:11] En tres preguntas te dice, ¿a qué
+[25:12] subsidio calificas y te arma la
+[25:14] solicitud? Les muestro el demo. 50
+[25:16] segundos después. Usamos la IA para leer
+[25:19] los requisitos de cada subsidio y
+[25:20] traducirlos a lenguaje simple y una base
+[25:22] de datos que cruza tu perfil con lo que
+[25:24] aplica para ti. El subsidio acompaña a
+[25:26] 2.8 millones de afiliados y entregó 730
+[25:29] 773,000 millones para viviendas en 2025.
+[25:33] Si con esto lográramos solo el 5% de
+[25:35] quienes no reclaman por desinformación y
+[25:37] ellos lo hicieran, hablamos de más de
+[25:38] 100,000 familias con una vivienda más
+[25:40] cerca solo en Colombia. Y luego,
+[25:43] finalmente cierran equipo más que sigue
+[25:46] más cierra 20 segundos. Somos Pepito y
+[25:48] María. Uno construye, la otra vende y
+[25:50] los dos crecimos viendo nuestras
+[25:51] familias pelear con estos trámites. El
+[25:53] siguiente paso es un piloto de 3 meses
+[25:55] con subsidio si somos finalistas. Si
+[25:58] funciona con sus afiliados, funciona
+[25:59] para millones de colombianos que hoy no
+[26:01] saben que califican. Esto es lo que
+[26:03] queremos construir. Cierran. Es muy
+[26:05] distinto a un pitch tradicional, pero en
+[26:07] poco tiempo tienen la capacidad de
+[26:09] mostrarle a la gente, hey, hay un
+[26:11] problema real acá. Hey, mis papás lo
+[26:12] vivieron. Hey, esto es lo que estoy
+[26:14] proponiendo hoy. Hey, estoy listo para
+[26:15] trabajar con ustedes directamente y
+[26:17] hacer que esto ocurra en el futuro. Y si
+[26:19] no, aprendieron cómo hacer un pitch y
+[26:21] una aplicación en un fin de semana.
+[26:23] Muchachos, fuera de esto, como presentas
+[26:25] es tan importante como lo que acaban de
+[26:28] construir. Entonces, mi recomendación
+[26:30] muy honesta, basada en experiencia es
+[26:32] ensayen, repiten esto hasta que suene
+[26:34] natural con cronómetro hermano si hace
+[26:37] falta. Y la realidad es que todos nos
+[26:39] ponemos nerviosos, así que traten de
+[26:41] hablar con tanta energía y contacto
+[26:43] visual como puedan. Lo prometo. Esto
+[26:45] pone nerviosos a todo el mundo y a quien
+[26:47] no lo nota es porque lo he entrenado
+[26:49] bastante. Cuent una historia. Las
+[26:51] analogías o experiencias personales
+[26:53] conectan mucho con el jurado, realmente
+[26:55] con cualquier persona.
+[26:57] Y también traten de ser muy visuales. Si
+[26:59] se dan cuenta, yo he tratado acá de usar
+[27:01] muchos bullet points versus un párrafo
+[27:03] completo, porque a la vista es mucho más
+[27:06] fácil ir punto a punto que encontrarme
+[27:08] con una pared. Cuando me encuentro una
+[27:09] pared de texto es muy difícil que yo le
+[27:11] vaya a dar un ojo. Si tienen tiempo, yo
+[27:13] no lo tuve porque ajá, preparé esto
+[27:15] último minuto. Coloquen imágenes tantas
+[27:17] como puedan y esto mejora mucho más
+[27:23] que simplemente colocar texto. Y de
+[27:25] nuevo, cierren fuerte un call to action
+[27:26] que enganche. Por ejemplo, en este caso
+[27:29] estamos listos para trabajar con ustedes
+[27:31] y estamos listos ah para a no sé ayudar
+[27:34] a más de 100,000 familias
+[27:35] hipotéticamente en Colombia con este ah
+[27:38] producto de subsidios de vivienda.
+[27:40] Anticipa preguntas. Además, si ustedes
+[27:42] pasan a esta serie de finalistas que
+[27:44] Sandra mencionó, ah, seguramente les van
+[27:47] a hacer preguntas. Entonces, algo así
+[27:48] como, "¿Y qué harías si te da si en
+[27:51] estos tr meses te damos la oportunidad
+[27:53] de crear esto?" Ah, eh, no sé. Ah, o
+[27:56] ¿qué harías si mañana te poníamos un
+[27:58] equipo de backen para construirlo? ¿Cuál
+[28:00] sería el stack que que elegirías? Hay
+[28:02] muchísimas preguntas. O, ¿cuál es el
+[28:04] potencial o tamaño de mercado para este
+[28:06] proyecto llevarse a cabo? o busque hasta
+[28:09] personas o competidores que ya haya
+[28:10] llevado esta idea. Imagínense todo tipo
+[28:13] de preguntas. Si no se las preguntan de
+[28:16] nuevo, aprendieron algo nuevo y lo más
+[28:18] importante es que pueden argumentar
+[28:20] porque hacen lo que hacen. Esto va mucho
+[28:22] más allá las hacaton y creo que fue mi
+[28:24] primer mensaje, pero quisiera recalcarlo
+[28:26] durante toda esta charla. Y luego,
+[28:28] simple gana, el pitch es solo el primer
+[28:31] paso, es decir, muchas veces nos
+[28:33] complicamos un montón. Entonces, esta es
+[28:36] una infraestructura
+[28:37] especializada en variables que no es una
+[28:40] aplicación que busca resolver este
+[28:42] problema. Piensen en quiénes están allí
+[28:44] afuera, no en como a mí me gustaría que
+[28:46] me lo expliquen, sino allá afuera, quién
+[28:47] está y lo más fácil manera para que me
+[28:49] puedan entender. Si no se entienden los
+[28:51] primeros 20 segundos, estás en
+[28:53] problemas. Si en los primeros 20
+[28:54] segundos hablaste de ti, estás en
+[28:56] problemas. La mayoría de los jugerados
+[28:58] revisan el repo o el código después, no
+[29:01] al principio. Lo que hacen los jueces al
+[29:03] principio es escuchar todas las charlas
+[29:05] y luego de eso hacen un resumen. Mmm, el
+[29:08] de Sandra me gustó. Vamos a guardarlo y
+[29:10] después revisamos su código. Así que tu
+[29:11] pitch abre la puerta y el código solo
+[29:14] confirma que lo que hiciste tiene
+[29:16] sentido y que lo que dijiste es cierto.
+[29:18] Así que mi recomendación a nivel de
+[29:20] código es en el Redmi o básicamente en
+[29:22] el file de introducción, en el
+[29:24] repositorio con links traten de que sea
+[29:28] lo más limpio y ordenado posible. Hay
+[29:30] veces que si son técnicos, el backend va
+[29:32] en un repo, el front end va en otro
+[29:33] repo. Pongan eso junto o en el Redmi
+[29:36] expliquen dónde están esos repositorios.
+[29:38] Y luego esto es una pequeña estructura
+[29:40] nada más. Ah, comiencen con sobre el
+[29:42] proyecto, fue construido con cómo
+[29:44] comenzar, si necesita la gente
+[29:46] instalarlo para poder probarlo o no.
+[29:48] Simplemente pónganles el link del demo,
+[29:50] el link al video, el Rap. ¿Qué pasaría
+[29:53] en esos tr meses hipotéticos en el que
+[29:54] ganaron las AATON de col subsidio con
+[29:56] 30x y están listos para trabajar con
+[29:58] ellos? La licencia la escribí mal, pero
+[30:01] bueno. Ah, que básicamente es es open
+[30:04] source, es cerrada o no. Eh, pueden
+[30:07] preguntarle a esa gente. Contacto, es
+[30:08] decir, estoy lista ah, para llevar este
+[30:11] a cabo, ¿dónde me van a encontrar? Y en
+[30:13] acknowledgement, que es básicamente a
+[30:14] quienes ah quieren agradecer en
+[30:17] particular eh por ese trabajo. Yo solía
+[30:19] colocar los mentores o las personas que
+[30:22] en el camino eh me ayudaron o los
+[30:23] proyectos que me ayudaron. Esta puede
+[30:25] ser un detalle tontito, pero a mí me
+[30:28] servía además para ir luego a mis
+[30:29] repositorios y decir, "Ah, you know
+[30:31] what, yo construí con ese proyecto hace
+[30:33] 3 años y fue muy divertido o la verdad
+[30:35] fue muy frustrante, sea cual sea la
+[30:37] experiencia, es parte del camino." Y
+[30:39] ahora sí, ya saben hacer un pitch, 2
+[30:42] minutos y tardó mucho más explicarlo,
+[30:44] pero espero que ah este pequeño prompt
+[30:47] les pueda ayudar. Hook, más problema.
+[30:49] ¿Qué construyeron? Demo en vivo. Eh,
+[30:52] ¿con qué lo construyeron? ¿Y por qué
+[30:54] importa? El equipo que sigue y cierre 2
+[30:56] minutos, 20 segundos, 20 segundos, 50,
+[30:58] 10 y 20. Finalmente vamos con qué hacer
+[31:03] después del hackaton, porque la realidad
+[31:05] es que después del domingo la vida
+[31:07] continúa, algunos seguirán con su
+[31:09] proyecto, otros no, pero es una nueva
+[31:12] oportunidad para aprender. A mí
+[31:13] genuinamente me gusta como dejar una
+[31:16] especie de track record o ah o reporte o
+[31:19] recordatorio de las cosas que he ido
+[31:21] haciendo. Así que hagan un posto en
+[31:23] esto, qué construyeron, qué aprendieron,
+[31:26] que no salió, qué les hubiese gustado.
+[31:28] Lacesa perspectiva sirve además para
+[31:30] dejar visibilidad o trazabilidad de eso
+[31:32] que profesionalmente van haciendo y van
+[31:34] evolucionando. Tomen esto como un
+[31:36] simulacro de un trabajo. Muestren el
+[31:38] proceso. Si ganaron, muestren el proceso
+[31:40] más allá de los premios. La gente
+[31:42] conecta muchísimo con esto, sobre todo
+[31:44] en una época en la que uno sabe que
+[31:47] muchos posts han sido creados con
+[31:49] Entonces cuando hace falta esta conexión
+[31:52] genuina y humana, ese tipo de post tener
+[31:55] genuinamente emocionan un montón. Yo
+[31:56] después de los accatons voy y veo como
+[31:59] la gente que publicó ah sobre el pues el
+[32:01] protocolo que participó y nada, me
+[32:03] parece muy lindo, me parece muy lindo
+[32:05] ver como para algunas personas esta es
+[32:07] una oportunidad más de crecer
+[32:08] profesionalmente y para otras diversión,
+[32:10] para otras es conectar con amigos, para
+[32:12] otras fue un poco frustrante. Es es muy
+[32:16] lindo y genuino ver todas esas emociones
+[32:18] allá afuera. un post en esto de lo que
+[32:21] es sea que esto haya significado y pues
+[32:23] participen y y etiqueten a su equipo, a
+[32:25] los mentores, a los sponsors. ¿Por qué?
+[32:27] Porque además esto genera ah network
+[32:30] efectos de red en el que básicamente si
+[32:32] Sandra le dio like, pues los amigos de
+[32:33] Sandra lo van a ver. Si Carla le dio
+[32:35] like, todos van a estar ahí encima. Y
+[32:37] esto potencialmente te abra a más
+[32:40] personas allá afuera, sobre todo si
+[32:42] profesionalmente estás usando esto como
+[32:43] un apalancamiento. Y si quieres seguir,
+[32:46] usa laaton como validación. Digamos que
+[32:48] unos acá están creando este proyecto
+[32:50] para col subsidio, pero realmente
+[32:52] quieren lanzarlo como eh una empresa.
+[32:55] ¿Tienen intención real de continuar?
+[32:56] Pues díganlo en público. Construimos
+[32:58] esto en Call Subsidio 30X. Esperamos que
+[33:01] sea solo un inicio. Déjenos saber si
+[33:03] están interesados. Nos encantaría tener
+[33:04] feedback. Si hay inversores allí afuera,
+[33:06] búsquenos. Queremos participar en la
+[33:08] red, queremos participar en una
+[33:10] aceleradora. conviertan a las personas a
+[33:13] las que tuvieron acceso durante esos
+[33:15] días en los primeros ah visitadores de
+[33:18] su proyecto y sobre todo las personas
+[33:20] que potencialmente podrían apoyarles.
+[33:22] TLDR o resumen de todo esto que dije,
+[33:25] ah, para mí un un hackaton, además de
+[33:28] una competición divertida en la que se
+[33:30] pueden ganar premios, es muchas veces el
+[33:33] principio de cosas más grandes.
+[33:36] Y si no es esteato, pues siguen
+[33:38] intentando. Pero para aquellos que
+[33:40] quieren ser desarrolladores,
+[33:42] quizás es una experiencia para poner en
+[33:44] práctica un nuevo stack o aprender a
+[33:46] usar una nueva base de datos o aprender
+[33:48] a usar un nuevo framework. Ya lo eres y
+[33:50] buscas trabajo, quizás esta es una
+[33:52] oportunidad para visualizarte mejor allá
+[33:54] afuera y que más personas te vean y que
+[33:56] puedas conectar con posiblemente
+[33:58] personas que en el futuro te vayan a dar
+[33:59] trabajo. Me pasó, terminé de organizar
+[34:03] ah de participar en hackatons, a
+[34:04] organizar una solo porque alguien vio
+[34:06] que era demasiado apasionada y que
+[34:08] potencialmente podría funcionar para
+[34:09] organizar una de estas cosas. No sabes
+[34:12] qué quieres. Ah, ve, intenta. Mira, la
+[34:15] verdad es que yo no sé si quiero hacer
+[34:17] código esta vez o no quiero y solo
+[34:18] quiero hacer slides. La verdad es que no
+[34:20] sé si esto me interesa. Prueben y
+[34:22] descobran. Ah, en una época profesional
+[34:25] en la que honestamente no tenía idea de
+[34:26] cuál era mi camino, las hacaton se me
+[34:28] ayudaron a entender un montón de cosas
+[34:30] profesionalmente de mí que no sabía y a
+[34:33] guiar mucho mejor eso. Eres un perfil no
+[34:35] técnico, que también es otra cosa que a
+[34:37] veces abruma, porque nos dicen, tienes
+[34:38] que saber este tipo de lenguaje de
+[34:40] programación.
+[34:41] No es necesario. La hoy está acelerando
+[34:44] un montón de procesos y además esto te
+[34:46] está dando la oportunidad de conectar
+[34:47] con mucha más gente allí afuera. Dale
+[34:49] una oportunidad a esto como un ¿Qué rol
+[34:52] quisiera desarrollar? El de ventas, el
+[34:54] de presentador, el de diseño, el de
+[34:57] producto, el de ingeniería o más el de
+[35:00] operaciones o quizá una mezcla de todos.
+[35:02] Alinear al equipo es parte de una tarea
+[35:04] diaria de alguien que trabaja en una
+[35:05] empresa. Así que acá hay espacio para
+[35:08] todos y todas y hay espacio para
+[35:10] aprender herramientas, stack técnico,
+[35:12] pero también muchas habilidades
+[35:14] sociales. Y yo creo que lo más
+[35:16] importante es de un patch y de una
+[35:19] hackaton es ah tratar de explicar qué
+[35:22] hace único tu proyecto, pero sobre todo
+[35:24] qué te hace único a ti como persona. Ah,
+[35:27] así que es una es una gran oportunidad
+[35:29] para aprender un montón. Yo de nuevo
+[35:31] pasé de no saber qué quería después de
+[35:33] una etapa de trabajar en educación a
+[35:35] encontrar un montón de oportunidades y
+[35:37] amigos. Sandra incluid en el paquete en
+[35:40] la que muchas madrugadas estuvimos
+[35:42] aplicando a hackatons y demás y luego
+[35:45] finalmente entender que quería y se hizo
+[35:47] tan claro que una de las personas que
+[35:49] conocí en estas hackatons terminó
+[35:51] introduciéndome como organizadora a otro
+[35:53] y ese es finalmente el trabajo que hoy
+[35:55] hago. Así que todos estos puntos que en
+[35:58] el presente usualmente no vemos, en el
+[36:00] futuro tienen un montón de sentido.
+[36:02] Aprovéchenlo y creo que lo más
+[36:04] importante es diviértanse. Hoy veo al
+[36:06] pasado y honestamente me hace muy feliz
+[36:08] saber que hubo un montón de noches en
+[36:10] las que no dormíamos. Seguramente
+[36:12] ustedes acá tendrán más chance. En esa
+[36:13] época no estaba Claud
+[36:17] Pero definitivamente ah fue muy
+[36:19] divertido. Conocimos a diferentes
+[36:21] personas. Ah, hubo muchos viajes detrás
+[36:24] de eso. Ah, hubo un montón de
+[36:26] aprendizajes detrás de eso, pero sobre
+[36:28] todo hubo un montón de diversión ah
+[36:30] detrás de todo ello. Así que espero que
+[36:32] en esta jaca todos y todas se diviertan
+[36:35] mucho, que ganen los premios ah y en el
+[36:38] mejor de los casos, que siempre hay uno
+[36:41] mejor versus peores. Aprendan, aprendan,
+[36:43] diviértanse y que esto sea una
+[36:44] oportunidad para conectar con la
+[36:46] industria y con ustedes mismos. So,
+[36:48] muchas gracias. Ah, cualquier pregunta
+[36:50] feliz, pero les voy a dejar esto acá por
+[36:53] si acaso y si no mejor este para que no
+[36:56] se les olvide. Sandra, lo logré. Todo
+[36:58] tuyo.
+[36:59] Buenísimo. Gracias, Ángela. Me encantó.
+[37:01] Me vas a tener que pasar esta
+[37:02] presentación porque seguramente todo el
+[37:04] mundo me lo va a pedir y así de una ya
+[37:06] van a tener esto paso a paso. Me
+[37:08] encanta. A ver, tenemos ya bastantes
+[37:10] preguntas. Me encanta de verdad tu
+[37:12] presentación. Dame, me acordé demasiado
+[37:14] de cada una de las experiencias en esos
+[37:16] haatons y sin ir tan lejos, por ejemplo,
+[37:18] cuando Ángela mencionaba, bueno,
+[37:20] deberían compartir esto directamente lo
+[37:23] que crearon y demás, me recuerda mucho a
+[37:25] una de las maneras en las que yo comencé
+[37:26] a trabajar en Stars. Yo trabajaba en
+[37:27] empresas tradicionales y de repente
+[37:29] comencé a aprender eh a hacer diferentes
+[37:31] proyectos de tecnología. Yo no era
+[37:33] desarrolladora, yo soy administradora de
+[37:34] empresas y comencé a aprender desarrollo
+[37:36] y comencé a publicar todo lo que hacía.
+[37:38] terminó contratándome directamente el
+[37:41] CEO de una startup en España que terminó
+[37:43] de una viendo mi perfil por LinkedIn.
+[37:45] Así que siempre este tipo de cosas
+[37:47] ayudan. Después de eso, cuando Bilbao
+[37:50] habló conmigo para comenzar a trabajar
+[37:52] en 30x, me decía, "Veo que has estado en
+[37:54] Hakaton, tú puedes hacerme un hacatón."
+[37:55] Y yo, "Obviamente, claro que sí, porque
+[37:58] fue gracias a justamente compartir toda
+[38:01] esta experiencia que teníamos en
+[38:02] Hakatons anteriores, que esto hoy es
+[38:04] realidad." y yo literal comencé en 30x
+[38:06] hace como 2 meses apenas y ya estamos
+[38:08] haciendo este super evento acá.
+[38:11] Entonces, bueno, ya sin contar va a
+[38:12] parar de contarles esa novela por allí.
+[38:15] Les contaré aquí cuáles son las
+[38:16] preguntas que tenemos.
+[38:18] Tenemos, "Hola, Ángela", lo dice Alejo y
+[38:22] el gatito. En el demo sugieres que la
+[38:24] sugieres solución al problema y el
+[38:26] diferencial frente a otros pit o solo
+[38:28] demo y al final, ¿qué alcanzaste a hacer
+[38:30] de más?
+[38:32] Uy, esa
+[38:34] lo primero que se me viene al
+[38:35] pensamiento, voy a ser muy honestjo, es
+[38:37] este meme de Michael Phelps nadando y
+[38:40] luego cuando hay otro nadando que lo
+[38:42] está mirando, pero Michael Phelps está
+[38:44] viendo la meta, enfócate en tu producto,
+[38:45] ese es el TLVR. Ah, entonces enfócate en
+[38:48] mostrar la solución o por qué tu
+[38:50] proyecto es único versus a otros pitch.
+[38:54] Ah, lo que sí haría, por ejemplo, es
+[38:55] buscar productos allí afuera, no sé si
+[38:57] tú estás tratando de crear el próximo
+[38:59] NKI. Ah, o el próximo Plati o el próximo
+[39:03] Rapi o el próximo 30X, cómo ellos
+[39:05] presentan y quizá que te sirva de
+[39:07] inspiración, pero muéstraste, enfócate
+[39:09] en ah qué hace tu producto único ah y
+[39:12] luego qué es lo que quieres hacer con
+[39:14] todo eso. Sería como mi recomendación.
+[39:18] Me encanta. Tenemos otra pregunta por
+[39:20] acá de ¿Cómo estás? Primero que nada y
+[39:24] si al final del si al final todos los
+[39:26] equipos presentan prototipos
+[39:27] funcionales, ¿qué hace que el jugador
+[39:29] recuerde uno en particular? y decida que
+[39:30] merece ganar. Eso está muy buena. Esta
+[39:32] pregunta
+[39:32] es una gran pregunta. Eh, para darles
+[39:35] contexto, yo empecé a eh ser jurada hace
+[39:38] unos dos o tres años. Eh, los primeros
+[39:41] el primer año fue muy fácil porque no
+[39:43] todos llegaban a presentar cosas como
+[39:45] tan concretas, tipo interfaces tan
+[39:47] limpias. Hoy es muy fácil tener ah una
+[39:51] una interfaz o un prototipo que
+[39:54] funcione. ¿Qué hace que un equipo sea
+[39:57] diferencial del otro? que tenga una
+[39:59] estructura la la presentación y que sepa
+[40:02] explicarme cuando yo pregunto cosas.
+[40:04] Entonces, yo trabajo en el área de
+[40:06] blockchain y siempre que alguien me
+[40:07] llega con la nueva Deffi aplicación que
+[40:10] va a reemplazar a todos los major
+[40:12] players, suelo preguntar muchísimos
+[40:14] diferenciales, solo preguntar y cómo
+[40:17] solucionaste este problema. La mayoría
+[40:19] de las personas con ella hoy me dicen,
+[40:21] no sé. Entonces, por ejemplo, en la
+[40:22] parte de Textac, yo les recomendaría un
+[40:25] montón que traten de incluir cómo
+[40:27] resolvieron el problema. Eh, y eso a mí
+[40:30] siempre dice, "Ah, esta persona sabe lo
+[40:32] que está haciendo, sabe eh lo planeó,
+[40:34] sabe cómo presentarlo y usualmente ah
+[40:37] tiene como más puntos de mi lado."
+[40:39] Pueden haber otros approaches o formas
+[40:41] de evaluarlo, pero esto es lo que a mí
+[40:43] más me emociona cuando alguien con
+[40:44] pasión presenta su proyecto, cuando lo
+[40:46] presenta con orden, pero además sabe lo
+[40:47] que está haciendo y cómo lo hizo.
+[40:50] Maravilloso. Ahora tenemos esta pregunta
+[40:52] de Juan. Hoy todos tienen nombres
+[40:54] normales. Me encanta porque ayer y
+[40:56] antier, no, ayer tenía unos nombres muy
+[40:58] raros que sí, muchas letras y ningún no
+[41:02] tenía sentido leer. Gracias por ponerse
+[41:04] sus nombres normales en en YouTube.
+[41:07] Mira, tenemos acá que tomar en cuenta si
+[41:09] queremos generar un efecto wow.
+[41:11] Ah, el hook eh del principio es algo que
+[41:14] a mí me me llama mucho la atención. Ah,
+[41:17] entonces de nuevo, ah, muchas personas,
+[41:21] lo puedo prometer, comienzan diciendo,
+[41:23] "Hola, me llamo Ángela y entonces yo
+[41:25] hago esto, eh, y nada, durante la hacat
+[41:28] y son como 30 segundos en que yo estoy
+[41:30] como, Dios mío, arranca." Eh, so yo
+[41:32] empezaría con una con un con un hook y
+[41:35] un problema claro y sobre todo con
+[41:37] datos. A mí el efecto wow es cuando
+[41:39] digo, "Ah, wow, me supieron mostrar y y
+[41:42] demostrar y argumentar cada cosa." Lo
+[41:44] otro sería una interfaz muy limpia. en
+[41:47] una interfaz tan generada por AI. Eh,
+[41:50] eso honestamente a mí me emociona mucho,
+[41:53] por eso le digo, "Prefiero que usen
+[41:55] templates a que en serio se note
+[41:57] demasiado." Ah, no les estoy diciendo,
+[41:59] "No la usen ojo. Yo uso en mi día a día.
+[42:02] Ah, y hoy justo lanzamos un feature que
+[42:04] yo construí y usamos AI. Ah, pero es muy
+[42:07] distinto usar la infraestructura. Ah,
+[42:09] toma todas las decisiones por mí. Eso
+[42:10] para mí, Juan, genera un efecto wow. Ah,
+[42:13] un buen producto. Ah, que esté
+[42:15] presentado con datos y que empiece con
+[42:17] un buen one hook. Ah, sí.
+[42:23] ¿Dónde estás?
+[42:24] Bien, maravilloso. Aquí estoy. Ya, bien.
+[42:28] Acá me encanta esta esta respuesta acá
+[42:30] que gracias por tu consejo, que Dios te
+[42:31] bendiga, me encanta. Y bueno, ya creo
+[42:34] que por ahora no tenemos más preguntas.
+[42:36] De igual forma pueden hacer todas las
+[42:38] preguntas que tengan directamente en el
+[42:40] grupo de WhatsApp. Ahí tenemos grupo por
+[42:43] reto, grupo por mentores, grupo general.
+[42:46] Ahí pueden hacer todas las preguntas por
+[42:47] donde quieran hacerlas y directamente
+[42:49] todo el equipo de 30x y de Coluxsidio
+[42:51] que estamos trabajando en este evento,
+[42:53] vamos a ayudarlos a responder lo más
+[42:55] pronto posible. Entonces, Ángela, como
+[42:57] siempre, muchísimas gracias por estar
+[42:59] acá, por apoyarnos con esta gran charla.
+[43:03] Por favor, me envías las slides para
+[43:04] poder pasárselas y si tienen alguna
+[43:07] pregunta, ya saben, nos las pueden dejar
+[43:08] por el WhatsApp. Gracias a todos los que
+[43:10] se conectaron. Espero que esos piches
+[43:11] sean espectaculares y tengan ese efecto.
+[43:13] Wow. Tengan eso de de una en vez de
+[43:16] decir, "Hola, mi nombre es Sandra ta ta"
+[43:17] tá. De una entren diciendo, "Pum, estoy
+[43:20] solucionando esto." Bien, muchas gracias
+[43:23] Ángela, y gracias a todos por unirse.
+[43:25] Voy a finalizar por ahora la
+[43:27] transmisión. Hasta luego.

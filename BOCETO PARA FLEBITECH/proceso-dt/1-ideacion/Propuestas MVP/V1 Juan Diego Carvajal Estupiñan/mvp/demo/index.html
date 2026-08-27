@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scala Labs · Demo MVP — Hackathon Colsubsidio 2026</title>
+<style>
+  :root{
+    --verde:#00843D; --verde2:#00A651; --azul:#0057B8; --morado:#7c3aed;
+    --tinta:#0f172a; --gris:#64748b; --linea:#e2e8f0; --bg:#f6f8fb; --card:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--tinta);line-height:1.5}
+  .wrap{max-width:840px;margin:0 auto;padding:24px 18px 60px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .logo{font-weight:800;letter-spacing:.5px;color:var(--verde)}
+  .badge{font-size:12px;background:#eafaf0;color:var(--verde);padding:3px 9px;
+    border-radius:20px;font-weight:600}
+  h1{font-size:22px;margin:14px 0 2px}
+  .sub{color:var(--gris);font-size:14px;margin-bottom:22px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.cards{grid-template-columns:1fr}}
+  .pick{background:var(--card);border:1px solid var(--linea);border-radius:16px;
+    padding:22px;cursor:pointer;transition:.15s;border-top:4px solid var(--azul)}
+  .pick:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(15,23,42,.08)}
+  .pick.seg{border-top-color:var(--verde)}
+  .pick .k{font-size:12px;color:var(--gris);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+  .pick h3{font-size:18px;margin:8px 0}
+  .pick p{font-size:14px;color:var(--gris)}
+  .view{display:none;background:var(--card);border:1px solid var(--linea);
+    border-radius:16px;padding:22px;margin-top:8px}
+  .view.on{display:block;animation:f .25s ease}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .back{background:none;border:none;color:var(--azul);cursor:pointer;font-size:14px;
+    font-weight:600;margin-bottom:14px;padding:0}
+  .row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  button.opt,.btn{font:inherit;border:1px solid var(--linea);background:#fff;
+    padding:10px 14px;border-radius:10px;cursor:pointer;transition:.12s}
+  button.opt:hover{border-color:var(--verde);background:#f0fdf4}
+  .btn{background:var(--verde);color:#fff;border:none;font-weight:600}
+  .btn.azul{background:var(--azul)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .chat{border:1px solid var(--linea);border-radius:12px;padding:14px;height:300px;
+    overflow-y:auto;background:#fbfdff;margin-bottom:10px}
+  .msg{max-width:80%;padding:9px 13px;border-radius:14px;margin:6px 0;font-size:14px}
+  .bot{background:#eef4ff;color:var(--tinta);border-bottom-left-radius:4px}
+  .me{background:var(--verde);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+  .quote{border:1px solid var(--linea);border-radius:12px;padding:16px;margin-top:8px;
+    background:linear-gradient(180deg,#f0fdf4,#fff)}
+  .quote.cred{background:linear-gradient(180deg,#eff6ff,#fff)}
+  .big{font-size:26px;font-weight:800}
+  .lbl{font-size:12px;color:var(--gris);text-transform:uppercase;letter-spacing:.5px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  ul.just{list-style:none;margin:10px 0}
+  ul.just li{padding:7px 0 7px 24px;position:relative;font-size:14px;border-top:1px dashed var(--linea)}
+  ul.just li:before{content:"✓";position:absolute;left:0;color:var(--verde);font-weight:800}
+  .gauge{display:flex;align-items:center;gap:12px}
+  .ring{--p:0;width:64px;height:64px;border-radius:50%;
+    background:conic-gradient(var(--verde) calc(var(--p)*1%),#e5e7eb 0);
+    display:grid;place-items:center}
+  .ring i{width:48px;height:48px;background:#fff;border-radius:50%;display:grid;
+    place-items:center;font-style:normal;font-weight:800;font-size:15px}
+  .ok{background:#eafaf0;border:1px solid var(--verde2);border-radius:12px;padding:16px;
+    margin-top:10px;text-align:center}
+  .ok .poliza{font-weight:800;color:var(--verde);font-size:18px}
+  .consent{display:flex;gap:9px;align-items:flex-start;margin:12px 0;font-size:13px;color:var(--gris)}
+  select,input{font:inherit;padding:9px 11px;border:1px solid var(--linea);border-radius:10px;width:100%}
+  .field{margin:8px 0}
+  .field label{font-size:13px;color:var(--gris);display:block;margin-bottom:4px}
+  .note{font-size:12px;color:var(--gris);margin-top:14px;border-top:1px solid var(--linea);padding-top:10px}
+  .chan{font-size:14px;background:#f8fafc;border:1px solid var(--linea);border-radius:10px;
+    padding:12px;margin-top:10px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="logo">Scala Labs</span>
+    <span class="badge">Hackathon Colsubsidio 2026 · Demo MVP</span>
+  </header>
+  <h1>Dos motores, un afiliado</h1>
+  <p class="sub">Prototipo navegable. La lógica es la misma de los motores Python del repo; aquí corre en el navegador para el demo.</p>
+
+  <div class="cards" id="home">
+    <div class="pick" onclick="show('credito')">
+      <div class="k">Reto 01</div>
+      <h3>Crédito hiperpersonalizado</h3>
+      <p>Elige un afiliado y mira cómo se segmenta, se calcula el score y se arma la oferta con su porqué.</p>
+    </div>
+    <div class="pick seg" onclick="show('seguros')">
+      <div class="k">Reto 02</div>
+      <h3>Venta automatizada de seguros</h3>
+      <p>De "no sé qué necesito" a "quedé asegurado" en un chat, 24/7, sin humano.</p>
+    </div>
+  </div>
+
+  <!-- ================= RETO 01: CRÉDITO ================= -->
+  <div class="view" id="credito">
+    <button class="back" onclick="home()">← Volver</button>
+    <h3>Reto 01 · Oferta de crédito hiperpersonalizada</h3>
+    <p class="sub">Elige un perfil demo o ajusta los datos. El motor decide; el mensaje lo redactaría el agente Gemini.</p>
+    <div class="field">
+      <label>Afiliado demo</label>
+      <select id="cred-demo" onchange="loadCredDemo()"></select>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Categoría (A/B/C)</label><input id="c-cat" value="A"></div>
+      <div class="field"><label>Ingreso mensual</label><input id="c-ing" type="number" value="5200000"></div>
+      <div class="field"><label>Antigüedad (meses)</label><input id="c-ant" type="number" value="40"></div>
+      <div class="field"><label>Mora último año</label><input id="c-mora" type="number" value="0"></div>
+      <div class="field"><label>Edad</label><input id="c-edad" type="number" value="34"></div>
+      <div class="field"><label>Interés</label>
+        <select id="c-int"><option value="vivienda">Vivienda</option><option value="educacion">Educación</option><option value="vehiculo">Vehículo</option><option value="libre">Libre inversión</option></select>
+      </div>
+    </div>
+    <button class="btn azul" onclick="genOferta()">Generar oferta</button>
+    <div id="cred-out"></div>
+    <p class="note">Transparencia: cada oferta guarda su justificación. Sin consentimiento de datos (Habeas Data), el flujo real no personaliza.</p>
+  </div>
+
+  <!-- ================= RETO 02: SEGUROS ================= -->
+  <div class="view" id="seguros">
+    <button class="back" onclick="home()">← Volver</button>
+    <h3>Reto 02 · Quedé asegurado 24/7</h3>
+    <div class="chat" id="chat"></div>
+    <div class="row" id="chat-opts"></div>
+    <div id="seg-out"></div>
+    <p class="note">El agente hace máximo 5 preguntas y no inventa primas: el precio lo pone el motor de cotización. El cierre exige aceptación y consentimiento.</p>
+  </div>
+</div>
+
+<script>
+/* ---------- utilidades ---------- */
+const COP = n => "$" + Math.round(n).toLocaleString("es-CO");
+const $ = id => document.getElementById(id);
+function home(){document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$('home').style.display='grid';}
+function show(id){$('home').style.display='none';document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));$(id).classList.add('on');if(id==='seguros')startChat();}
+
+/* ================= MOTOR CRÉDITO (port de scoring_engine.py) ================= */
+const SMMLV=1423500, TASA={A:.0165,B:.0195,C:.0225}, CUOTA_MAX=.30;
+const CRED_DEMO=[
+  {nombre:"Laura Mendoza",cat:"A",ing:5200000,edad:34,ant:40,prod:3,mora:0,canal:"App Colsubsidio",int:"vivienda"},
+  {nombre:"Diego Ruiz",cat:"B",ing:1900000,edad:27,ant:8,prod:1,mora:0,canal:"WhatsApp",int:"educacion"},
+  {nombre:"Marta Gómez",cat:"C",ing:1500000,edad:45,ant:30,prod:2,mora:2,canal:"Email",int:"libre"},
+];
+function segmentar(a){
+  if(a.mora>=2) return "Reconstrucción";
+  if(a.ing>=4*SMMLV && a.ant>=24) return "Consolidado";
+  if(a.ant<12) return "Nuevo por activar";
+  return "Crecimiento";
+}
+function scoreOf(a){
+  let s=50;
+  s+=Math.min(a.ing/SMMLV,6)*5;
+  s+=Math.min(a.ant/12,4)*3;
+  s-=a.mora*12;
+  s+=(a.prod>=2)?4:0;
+  s+=(a.edad>=25&&a.edad<=55)?3:0;
+  return Math.max(0,Math.min(100,Math.round(s)));
+}
+function ofertaOf(a){
+  const seg=segmentar(a), sc=scoreOf(a), tasa=TASA[a.cat]||.0225;
+  const fseg={"Consolidado":12,"Crecimiento":8,"Nuevo por activar":5,"Reconstrucción":3}[seg];
+  let monto=Math.round(a.ing*fseg*(sc/100));
+  monto=Math.max(SMMLV,Math.min(monto,150000000));
+  let plazo=12;
+  for(const p of [12,24,36,48,60]){
+    const c=monto*(tasa*Math.pow(1+tasa,p))/(Math.pow(1+tasa,p)-1);
+    if(c<=a.ing*CUOTA_MAX){plazo=p;break;}
+  }
+  const cuota=Math.round(monto*(tasa*Math.pow(1+tasa,plazo))/(Math.pow(1+tasa,plazo)-1));
+  const prod={vivienda:"Crédito Vivienda",educacion:"Crédito Educativo",vehiculo:"Crédito Vehículo"}[a.int]||"Crédito Libre Inversión";
+  return {seg,sc,tasa,monto,plazo,cuota,prod,canal:a.canal,just:[
+    `Categoría ${a.cat}: tasa preferencial ${(tasa*100).toFixed(2)}% mensual.`,
+    `Segmento ${seg} (score ${sc}/100) por ingreso, antigüedad y comportamiento.`,
+    `Plazo ${plazo} meses para que la cuota (${COP(cuota)}) no pase del 30% de tu ingreso.`,
+    `Alineado a tu interés declarado: ${prod}.`
+  ]};
+}
+function initCredDemo(){
+  $('cred-demo').innerHTML=CRED_DEMO.map((d,i)=>`<option value="${i}">${d.nombre} · Cat ${d.cat}</option>`).join('');
+  loadCredDemo();
+}
+function loadCredDemo(){
+  const d=CRED_DEMO[$('cred-demo').value];
+  $('c-cat').value=d.cat;$('c-ing').value=d.ing;$('c-ant').value=d.ant;
+  $('c-mora').value=d.mora;$('c-edad').value=d.edad;$('c-int').value=d.int;
+}
+function genOferta(){
+  const a={cat:$('c-cat').value.toUpperCase().trim(),ing:+$('c-ing').value,ant:+$('c-ant').value,
+    mora:+$('c-mora').value,edad:+$('c-edad').value,prod:2,int:$('c-int').value,
+    canal:CRED_DEMO[$('cred-demo').value].canal};
+  const o=ofertaOf(a);
+  const msg=`Hola 👋 Como afiliado categoría ${a.cat} tienes tasa preferencial del ${(o.tasa*100).toFixed(2)}% mensual. Te preaprobamos un ${o.prod} de ${COP(o.monto)} en ${o.plazo} cuotas de ${COP(o.cuota)}. ¿Quieres ver el detalle? Si ahora no es el momento, aquí seguimos.`;
+  $('cred-out').innerHTML=`
+    <div class="quote cred">
+      <div class="gauge">
+        <div class="ring" style="--p:${o.sc}"><i>${o.sc}</i></div>
+        <div><div class="lbl">Segmento</div><div style="font-weight:700">${o.seg}</div></div>
+      </div>
+      <div class="grid2" style="margin-top:14px">
+        <div><div class="lbl">Producto</div><div style="font-weight:700">${o.prod}</div></div>
+        <div><div class="lbl">Monto</div><div class="big">${COP(o.monto)}</div></div>
+        <div><div class="lbl">Cuota / ${o.plazo} meses</div><div style="font-weight:700">${COP(o.cuota)}</div></div>
+        <div><div class="lbl">Canal oportuno</div><div style="font-weight:700">${o.canal}</div></div>
+      </div>
+      <div class="lbl" style="margin-top:8px">Por qué esta oferta</div>
+      <ul class="just">${o.just.map(j=>`<li>${j}</li>`).join('')}</ul>
+      <div class="lbl">Mensaje que enviaría el agente (${o.canal})</div>
+      <div class="chan">${msg}</div>
+    </div>`;
+}
+
+/* ================= MOTOR SEGUROS (port de quote_engine.py) ================= */
+const CAT={
+  vida:{nombre:"Seguro de Vida",base:18000,cob:50000000,atiende:"proteger a quien depende de ti si faltas"},
+  accidentes:{nombre:"Accidentes Personales",base:9000,cob:30000000,atiende:"un accidente que te deje sin ingresos"},
+  exequial:{nombre:"Seguro Exequial Familiar",base:12000,cob:8000000,atiende:"no dejarle a tu familia el gasto de un funeral"},
+  hogar:{nombre:"Seguro de Hogar",base:22000,cob:80000000,atiende:"proteger tu vivienda y lo que hay dentro"},
+  desempleo:{nombre:"Protección Desempleo",base:15000,cob:6000000,atiende:"cubrir tus cuotas si pierdes el empleo"},
+};
+const PRE2PROD={familia:"vida",salud:"accidentes",muerte:"exequial",casa:"hogar",empleo:"desempleo"};
+function factorEdad(e){return e<30?.85:e<45?1:e<60?1.35:1.8;}
+function cotizar(r){
+  const key=PRE2PROD[r.preocupacion]||(r.dependientes>=1?"vida":(r.tiene_vivienda?"hogar":"accidentes"));
+  const p=CAT[key];
+  const escala=1+0.4*r.dependientes+Math.min(r.ingreso/3000000,2);
+  const cob=Math.min(p.cob*escala,p.cob*3);
+  const prima=Math.round(p.base*factorEdad(r.edad)*(cob/p.cob));
+  return {key,producto:p.nombre,cob:Math.round(cob),prima,
+    idoneidad:`Te recomiendo ${p.nombre} porque tu prioridad es ${p.atiende}. Con ${r.dependientes} persona(s) que dependen de ti, esta cobertura se ajusta a tu situación.`};
+}
+
+/* --- flujo conversacional --- */
+let segState, segAns;
+const PREGUNTAS=[
+  {k:"preocupacion",q:"Hola, soy tu asesor de seguros de Colsubsidio. En 1 minuto te digo qué te conviene. ¿Qué es lo que más te preocupa hoy?",
+   opts:[["Mi familia","familia"],["Mi salud","salud"],["Mi casa","casa"],["Quedar sin empleo","empleo"]]},
+  {k:"dependientes",q:"¿Cuántas personas dependen de ti económicamente?",
+   opts:[["Ninguna",0],["Una",1],["Dos",2],["Tres o más",3]]},
+  {k:"edad",q:"¿En qué rango está tu edad?",
+   opts:[["Menos de 30",27],["30 a 44",38],["45 a 59",50],["60 o más",64]]},
+  {k:"tiene_vivienda",q:"¿Tienes vivienda propia?",opts:[["Sí",true],["No",false]]},
+  {k:"ingreso",q:"Última: ¿tu ingreso mensual está más cerca de...?",
+   opts:[["$2 millones",2000000],["$5 millones",5200000],["Más de $8M",8500000]]},
+];
+function startChat(){segState=0;segAns={nombre:"Afiliado"};$('chat').innerHTML='';$('seg-out').innerHTML='';askNext();}
+function bubble(t,cls){const d=document.createElement('div');d.className='msg '+cls;d.textContent=t;$('chat').appendChild(d);$('chat').scrollTop=$('chat').scrollHeight;}
+function askNext(){
+  if(segState>=PREGUNTAS.length){return finQuote();}
+  const p=PREGUNTAS[segState];
+  bubble(p.q,'bot');
+  $('chat-opts').innerHTML=p.opts.map((o,i)=>`<button class="opt" onclick="answer(${i})">${o[0]}</button>`).join('');
+}
+function answer(i){
+  const p=PREGUNTAS[segState];
+  bubble(p.opts[i][0],'me');
+  segAns[p.k]=p.opts[i][1];
+  segState++;
+  $('chat-opts').innerHTML='';
+  setTimeout(askNext,350);
+}
+function finQuote(){
+  const c=cotizar(segAns);
+  bubble(`Listo. Con eso te recomiendo un ${c.producto}. Déjame calcular tu prima...`,'bot');
+  $('seg-out').innerHTML=`
+    <div class="quote">
+      <div class="lbl">Recomendado para ti</div>
+      <div style="font-weight:700;font-size:17px">${c.producto}</div>
+      <div class="grid2" style="margin-top:10px">
+        <div><div class="lbl">Cobertura</div><div style="font-weight:700">${COP(c.cob)}</div></div>
+        <div><div class="lbl">Prima mensual</div><div class="big">${COP(c.prima)}</div></div>
+      </div>
+      <div class="lbl" style="margin-top:8px">Por qué encaja (venta adecuada)</div>
+      <p style="font-size:14px;margin-top:4px">${c.idoneidad}</p>
+      <label class="consent"><input type="checkbox" id="seg-consent"> Autorizo el tratamiento de mis datos y confirmo que quiero quedar asegurado.</label>
+      <button class="btn" id="seg-close" onclick="emitir(${c.prima})">Asegurarme ahora</button>
+    </div>`;
+}
+function emitir(prima){
+  if(!$('seg-consent').checked){alert("Marca el consentimiento para poder emitir la póliza.");return;}
+  const num="POL-"+String(Math.floor(Math.random()*1000000)).padStart(6,"0");
+  bubble("¡Quedaste asegurado! Te llega el certificado al correo.","bot");
+  $('seg-out').innerHTML=`
+    <div class="ok">
+      <div style="font-size:30px">🛡️</div>
+      <p style="margin:6px 0">Quedaste asegurado, 24/7, sin pasar por un asesor humano.</p>
+      <div class="poliza">${num}</div>
+      <div class="lbl" style="margin-top:6px">Prima ${COP(prima)}/mes · vigencia 12 meses renovable</div>
+      <button class="btn azul" style="margin-top:12px" onclick="startChat()">Probar otro perfil</button>
+    </div>`;
+}
+
+/* init */
+initCredDemo();
+</script>
+</body>
+</html>

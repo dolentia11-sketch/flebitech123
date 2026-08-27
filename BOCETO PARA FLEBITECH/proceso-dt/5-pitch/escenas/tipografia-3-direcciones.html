@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Pitch Scala Labs — 3 direcciones tipográficas (mismo fotograma del hook)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&family=Montserrat:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo:#1c1c1b; --superficie:#282826; --tinta:#f5f3ed; --tinta-suave:#9A9A99;
+    --amarillo:#FFD000; --azul-dato:#66A4D0; --azul:#0067B1;
+  }
+  body{margin:0;background:#0e0e0d;color:var(--tinta);font-family:Inter,sans-serif;padding:40px}
+  h1{font-size:20px;font-weight:600;margin:0 0 6px}
+  p.nota{color:var(--tinta-suave);font-size:14px;margin:0 0 32px}
+  .variante{margin-bottom:56px}
+  .variante h2{font-size:16px;font-weight:600;margin:0 0 12px;color:var(--tinta)}
+  .variante h2 span{color:var(--tinta-suave);font-weight:400}
+  .frame{width:1440px;height:810px;background:var(--fondo);border-radius:16px;padding:64px 80px;box-sizing:border-box;position:relative;overflow:hidden}
+  .chips{display:flex;gap:12px;margin-bottom:48px}
+  .chip{font-size:24px;color:var(--tinta);background:var(--superficie);border:1px solid #3a3a38;border-radius:999px;padding:10px 24px}
+  .chip.creencia{font-style:italic;color:var(--tinta-suave);background:transparent;border-style:dashed}
+  .cifra{font-size:210px;line-height:1;letter-spacing:-4px;color:var(--tinta)}
+  .cifra .pct{color:var(--azul-dato);font-size:110px}
+  .bajada{font-size:36px;color:var(--tinta-suave);margin:20px 0 6px}
+  .fuente{font-size:20px;color:#6f6f6d;text-transform:uppercase;letter-spacing:3px;margin:0 0 56px}
+  .remate{font-size:66px;line-height:1.2;color:var(--amarillo);margin:0}
+  .barra{position:absolute;left:0;bottom:0;height:4px;background:var(--superficie);width:100%}
+  .barra i{display:block;height:4px;width:42%;background:var(--amarillo)}
+  .v1 .cifra,.v1 .remate{font-family:'Archivo Black'}
+  .v2 .cifra,.v2 .remate{font-family:Montserrat;font-weight:800}
+  .v3{font-family:'Plus Jakarta Sans'}
+  .v3 .cifra,.v3 .remate{font-family:'Plus Jakarta Sans';font-weight:800}
+  .v3 .chip,.v3 .bajada,.v3 .fuente{font-family:'Plus Jakarta Sans'}
+</style>
+</head>
+<body>
+<h1>3 direcciones tipográficas — pitch Scala Labs · Colsubsidio × 30X</h1>
+<p class="nota">Mismo fotograma del hook congelado (24-jul) en las tres. Lienzo a escala 1440×810 (75% de 1920×1080). Decisión pendiente de JP.</p>
+
+<div class="variante v1">
+  <h2>1 · Dato duro <span>— Archivo Black (cifras/remates) + Inter (texto)</span></h2>
+  <div class="frame">
+    <div class="chips"><span class="chip">29 años</span><span class="chip">2 hijos</span><span class="chip creencia">"cara · enredada · papeleo · asesores"</span></div>
+    <div class="cifra">90,7<span class="pct">%</span></div>
+    <p class="bajada">de los hogares siguen desprotegidos</p>
+    <p class="fuente">Fasecolda · mar 2026</p>
+    <p class="remate">es que nadie les ha mostrado<br>lo simple que puede ser.</p>
+    <div class="barra"><i></i></div>
+  </div>
+</div>
+
+<div class="variante v2">
+  <h2>2 · Institucional <span>— Montserrat (cifras/remates) + Inter (texto)</span></h2>
+  <div class="frame">
+    <div class="chips"><span class="chip">29 años</span><span class="chip">2 hijos</span><span class="chip creencia">"cara · enredada · papeleo · asesores"</span></div>
+    <div class="cifra">90,7<span class="pct">%</span></div>
+    <p class="bajada">de los hogares siguen desprotegidos</p>
+    <p class="fuente">Fasecolda · mar 2026</p>
+    <p class="remate">es que nadie les ha mostrado<br>lo simple que puede ser.</p>
+    <div class="barra"><i></i></div>
+  </div>
+</div>
+
+<div class="variante v3">
+  <h2>3 · Cercana <span>— Plus Jakarta Sans para todo</span></h2>
+  <div class="frame">
+    <div class="chips"><span class="chip">29 años</span><span class="chip">2 hijos</span><span class="chip creencia">"cara · enredada · papeleo · asesores"</span></div>
+    <div class="cifra">90,7<span class="pct">%</span></div>
+    <p class="bajada">de los hogares siguen desprotegidos</p>
+    <p class="fuente">Fasecolda · mar 2026</p>
+    <p class="remate">es que nadie les ha mostrado<br>lo simple que puede ser.</p>
+    <div class="barra"><i></i></div>
+  </div>
+</div>
+
+<!-- Construido con Claude Fable 5 (esfuerzo alto) · 2026-07-24 · decisión tipográfica del design system del pitch -->
+</body>
+</html>

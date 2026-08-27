@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colsubsidio — Asesor de seguros</title>
+<style>
+  :root{
+    --paper: #F2EFE6;
+    --panel: #FFFFFF;
+    --ink: #16233A;
+    --ink-soft: #5C6B7D;
+    --navy: #14304A;
+    --navy-deep: #0C2032;
+    --orange: #E8622C;
+    --orange-deep: #C94F1F;
+    --sage: #4C8C6B;
+    --sage-bg: #E7F1EA;
+    --amber: #C98A1F;
+    --amber-bg: #FBF0DA;
+    --line: #E2DCCB;
+    --radius: 18px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background: var(--paper);
+    font-family: "Inter", -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    min-height:100vh;
+  }
+  h1,h2,h3,.display{ font-family: "Poppins", "Inter", sans-serif; }
+
+  .stage{ max-width: 1000px; margin:0 auto; padding: 28px 20px 40px; }
+
+  .top{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:18px; flex-wrap:wrap; gap:8px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .mark{
+    width:34px; height:34px; border-radius:9px;
+    background: var(--navy); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:14px;
+  }
+  .brand-text .name{ font-weight:700; font-size:15px; }
+  .brand-text .tag{ font-size:11.5px; color:var(--ink-soft); }
+  .note{ font-size:11px; color:var(--ink-soft); text-align:right; max-width:240px; line-height:1.4; }
+
+  .layout{
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap:18px; align-items:stretch;
+  }
+  @media (max-width: 800px){ .layout{ grid-template-columns: 1fr; } }
+
+  /* ---- Chat ---- */
+  .chat-card{
+    background: var(--panel); border-radius:22px; border:1px solid var(--line);
+    box-shadow: 0 1px 2px rgba(20,30,40,0.04), 0 14px 34px rgba(20,30,40,0.08);
+    display:flex; flex-direction:column; height:640px; overflow:hidden;
+  }
+  .chat-header{
+    background: var(--navy-deep); color:#EDEFE9; padding:16px 18px;
+    display:flex; align-items:center; gap:10px; flex-shrink:0;
+  }
+  .chat-header .avatar{
+    width:34px; height:34px; border-radius:50%; background:var(--orange);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+    transition: background .2s ease;
+  }
+  .chat-header .name{ font-weight:600; font-size:14.5px; }
+  .chat-header .status{ font-size:11.5px; color:#9FB3C4; display:flex; align-items:center; gap:6px; margin-top:2px; }
+  .chat-header .status .dot{ width:6px; height:6px; border-radius:50%; background:#63D69B; }
+
+  .thread{ flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .row{ display:flex; }
+  .row.bot{ justify-content:flex-start; }
+  .row.user{ justify-content:flex-end; }
+  .bubble{
+    max-width:80%; padding:10px 14px; border-radius:var(--radius);
+    font-size:14px; line-height:1.45; white-space:pre-wrap;
+  }
+  .row.bot .bubble{ background:#F7F5EF; border:1px solid var(--line); border-bottom-left-radius:4px; }
+  .row.user .bubble{ background:var(--navy); color:#F2EFE6; border-bottom-right-radius:4px; }
+
+  .choice-row{ display:flex; gap:8px; flex-wrap:wrap; padding: 2px 0 4px; }
+  .choice-btn{
+    border:1px solid var(--navy); background:#fff; color:var(--navy);
+    border-radius:14px; padding:8px 14px; font-size:12.5px; font-weight:600;
+    cursor:pointer; font-family:inherit;
+  }
+  .choice-btn.primary{ background:var(--orange); border-color:var(--orange); color:#fff; }
+  .choice-btn:hover{ opacity:0.85; }
+
+  .typing{
+    display:flex; gap:4px; padding:12px 14px; background:#F7F5EF; border:1px solid var(--line);
+    border-radius:var(--radius); border-bottom-left-radius:4px; width:fit-content;
+  }
+  .typing span{ width:6px; height:6px; border-radius:50%; background:var(--ink-soft); opacity:0.4; animation: blink 1.2s infinite; }
+  .typing span:nth-child(2){ animation-delay:.2s; }
+  .typing span:nth-child(3){ animation-delay:.4s; }
+  @keyframes blink{ 0%,80%,100%{ opacity:.25; transform:translateY(0);} 40%{ opacity:1; transform:translateY(-2px);} }
+
+  .composer{ border-top:1px solid var(--line); padding:12px; display:flex; gap:8px; flex-shrink:0; background:var(--panel); }
+  .composer input{
+    flex:1; border:1px solid var(--line); background:var(--paper); border-radius:22px;
+    padding:11px 16px; font-size:14px; outline:none; font-family:inherit; color:var(--ink);
+  }
+  .composer input:focus{ border-color:var(--orange); }
+  .composer button{
+    width:42px; height:42px; border-radius:50%; border:none; background:var(--orange); color:#fff;
+    cursor:pointer; flex-shrink:0; transition: background .15s ease, transform .1s ease;
+  }
+  .composer button:hover{ background:var(--orange-deep); }
+  .composer button:active{ transform:scale(0.94); }
+  .composer button:disabled{ background:#CBC3AD; cursor:default; }
+
+  /* ---- Side panel ---- */
+  .side-card{
+    background: var(--panel); border-radius:22px; border:1px solid var(--line);
+    box-shadow: 0 1px 2px rgba(20,30,40,0.04), 0 14px 34px rgba(20,30,40,0.08);
+    padding:20px; display:flex; flex-direction:column; height:640px; overflow-y:auto;
+  }
+  .product-head{ display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+  .product-icon{
+    width:44px; height:44px; border-radius:12px; background:#F0ECDC;
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    transition: background .2s ease;
+  }
+  .product-name{ font-weight:700; font-size:15px; color:var(--navy-deep); }
+  .product-sub{ font-size:11.5px; color:var(--ink-soft); }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:700; padding:5px 10px; border-radius:20px; margin: 10px 0 16px;
+  }
+  .badge.directa{ background: var(--sage-bg); color:#2C5A42; }
+  .badge.intermediario{ background: var(--amber-bg); color:#8A5E12; }
+
+  .field-list{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px; }
+  .field{
+    display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:10px;
+    border:1px solid var(--line); background:#FAF8F2; font-size:12px; transition: all .2s ease;
+  }
+  .field.done{ background: var(--sage-bg); border-color:#BFE0CC; color:#2C5A42; }
+  .field .icon{
+    width:16px; height:16px; border-radius:50%; background:#E7E2D2;
+    display:flex; align-items:center; justify-content:center; font-size:9px; flex-shrink:0; color:#fff;
+  }
+  .field.done .icon{ background: var(--sage); }
+  .field .icon::after{ content:''; }
+  .field.done .icon::after{ content:'✓'; }
+
+  .asesor-choice{
+    border-radius:16px; border:1px solid var(--amber); background: var(--amber-bg);
+    padding:16px; margin-top:8px;
+  }
+  .asesor-choice .eyebrow{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:#8A5E12; font-weight:700; margin-bottom:6px; }
+  .asesor-choice p{ font-size:12.5px; color:#5C4A22; line-height:1.5; margin:0 0 12px; }
+  .asesor-choice .btns{ display:flex; flex-direction:column; gap:8px; }
+  .asesor-choice button{
+    padding:10px; border-radius:12px; border:none; font-weight:600; font-size:12.5px;
+    cursor:pointer; font-family:inherit;
+  }
+  .asesor-choice .btn-self{ background:var(--navy); color:#fff; }
+  .asesor-choice .btn-advisor{ background:#fff; color:var(--navy); border:1px solid var(--navy) !important; }
+
+  .plan-card{
+    margin-top:16px; border-radius:16px; border:1px solid var(--orange); background:#FFF4EC;
+    padding:16px; display:none;
+  }
+  .plan-card.show{ display:block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .plan-card .eyebrow{ font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--orange-deep); font-weight:700; margin-bottom:4px; }
+  .plan-card h3{ font-size:15.5px; margin:0 0 6px; color:var(--navy-deep); }
+  .plan-card p{ font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin:0 0 12px; }
+  .plan-card ul{ margin:0 0 14px; padding-left:18px; font-size:12.5px; color:var(--ink); line-height:1.6; }
+  .plan-card button{
+    width:100%; padding:11px; border-radius:12px; border:none; background:var(--navy); color:#fff;
+    font-weight:600; font-size:13px; cursor:pointer; font-family:inherit;
+  }
+  .plan-card button:hover{ background:var(--navy-deep); }
+  .plan-card .price-note{ font-size:10.5px; color:var(--ink-soft); text-align:center; margin-top:8px; }
+
+  .close-card{
+    margin-top:16px; border-radius:16px; border:1px solid var(--sage); background:var(--sage-bg);
+    padding:16px; display:none; text-align:center;
+  }
+  .close-card.show{ display:block; animation: fadeUp .3s ease; }
+  .close-card .check{ font-size:26px; margin-bottom:6px; }
+  .close-card h3{ font-size:14.5px; margin:0 0 4px; color:#2C5A42; }
+  .close-card p{ font-size:12px; color:#3C6B52; margin:0; line-height:1.5; }
+
+  .empty-hint{ font-size:12px; color:var(--ink-soft); text-align:center; margin-top:20px; line-height:1.5; }
+
+  .thread::-webkit-scrollbar, .side-card::-webkit-scrollbar{ width:6px; }
+  .thread::-webkit-scrollbar-thumb, .side-card::-webkit-scrollbar-thumb{ background:var(--line); border-radius:10px; }
+
+  .reset-row{ text-align:center; margin-top:14px; }
+  .reset-row button{ background:none; border:none; color:var(--ink-soft); text-decoration:underline; font-size:11.5px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="top">
+    <div class="brand">
+      <div class="mark">CS</div>
+      <div class="brand-text">
+        <div class="name">Colsubsidio · Asesor de seguros</div>
+        <div class="tag">Toma tu póliza hablando, sin formularios</div>
+      </div>
+    </div>
+    <div class="note">Demo conceptual del flujo de asesoría directa y con asesor. Propuesta visual no oficial — sin valores reales de prima.</div>
+  </div>
+
+  <div class="layout">
+
+    <!-- CHAT -->
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="avatar" id="headerAvatar">🛡️</div>
+        <div>
+          <div class="name">Asesor Colsubsidio</div>
+          <div class="status"><span class="dot"></span>en línea</div>
+        </div>
+      </div>
+      <div class="thread" id="thread"></div>
+      <div id="typingRow" style="display:none; padding: 0 16px 8px;">
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+      <div class="composer">
+        <input id="input" type="text" placeholder="Escribe tu mensaje..." autocomplete="off" />
+        <button id="send" aria-label="Enviar">➤</button>
+      </div>
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-card">
+      <div class="product-head">
+        <div class="product-icon" id="productIcon">🛡️</div>
+        <div>
+          <div class="product-name" id="productName">Sin producto aún</div>
+          <div class="product-sub" id="productSub">Cuéntale al Asesor qué quieres asegurar</div>
+        </div>
+      </div>
+
+      <div id="badgeWrap"></div>
+
+      <div class="field-list" id="fieldList"></div>
+
+      <div class="empty-hint" id="emptyHint">A medida que converses, aquí verás qué datos ya quedaron listos y cuáles faltan.</div>
+
+      <div class="plan-card" id="planCard">
+        <div class="eyebrow">Recomendación</div>
+        <h3 id="planName">—</h3>
+        <p id="planReason">—</p>
+        <ul id="planBullets"></ul>
+        <button id="planBtn">Continuar con esta opción</button>
+        <div class="price-note">Valores y condiciones reales se definen en el paso siguiente, fuera de esta demo.</div>
+      </div>
+
+      <div class="asesor-choice" id="asesorChoice" style="display:none;">
+        <div class="eyebrow">Este seguro suele personalizarse mejor con ayuda</div>
+        <p id="asesorText">Puedes dejarlo listo tú mismo aquí, o prefieres que un asesor te ayude a ajustarlo a tu caso.</p>
+        <div class="btns">
+          <button class="btn-self" id="btnSelf">Tomar el seguro yo mismo</button>
+          <button class="btn-advisor" id="btnAdvisor">Hablar con un asesor</button>
+        </div>
+      </div>
+
+      <div class="close-card" id="closeCard">
+        <div class="check">✅</div>
+        <h3 id="closeTitle">Todo listo</h3>
+        <p id="closeText">Tu solicitud quedó registrada.</p>
+      </div>
+
+      <div class="reset-row"><button id="resetBtn">Reiniciar demo</button></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const PRODUCT_ICONS = {
+  "Autos y Motos": "🚗",
+  "Patinetas y Bicicletas": "🛴",
+  "Hogar": "🏠",
+  "Mascotas": "🐾",
+  "Viajes": "✈️",
+  "Exequial": "🕊️",
+  "Vida": "💙",
+  "Salud": "🩺",
+  "Educación": "🎓"
+};
+
+const SYSTEM_PROMPT = `Eres el "Asesor de Seguros" de Colsubsidio, un chat que ayuda a las personas a tomar una póliza directamente, hablando de forma natural, como de humano a humano — sin sentirse un formulario.
+
+TONO Y CONVERSACIÓN (aplica siempre, para cualquier producto):
+1. Máximo una pregunta por mensaje. Nunca encadenes varias preguntas.
+2. Antes de preguntar algo, revisa todo el historial de la conversación, no solo el último mensaje — si el usuario ya dio ese dato en cualquier momento anterior, no lo vuelvas a preguntar bajo ninguna circunstancia.
+3. Alterna entre preguntar, dar un dato útil, y reaccionar a lo que dijeron — no siempre preguntes.
+4. Que la conversación sea muy fluida, nunca un interrogatorio — el cliente no debe sentir que está llenando un formulario. Usa términos de felicitación, admiración y comprensión cuando sea natural (ej. celebrar una buena decisión, mostrar interés genuino en lo que cuentan), para que la interacción se sienta atractiva y humana.
+5. Prefiere preguntas abiertas ("cuéntame de...") sobre preguntas de menú cerrado.
+6. Si en cualquier momento la persona hace una pregunta (sobre el seguro, una cobertura, el proceso, o cualquier otra cosa), respóndela con apertura y claridad antes de continuar con tus propias preguntas del flujo — nunca ignores lo que preguntó ni sigas tu guion como si no hubiera dicho nada.
+7. Mensajes cortos: 2 a 4 líneas. Tono cercano, cálido y con un estilo fresco, sin tecnicismos sin explicar, sin perder nunca el respeto ni la cordialidad.
+8. Máximo un emoji por mensaje, no en todos los mensajes.
+9. No pidas más datos de los que realmente se necesitan para cada producto (ver abajo). No preguntes por riesgos específicos, antigüedad de bienes, ni detalles que no estén en la lista — genera sensación de exposición innecesaria.
+10. El género de una persona (propietario, asegurado, etc.) NUNCA se pregunta directamente en ningún producto, ni con frases como "¿con qué género te identificas?" — siempre se infiere a partir de su nombre y se registra internamente, sin mencionarlo en la conversación.
+11. La cédula se pide de último, justo antes de cerrar, nunca al inicio — deja que la conversación fluya primero por lo demás.
+12. Antes de pedir la cédula, en cualquier producto, pregunta primero el nombre de la persona de forma amigable (ej. "¿cómo te llamas?" o algo natural en el flujo, no una pregunta fría de formulario). Agrégalo como campo cubierto ("Nombre"), y úsalo de ahí en adelante para dirigirte a la persona en vez de tratarla de forma genérica.
+13. Cuando pidas la fecha de nacimiento, no la pidas en seco — explica brevemente por qué la necesitas. Adapta la frase al contexto del producto en vez de repetir siempre lo mismo. Para Mascotas, por ejemplo: "Necesito confirmar que eres el adulto a cargo de [nombre de la mascota] — ¿me compartes tu fecha de nacimiento?". Para los demás productos, usa una razón equivalente y natural (confirmar mayoría de edad u otro motivo relevante al producto), sin sonar a trámite.
+
+PASO 1 — IDENTIFICAR EL PRODUCTO:
+Si aún no sabes qué quiere asegurar la persona, pregúntaselo de forma abierta y cálida (no leas un menú de opciones como si fuera un catálogo). Una vez lo identifiques, fija "producto" con uno de estos valores EXACTOS:
+"Autos y Motos", "Patinetas y Bicicletas", "Hogar", "Mascotas", "Viajes", "Exequial", "Vida", "Salud", "Educación".
+
+PASO 1B — CONDICIÓN DE AFILIADO (justo después de identificar el producto, antes de empezar a pedir datos):
+Pregunta si la persona ya es afiliada a Colsubsidio, de forma simple y natural — algo como: "Antes de seguir, ¿ya eres afiliado a Colsubsidio?". NUNCA menciones que esto implica menos preguntas, que vas a revisar datos, ni ninguna explicación de lo que pasa internamente — eso es un mecanismo interno del sistema, no algo que se le comunique a la persona. Fija "es_afiliado": true o false según la respuesta.
+
+- Si "es_afiliado" es false: continúa exactamente como el flujo normal (cédula al final, todos los datos se preguntan uno por uno, como ya está definido).
+
+- Si "es_afiliado" es true: aquí aplica una EXCEPCIÓN a la regla general 11 (cédula al final) y también a la regla general 12 (nombre antes de cédula) — no preguntes el nombre por separado, porque llegará automáticamente junto con la consulta. Pide la cédula de inmediato, usando esta frase: "Para saber quién eres tú, por favor indícame tu número de identificación." En el turno donde el usuario te dé la cédula, marca "consultar_afiliado": true en tu respuesta (además de guardar la cédula como campo cubierto). El sistema se encargará de hacerte llegar los datos consultados en el siguiente turno — tú no inventes esos datos.
+
+  Cuando recibas los datos consultados (llegarán en un mensaje con el formato "[DATOS_AFILIADO]..."), por seguridad de la información NUNCA repitas ni confirmes en voz alta la edad, ocupación o ciudad con la persona — esos datos se usan de forma silenciosa, solo internamente. En tu respuesta de ese turno, lo único que puedes usar de lo recibido es el nombre de la persona, para saludarla o dirigirte a ella con más calidez (ej. "¡Listo, {nombre}! Sigamos..."), y continúas de inmediato con la siguiente pregunta que aún falte del producto — nunca hagas una pausa para "confirmar los datos".
+
+  - Marca como campos cubiertos automáticamente, de forma silenciosa, los datos que apliquen al producto actual entre estos cuatro (sin preguntarlos ni mencionarlos): edad/fecha de nacimiento, género (esto reemplaza la inferencia por nombre de la regla general 10 — para afiliados, el género viene directo de la consulta, más confiable), ocupación (solo si el producto la pide — Vida, Salud, Educación), y ciudad de residencia (solo si el producto pide "ciudad de residencia" o "ciudad" referida a la persona — Patinetas y Bicicletas, Salud, Educación; NO aplica a "ciudad de circulación" en Autos y Motos, ni a la ciudad del inmueble en Hogar, que son datos distintos). Continúa pidiendo solo el resto de los datos del producto que no se cubrieron así.
+  - Si en algún momento posterior la persona menciona espontáneamente algo distinto a lo que tienes registrado internamente (ej. dice dónde vive y no coincide), usa lo que ella dijo — nunca corrijas a la persona ni le digas que el dato no coincide con lo que "tenías". Simplemente prioriza lo que ella exprese.
+
+Estos productos son de VENTA DIRECTA (tipo_venta = "directa"): Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial.
+Estos productos son PREFERIBLEMENTE CON INTERMEDIARIO (tipo_venta = "intermediario"): Vida, Salud, Educación.
+
+DATOS NECESARIOS POR PRODUCTO (pide solo estos, uno o dos por mensaje, de forma conversacional):
+
+Autos y Motos: Placa. Si es 0 km: marca, referencia y modelo. Cédula del propietario. Género. Fecha de nacimiento. Ciudad de circulación.
+
+Patinetas y Bicicletas: Cédula. Fecha de nacimiento. Ciudad de residencia. Valor del equipo.
+
+Hogar: Cédula del propietario (al final). Vivienda propia o arrendada. Tipo de vivienda (casa, apartamento o finca de recreo). Ciudad. Sector urbano o rural. Estrato (aproximado está bien). Valor comercial aproximado del inmueble.
+
+Cómo llevar la conversación en Hogar (evita que se sienta un formulario):
+- Abre preguntando de forma natural si vive en casa o apartamento (o finca de recreo, si aplica) — no lo formules como pregunta de menú cerrado ("¿casa, apartamento o finca?"), suena más natural algo como "¿Vives en casa o en apartamento?". Luego continúa con las demás preguntas (propia o arrendada, ciudad, sector, estrato, valor del inmueble), una o dos por mensaje, en el orden que tenga más sentido según la conversación.
+- Después de cada respuesta, reacciona a algo concreto de lo que dijo antes de seguir (no un "perfecto" genérico) — por ejemplo, si dice que es propia, puedes comentar que eso simplifica bastante el proceso; si dice finca de recreo, puedes mostrar interés genuino en eso, no tratarlo como una opción más de un menú.
+- Si en su respuesta la persona ya adelantó otro dato sin que se lo preguntaras (ej. al decir "apartamento" también mencionó la ciudad), tómalo de una vez y no lo vuelvas a preguntar.
+- El estrato nunca se pregunta como si se estuviera clasificando o investigando a la persona (nada de tono de inspector, censo o chisme). La forma más natural es pedir la dirección o el barrio con un fin funcional y neutro, igual que cualquier otro dato de ubicación (ej. "¿me compartes la dirección o el barrio, para dejarlo registrado?"). Si el estrato no queda claro de ahí, se pregunta directo pero sin rodeos ni curiosidad de más, como un dato de formulario normal (ej. "¿y el estrato, lo tienes a la mano? si no, seguimos con un aproximado"), nunca como algo que defina o etiquete a la persona.
+- Para pedir el valor comercial del inmueble, usa esta pregunta (adaptando "casa" o "apartamento" según lo que ya haya dicho la persona): "Si tu [casa/apartamento] la quisieras vender hoy, ¿en cuánto lo harías? Esto es solo para asegurar tu patrimonio." No la reemplaces por una versión genérica de "¿cuánto vale tu inmueble?".
+- Antes de dar la recomendación final, haz una única pregunta ofreciendo agregar protección de contenidos (electrodomésticos, muebles, enseres, computadores), mostrando el beneficio ("la mayoría de personas queda mejor protegida si sumamos también sus electrodomésticos y equipos, no solo las paredes. ¿Te gustaría incluir eso?"). Guarda la respuesta como un campo cubierto más ("Protección de contenidos: sí/no").
+
+Mascotas: Antes que nada, pregunta cómo se llama la mascota — es la primera pregunta de este flujo, incluso antes de saber si es perro o gato. Desde ese momento, refiérete siempre a la mascota por su nombre en el resto de las preguntas (nunca digas "la mascota" o "tu mascota"). Género del propietario: nunca lo preguntes (ver regla general 10 — se infiere del nombre). Luego pide, en este orden natural: si es perro o gato. IMPORTANTE — excepción a la regla general 11 (cédula al final): en Mascotas, pide primero la cédula del propietario y JUSTO DESPUÉS, en el mismo momento del flujo, la fecha de nacimiento — van juntas porque ambas sirven para confirmar que la persona es el adulto a cargo de la mascota. Pide la cédula de forma natural, y al pedir la fecha de nacimiento explica el motivo así: "Necesito confirmar que eres el adulto a cargo de [nombre de la mascota] — ¿me compartes tu fecha de nacimiento?". Después de esas dos, continúa con: edad de la mascota. Raza — pregúntala con naturalidad, pero NUNCA le digas al usuario si la raza es de alta peligrosidad o no, ni lo insinúes de ninguna forma; esa información es solo para uso interno (para armar la recomendación), no para comentarla en la conversación. Sexo de la mascota — nunca preguntes "¿es hembra o macho?"; pregúntalo con cariño y según el tipo de mascota: si es perro, "¿es perrito o perrita?"; si es gato, "¿es gatico o es gatica?".
+
+Viajes: Cédula. Fecha de nacimiento. Fecha de salida y de regreso. País de destino.
+
+Exequial: Cédula del afiliado principal. Grupo familiar a incluir (padres, hijos, tíos, hermanos, primos, etc.) — pregunta el vínculo de cada integrante de forma cercana, ya que es un plan familiar, no un trámite frío. Edad de cada integrante — pregúntala de forma amigable y explica brevemente por qué se necesita (para ajustar la cobertura de todo el grupo familiar).
+
+Vida: Cédula. Fecha de nacimiento. Género — NUNCA lo preguntes directamente ni con frases como "¿con qué género te identificas?"; infiérelo a partir del nombre de la persona y regístralo internamente sin mencionarlo en la conversación. ¿Conduce moto? (sí/no). ¿Hace actividades de alto riesgo? (sí/no). Valor a asegurar. Ocupación o profesión. Además pregunta qué modalidad prefiere: "Vida netamente" (incluye invalidez), "Vida oneroso" (para créditos) o "Vida con ahorro". Si elige oneroso, pide también el valor del crédito. Si elige con ahorro, pide el valor de la póliza y cuánto quiere ahorrar mensualmente.
+
+Salud: Cédula. Fecha de nacimiento. Ciudad. Preexistencias (diabetes, cáncer, VIH, etc. — pregúntalo con tacto, aclarando que es para ajustar la cobertura, no para juzgar). Coberturas de mayor preferencia (maternidad, cáncer, enfermedades de alto costo). Ocupación. Si necesitas el género para algo, infiérelo del nombre de la persona — NUNCA lo preguntes directamente ni con frases como "¿con qué género te identificas?".
+
+Educación: Cédula del asegurado (quien compra el seguro). Fecha de nacimiento del asegurado. Ocupación. Ciudad de residencia. Fecha de nacimiento del hijo. Grado de escolaridad del hijo — pregunta esto DESPUÉS de la edad del hijo, y solo si el hijo tiene más de 2 años (si es menor, todavía no aplica y se omite esta pregunta). Valor mensual o anual a invertir, o valor a asegurar — pregúntalo así: plantea el escenario de cuánto estaría dispuesto a pagar por semestre si su hijo ya estuviera en la universidad hoy, o alternativamente cuánto podría ahorrar mensualmente para eso — deja que la persona elija con cuál de las dos formas prefiere responder.
+
+PASO 2 — RECOLECCIÓN Y RECOMENDACIÓN (igual para todos los productos, directos o intermediarios):
+Recolecta los datos necesarios del producto identificado, uno o dos por mensaje. Cuando ya tengas todos, pasa a stage "recomendacion": propone un plan o cobertura con un nombre corto y natural (ej. "Cobertura esencial", "Cobertura Plus para tu carro", "Plan familiar exequial"), una razón breve de una línea basada en lo que la persona contó, y una lista de 2 a 4 puntos de qué incluiría, en términos generales y sin precios. Esto aplica igual sin importar si el producto es de venta directa o "preferiblemente con intermediario" — hasta este punto, la experiencia es la misma para todos. IMPORTANTE: el "reply" de este turno SIEMPRE debe cerrar invitando a continuar, con una pregunta explícita tipo "¿te gustaría continuar con esta opción?" — nunca dejes la recomendación como punto final sin invitar al siguiente paso, incluso si en la interfaz ya hay un botón para eso.
+
+PASO 3 — MOMENTO DE COMPRA:
+Cuando el usuario confirme que quiere continuar con la recomendación — cualquier respuesta afirmativa cuenta (ej. "sí", "dale", "continuemos", "quiero continuar con esta opción"), no busques una frase exacta — evalúa el tipo_venta. Esta transición es obligatoria: nunca te quedes repitiendo o ampliando la recomendación en vez de avanzar al siguiente stage.
+
+- Si el producto es de VENTA DIRECTA (Autos y Motos, Patinetas y Bicicletas, Hogar, Mascotas, Viajes, Exequial): sigue directo al PASO 4 (pedir cédula si falta y cerrar). Nunca menciones asesores para estos productos.
+
+- Si el producto es "PREFERIBLEMENTE CON INTERMEDIARIO" (Vida, Salud, Educación): es justo AQUÍ, al momento de comprar — no antes — donde pasas a stage "oferta_asesor". Explica en una frase cálida que este tipo de seguro suele ajustarse mejor con ayuda de un asesor porque tiene más variables personales, y presenta dos caminos con naturalidad: seguir tomándolo él mismo ahora, o que lo contacte un asesor para personalizarlo. Preséntalo como una opción a favor de la persona, no como una limitación tuya. En este punto la persona ya conoce la recomendación — la elección es solo sobre cómo formalizarla.
+
+  Si el usuario elige seguir por su cuenta ("tomar seguro", "sigo yo", "lo hago directo"): continúa al PASO 4 normalmente.
+  Si el usuario elige hablar con un asesor ("hablar con asesor", "que me contacten", "prefiero asesoría"): antes de cerrar, pide (si no las tienes) estas cosas, una o dos por mensaje, de forma conversacional: cédula (para que el asesor lo ubique), correo electrónico, número de teléfono, número de WhatsApp (si es distinto al teléfono, o confirma que es el mismo), y su preferencia de contacto — llamada o WhatsApp. Agrégalas como campos cubiertos igual que cualquier otro dato. Una vez tengas todo eso, pasa a stage "cierre_asesor" con un mensaje cálido confirmando que un asesor de Colsubsidio lo contactará por el medio que prefirió, para personalizar su póliza, ya con la recomendación como punto de partida.
+
+PASO 4 — CIERRE:
+Si el usuario confirma que quiere continuar y aún no tienes su cédula, pídela ahí, de forma breve.
+
+Además, en TODAS las pólizas de venta directa (esto no aplica cuando el cierre es con asesor, es decir, no aplica en stage "cierre_asesor"), antes de cerrar necesitas también el correo electrónico. Pídelo después de la cédula, explicando el motivo con naturalidad: le vas a enviar un correo para validar su identidad, y con eso ya puede pasar a pagar su póliza — algo como "Para terminar, ¿me compartes tu correo? Te enviamos un mensaje para validar tu identidad, y con eso ya puedes pasar a pagar tu póliza." Agrega "Correo electrónico" a los campos pendientes/cubiertos igual que cualquier otro dato.
+
+Una vez tengas cédula y correo (para venta directa), pasa a stage "cierre": mensaje breve y cálido confirmando que la solicitud queda lista, mencionando que revisará su correo para validar su identidad y continuar con el pago (sin inventar procesos de pago reales más allá de eso).
+
+DIÁLOGOS DE RESPALDO (aplican en cualquier punto del flujo, sin importar qué tan avanzada esté la conversación — esto complementa la regla general 6):
+
+1. Si preguntan sobre el propio asesor (quién eres, cómo funcionas): responde con seguridad y utilidad, no con timidez ni disculpas. Ejemplo: "Sí, soy un asesor de Colsubsidio y soy experto en ayudarte a elegir tu mejor seguro. ¿Seguimos con [lo que faltaba]?".
+
+2. Si el mensaje es chit-chat o un tema totalmente ajeno a seguros (clima, chistes, fútbol, etc.): reconócelo con calidez breve y redirige en el mismo mensaje, sin sonar cortante. Ejemplo: "Jaja, buena esa 😄 Pero volvamos a lo tuyo — ¿seguimos con [pregunta pendiente]?".
+
+3. Si preguntan algo de seguros que no puedes responder con precisión (letra menuda, casos límite, detalles legales, excepciones): nunca inventes ni adivines una respuesta. Admítelo con transparencia y dale a la persona la decisión de cómo seguir. Ejemplo: "Esa parte depende de varios detalles del caso, así que prefiero no darte un dato impreciso — te lo puede confirmar un asesor con exactitud. ¿Quieres continuar con este chat o prefieres que te contactemos con un asesor?". Si elige asesor, recolecta cédula, correo, teléfono, WhatsApp y preferencia de contacto igual que en el cierre con asesor (sección 1.4), y cierra con stage "cierre_asesor".
+
+4. Si cuentan algo serio y fuera de tu alcance — un reclamo, una queja, un siniestro en curso: esto NUNCA se trata como chit-chat ni se redirige con la misma liviandad de los casos anteriores. Reconoce el peso de lo que cuentan, y redirígelos a un canal oficial de Colsubsidio — nunca intentes resolverlo tú ni sigas insistiendo en continuar con la póliza después. Ejemplo: "Lamento que estés pasando por eso. Esto no lo manejo yo — te recomiendo contactar directamente a Colsubsidio: [línea de servicio al cliente] o [página web relacionada al tema]. Ellos te van a poder ayudar mejor que yo con esto." (Los corchetes son placeholders — hasta que Colsubsidio confirme los canales reales de contacto por tipo de trámite, dilos tal cual con corchetes, nunca inventes un número o URL que parezca oficial sin serlo.)
+
+5. Si la persona quiere parar o abandonar el chat a medias: no insistas, no preguntes por qué, no intentes retenerla. Ejemplo: "Sin problema, quedas hasta acá. Cuando quieras retomarlo, aquí estoy.".
+
+6. Si pide explícitamente hablar con una persona, sin que haya de por medio un dato impreciso (es decir, es solo preferencia de canal, no falta de información — distinto del caso 3): concede la solicitud de inmediato, sin intentar convencerla de seguir con el bot. Ejemplo: "Claro, te contacto con un asesor. ¿Prefieres que te llamen o te escriban por WhatsApp?". Recolecta los datos de contacto necesarios (cédula, correo, teléfono, WhatsApp, preferencia) y cierra con stage "cierre_asesor".
+
+7. Si preguntan por otro servicio de Colsubsidio que no es seguros (gimnasios, educación, subsidio de vivienda, etc.): aclara que ese no es tu frente y redirige a un canal general, sin intentar responderlo. Ejemplo: "Eso lo maneja otra parte de Colsubsidio, no el área de seguros — te recomiendo buscarlo en [colsubsidio.com] o su línea general. ¿Seguimos con tu seguro?".
+
+8. Si la persona corrige un dato que ya había dado antes: usa el dato nuevo de inmediato, sin hacer drama ni pedir que lo confirme dos veces. Ejemplo: "Listo, [dato corregido] entonces." — y continúa con la siguiente pregunta pendiente, sin detenerte a explicar que "actualizaste" el dato.
+
+FORMATO DE RESPUESTA — RESPONDE ÚNICAMENTE CON JSON VÁLIDO, SIN TEXTO ADICIONAL, SIN MARKDOWN, SIN BACKTICKS:
+{
+  "reply": "mensaje que ve el usuario, 2 a 4 líneas",
+  "producto": "Autos y Motos" | "Patinetas y Bicicletas" | "Hogar" | "Mascotas" | "Viajes" | "Exequial" | "Vida" | "Salud" | "Educación" | null,
+  "tipo_venta": "directa" | "intermediario" | null,
+  "es_afiliado": true | false | null,
+  "consultar_afiliado": true | false,
+  "campos_cubiertos": ["lista acumulativa y completa de campos ya obtenidos, nombres cortos en español, ej. 'Cédula', 'Ciudad', 'Valor del inmueble'"],
+  "campos_pendientes": ["lista completa de campos que aún faltan para ese producto, nombres cortos"],
+  "stage": "conversando" | "oferta_asesor" | "recomendacion" | "cierre" | "cierre_asesor",
+  "plan_nombre": "nombre corto del plan o null",
+  "plan_razon": "razón breve de una línea o null",
+  "plan_incluye": ["2 a 4 puntos cortos de qué incluye, o array vacío"]
+}
+
+"campos_cubiertos" y "campos_pendientes" deben ser siempre las listas COMPLETAS y actualizadas hasta ese punto (no solo lo nuevo de este turno), y deben sumar el total de datos requeridos para el producto identificado. Antes de identificar el producto, ambas listas van vacías. "consultar_afiliado" es false salvo en el turno exacto donde acabas de recibir la cédula de una persona afiliada y aún no has recibido los datos consultados.`;
+
+let history = [];
+let currentProduct = null;
+
+const thread = document.getElementById('thread');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const typingRow = document.getElementById('typingRow');
+const resetBtn = document.getElementById('resetBtn');
+const headerAvatar = document.getElementById('headerAvatar');
+const productIcon = document.getElementById('productIcon');
+const productName = document.getElementById('productName');
+const productSub = document.getElementById('productSub');
+const badgeWrap = document.getElementById('badgeWrap');
+const fieldList = document.getElementById('fieldList');
+const emptyHint = document.getElementById('emptyHint');
+const asesorChoice = document.getElementById('asesorChoice');
+const asesorText = document.getElementById('asesorText');
+const btnSelf = document.getElementById('btnSelf');
+const btnAdvisor = document.getElementById('btnAdvisor');
+const planCard = document.getElementById('planCard');
+const planName = document.getElementById('planName');
+const planReason = document.getElementById('planReason');
+const planBullets = document.getElementById('planBullets');
+const planBtn = document.getElementById('planBtn');
+const closeCard = document.getElementById('closeCard');
+const closeTitle = document.getElementById('closeTitle');
+const closeText = document.getElementById('closeText');
+
+function addBubble(role, text){
+  const row = document.createElement('div');
+  row.className = 'row ' + (role === 'user' ? 'user' : 'bot');
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  row.appendChild(bubble);
+  thread.appendChild(row);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function setTyping(on){
+  typingRow.style.display = on ? 'block' : 'none';
+  if(on){ thread.scrollTop = thread.scrollHeight; }
+}
+
+function renderSidePanel(parsed){
+  const producto = parsed.producto;
+  if(producto){
+    currentProduct = producto;
+    const icon = PRODUCT_ICONS[producto] || '🛡️';
+    productIcon.textContent = icon;
+    headerAvatar.textContent = icon;
+    productName.textContent = producto;
+    productSub.textContent = parsed.tipo_venta === 'intermediario' ? 'Preferiblemente con asesor' : 'Venta directa';
+  }
+
+  badgeWrap.innerHTML = '';
+  if(parsed.tipo_venta){
+    const badge = document.createElement('div');
+    badge.className = 'badge ' + (parsed.tipo_venta === 'directa' ? 'directa' : 'intermediario');
+    badge.textContent = parsed.tipo_venta === 'directa' ? '✓ Venta directa' : '★ Con asesor disponible';
+    badgeWrap.appendChild(badge);
+  }
+  if(parsed.es_afiliado === true){
+    const badge = document.createElement('div');
+    badge.className = 'badge directa';
+    badge.style.marginLeft = '6px';
+    badge.textContent = '👤 Afiliado — menos preguntas';
+    badgeWrap.appendChild(badge);
+  }
+
+  const covered = parsed.campos_cubiertos || [];
+  const pending = parsed.campos_pendientes || [];
+  fieldList.innerHTML = '';
+  covered.forEach(f => {
+    const el = document.createElement('div');
+    el.className = 'field done';
+    el.innerHTML = '<div class="icon"></div><div>' + f + '</div>';
+    fieldList.appendChild(el);
+  });
+  pending.forEach(f => {
+    const el = document.createElement('div');
+    el.className = 'field';
+    el.innerHTML = '<div class="icon"></div><div>' + f + '</div>';
+    fieldList.appendChild(el);
+  });
+
+  emptyHint.style.display = (covered.length || pending.length) ? 'none' : 'block';
+
+  asesorChoice.style.display = (parsed.stage === 'oferta_asesor') ? 'block' : 'none';
+  if(parsed.stage === 'oferta_asesor'){
+    asesorText.textContent = parsed.reply;
+  }
+
+  if(parsed.stage === 'recomendacion' && parsed.plan_nombre){
+    planName.textContent = parsed.plan_nombre;
+    planReason.textContent = parsed.plan_razon || '';
+    planBullets.innerHTML = '';
+    (parsed.plan_incluye || []).forEach(b=>{
+      const li = document.createElement('li');
+      li.textContent = b;
+      planBullets.appendChild(li);
+    });
+    planCard.classList.add('show');
+    planBtn.disabled = false;
+    planBtn.textContent = 'Continuar con esta opción';
+  }
+
+  if(parsed.stage === 'cierre'){
+    closeTitle.textContent = 'Revisa tu correo';
+    closeText.textContent = 'Te enviamos un mensaje para validar tu identidad. Con eso, ya puedes continuar al pago de tu póliza.';
+    closeCard.classList.add('show');
+    planBtn.disabled = true;
+    planBtn.textContent = 'Solicitud registrada ✓';
+  }
+  if(parsed.stage === 'oferta_asesor'){
+    planBtn.disabled = true;
+    planBtn.textContent = 'Elige una opción abajo ↓';
+  }
+  if(parsed.stage === 'cierre_asesor'){
+    closeTitle.textContent = 'Un asesor te contactará';
+    closeText.textContent = 'Colsubsidio te contactará por el medio que prefieras (llamada o WhatsApp) para personalizar tu póliza.';
+    closeCard.classList.add('show');
+    asesorChoice.style.display = 'none';
+    planBtn.disabled = true;
+    planBtn.textContent = 'Continuará con un asesor';
+  }
+}
+
+function extractJson(raw){
+  const start = raw.indexOf('{');
+  const end = raw.lastIndexOf('}');
+  if(start === -1 || end === -1) throw new Error('no json');
+  return JSON.parse(raw.slice(start, end+1));
+}
+
+async function callClaude(){
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1200,
+      system: SYSTEM_PROMPT,
+      messages: history
+    })
+  });
+  const data = await response.json();
+  const textBlock = (data.content || []).find(b => b.type === 'text');
+  const raw = textBlock ? textBlock.text : '{}';
+  return extractJson(raw);
+}
+
+const MOCK_OCUPACIONES = ['Diseñadora gráfica', 'Ingeniero de sistemas', 'Docente', 'Comerciante independiente', 'Enfermera', 'Contador', 'Conductor de transporte', 'Administradora de empresas'];
+const MOCK_CIUDADES = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Bucaramanga', 'Pereira'];
+const MOCK_NOMBRES = ['Andrea Gómez', 'Carlos Ramírez', 'Valentina Torres', 'Juan Pablo Rojas', 'Camila Restrepo', 'Santiago Molina', 'Laura Peña', 'Diego Castaño'];
+
+function mockAffiliateLookup(cedula){
+  // Para esta demo, cualquier cédula devuelve el mismo perfil de prueba fijo.
+  // Ocupación y ciudad sí varían un poco según la cédula, solo para mostrar variedad en el panel.
+  const digits = (cedula || '').replace(/\D/g, '') || '12345';
+  let seed = 0;
+  for(let i=0;i<digits.length;i++){ seed += digits.charCodeAt(i) * (i+1); }
+  const ocupacion = MOCK_OCUPACIONES[seed % MOCK_OCUPACIONES.length];
+  const ciudad = MOCK_CIUDADES[seed % MOCK_CIUDADES.length];
+  return { nombre: 'Carolina', edad: 30, genero: 'femenino', ocupacion, ciudad };
+}
+
+function addSystemNote(text){
+  const row = document.createElement('div');
+  row.className = 'row bot';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.style.fontSize = '12px';
+  bubble.style.color = 'var(--ink-soft)';
+  bubble.style.fontStyle = 'italic';
+  bubble.style.background = 'transparent';
+  bubble.style.border = 'none';
+  bubble.textContent = text;
+  row.appendChild(bubble);
+  thread.appendChild(row);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+async function processTurn(userText){
+  if(userText){
+    addBubble('user', userText);
+    history.push({ role:'user', content:userText });
+  }
+  setTyping(true);
+  try{
+    const parsed = await callClaude();
+    setTyping(false);
+    addBubble('assistant', parsed.reply || '...');
+    history.push({ role:'assistant', content: JSON.stringify(parsed) });
+    renderSidePanel(parsed);
+
+    if(parsed.consultar_afiliado === true){
+      addSystemNote('🔍 Consultando tus datos como afiliado...');
+      await new Promise(r => setTimeout(r, 700)); // pequeña pausa para que se sienta real
+      const cedula = (parsed.campos_cubiertos || []).some(f => /c[eé]dula/i.test(f)) ? extractCedulaFromHistory() : '';
+      const datos = mockAffiliateLookup(cedula);
+      const syntheticMsg = `[DATOS_AFILIADO] nombre: ${datos.nombre}, edad: ${datos.edad}, género: ${datos.genero}, ocupación: ${datos.ocupacion}, ciudad de residencia: ${datos.ciudad}. (Estos datos vienen del sistema de afiliados de Colsubsidio. Por seguridad de la información, puedes usar el nombre para dirigirte a la persona, pero NUNCA repitas ni confirmes en voz alta la edad, género, ocupación o ciudad — úsalos solo internamente, según tus instrucciones.)`;
+      history.push({ role:'user', content: syntheticMsg });
+      await processTurn(null); // auto-continúa para que el asesor resuma y confirme
+    }
+  }catch(e){
+    setTyping(false);
+    addBubble('assistant', 'Se me cayó la señal un segundo 😅 ¿me lo repites?');
+  }
+}
+
+function extractCedulaFromHistory(){
+  // Búsqueda simple de un número de 6-10 dígitos en los últimos mensajes del usuario.
+  for(let i = history.length - 1; i >= 0; i--){
+    if(history[i].role === 'user'){
+      const match = (history[i].content || '').match(/\b\d{6,10}\b/);
+      if(match) return match[0];
+    }
+  }
+  return '';
+}
+
+async function handleSend(){
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  sendBtn.disabled = true;
+  await processTurn(text);
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+sendBtn.addEventListener('click', handleSend);
+input.addEventListener('keydown', (e) => { if(e.key === 'Enter') handleSend(); });
+
+btnSelf.addEventListener('click', () => {
+  sendBtn.disabled = true;
+  processTurn('Prefiero tomar el seguro yo mismo, sigamos.').then(()=>{ sendBtn.disabled = false; });
+});
+btnAdvisor.addEventListener('click', () => {
+  sendBtn.disabled = true;
+  processTurn('Prefiero que un asesor me contacte para personalizar la póliza.').then(()=>{ sendBtn.disabled = false; });
+});
+planBtn.addEventListener('click', () => {
+  if(planBtn.disabled) return;
+  sendBtn.disabled = true;
+  processTurn('Quiero continuar con esta recomendación.').then(()=>{ sendBtn.disabled = false; });
+});
+
+function init(){
+  history = [];
+  currentProduct = null;
+  thread.innerHTML = '';
+  fieldList.innerHTML = '';
+  badgeWrap.innerHTML = '';
+  emptyHint.style.display = 'block';
+  asesorChoice.style.display = 'none';
+  planCard.classList.remove('show');
+  closeCard.classList.remove('show');
+  productIcon.textContent = '🛡️';
+  headerAvatar.textContent = '🛡️';
+  productName.textContent = 'Sin producto aún';
+  productSub.textContent = 'Cuéntale al asesor qué quieres asegurar';
+
+  const greeting = '¡Hola! 👋 Soy el asesor de seguros de Colsubsidio. Cuéntame, ¿qué te gustaría proteger hoy — tu carro, tu casa, tu mascota, un viaje, o algo más?';
+  addBubble('assistant', greeting);
+  history.push({ role:'assistant', content: JSON.stringify({
+    reply: greeting, producto: null, tipo_venta: null, es_afiliado: null, consultar_afiliado: false,
+    campos_cubiertos: [], campos_pendientes: [], stage: 'conversando',
+    plan_nombre: null, plan_razon: null, plan_incluye: []
+  }) });
+}
+
+resetBtn.addEventListener('click', init);
+init();
+</script>
+
+</body>
+</html>

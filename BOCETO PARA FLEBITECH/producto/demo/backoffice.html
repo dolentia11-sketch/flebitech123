@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de Control · Área de Seguros · Colsubsidio · Scala Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#0067B1; --azul-80:#3385C1; --azul-40:#99C2E0; --azul-10:#e8f2f9;
+    --amarillo:#FFD000; --amarillo-40:#FFEC99; --amarillo-10:#fffae6;
+    --grafito:#575756; --grafito-60:#9A9A99; --grafito-20:#DDDDDD;
+    --blanco:#ffffff; --hueso:#f7f9fb; --linea:#e6ebf0;
+    --verde:#1a7a4a; --verde-bg:#e8f5ee;
+    --morado:#5b4a9e; --morado-bg:#efecf9;
+    --rojo:#c0392b; --rojo-bg:#fdf0ee;
+    --f-texto:'Poppins',sans-serif;
+    --sombra:0 6px 24px rgba(0,103,177,.10);
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--f-texto);color:var(--grafito);background:var(--hueso);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{color:#2b2b2a;line-height:1.2}
+  a{color:var(--azul);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* HEADER */
+  .bo-header{background:var(--azul);color:#fff;padding:28px 0 22px}
+  .bo-header .inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .bo-header .brand{display:flex;align-items:center;gap:12px}
+  .bo-header .brand img{height:34px}
+  .bo-header h1{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
+  .bo-header .sub{color:#bfe0f6;font-size:14px;font-weight:500;max-width:66ch}
+  .badge-bo{background:var(--amarillo);color:#3a3a2e;font-weight:800;font-size:12px;padding:5px 12px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:6px}
+
+  /* AVISO DEMO */
+  .aviso-demo{background:var(--amarillo-40);border:1px solid var(--amarillo);border-radius:12px;padding:12px 18px;font-size:13.5px;color:#6b5600;margin:22px 0 0;line-height:1.5}
+  .aviso-demo b{font-weight:800}
+
+  /* KPIs */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:22px 0 6px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:600px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sombra)}
+  .kpi .num{font-size:30px;font-weight:800;color:var(--azul);line-height:1.1}
+  .kpi .lbl{font-size:12.5px;color:var(--grafito-60);font-weight:600;margin-top:4px;line-height:1.3}
+
+  /* TABLA DE LEADS */
+  .panel{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:24px 26px;margin:18px 0;box-shadow:var(--sombra)}
+  .panel h2{font-size:18px;font-weight:800;margin-bottom:4px}
+  .panel .hint{font-size:13px;color:var(--grafito-60);margin-bottom:16px}
+  .tabla-leads{width:100%;border-collapse:collapse;font-size:14px}
+  .tabla-leads th{text-align:left;color:var(--grafito-60);font-weight:600;padding:8px 10px 8px 0;border-bottom:2px solid var(--linea);font-size:12px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .tabla-leads td{padding:11px 10px 11px 0;border-bottom:1px solid var(--linea);vertical-align:middle}
+  .tabla-leads tr:last-child td{border-bottom:none}
+  .tabla-leads tr.clicable{cursor:pointer;transition:background .12s}
+  .tabla-leads tr.clicable:hover{background:var(--azul-10)}
+  .tabla-leads tr.activa{background:var(--azul-10);box-shadow:inset 3px 0 0 var(--azul)}
+  .lead-nombre{font-weight:700;color:#2b2b2a}
+  .lead-sub{font-size:12px;color:var(--grafito-60)}
+  .ver-detalle{font-size:12px;font-weight:700;color:var(--azul);white-space:nowrap}
+  .estado-chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+  .st-conversacion{background:var(--grafito-20);color:var(--grafito)}
+  .st-cotizacion{background:var(--azul-10);color:var(--azul)}
+  .st-acepto{background:var(--verde-bg);color:var(--verde)}
+  .st-remitido{background:var(--amarillo-40);color:#8a6d00}
+  .st-derivado{background:var(--morado-bg);color:var(--morado)}
+  .afinidad-val{font-weight:700;color:var(--azul)}
+  .hora-val{font-size:13px;color:var(--grafito-60);white-space:nowrap}
+
+  /* ESTADO / LOADING */
+  .estado{padding:18px 0;text-align:center;color:var(--grafito-60);font-size:15px}
+  .estado:empty{padding:0}
+  .estado .spinner{display:inline-block;width:22px;height:22px;border:3px solid var(--azul-40);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .estado.error-txt{color:var(--rojo);font-weight:600}
+  .btn-retry{background:var(--azul);color:#fff;border:0;border-radius:10px;padding:9px 20px;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--f-texto);margin-top:10px}
+  .btn-retry:hover{background:var(--azul-80)}
+
+  /* BLOQUES DE DETALLE */
+  .detalle{padding:6px 0 40px}
+  .bloque{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--sombra)}
+  .bloque-titulo{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--grafito-60);margin-bottom:6px}
+  .bloque h2{font-size:19px;font-weight:800;margin-bottom:18px;color:#2b2b2a;display:flex;align-items:center;gap:10px}
+  .bloque h2 .icono{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .icono-perfil{background:var(--azul-10);color:var(--azul)}
+  .icono-expediente{background:var(--verde-bg);color:var(--verde)}
+  .icono-reporte{background:var(--amarillo-10);color:#8a6d00}
+
+  /* TABLA PERFIL */
+  .tabla-perfil{width:100%;border-collapse:collapse;font-size:14px}
+  .tabla-perfil th{text-align:left;color:var(--grafito-60);font-weight:600;padding:8px 12px 8px 0;border-bottom:2px solid var(--linea);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  .tabla-perfil td{padding:9px 12px 9px 0;border-bottom:1px solid var(--linea);vertical-align:middle}
+  .tabla-perfil tr:last-child td{border-bottom:none}
+  .tabla-perfil .var{font-weight:700;color:var(--azul);width:48px;font-size:12px;font-family:ui-monospace,monospace}
+  .tabla-perfil .etiqueta{color:var(--grafito);font-weight:600;width:280px}
+  .tabla-perfil .valor{color:#2b2b2a}
+  .chip{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12px;font-weight:700;margin-left:4px}
+  .chip-si{background:var(--verde-bg);color:var(--verde)}
+  .chip-no{background:var(--grafito-20);color:var(--grafito)}
+  .chip-afiliado{background:var(--azul-10);color:var(--azul)}
+  .chip-intention{background:var(--amarillo-40);color:#8a6d00}
+  .chips-row{margin-top:14px;padding-top:14px;border-top:1px solid var(--linea);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .nota-legal{margin-top:14px;padding-top:14px;border-top:1px solid var(--linea);font-size:12.5px;color:var(--grafito-60)}
+
+  /* EXPEDIENTE */
+  .ficha-wrap{font-size:14px;line-height:1.7}
+  .ficha-titulo{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--azul);margin:20px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--azul-10)}
+  .ficha-titulo:first-child{margin-top:0}
+  .ficha-linea{padding:4px 0;color:var(--grafito);border-bottom:1px solid var(--linea)}
+  .ficha-linea:last-child{border-bottom:none}
+  .ficha-linea b{color:#2b2b2a;font-weight:600}
+  .ficha-meta{background:var(--hueso);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--grafito)}
+  .ficha-meta strong{color:var(--azul)}
+  .badge-score{background:var(--azul-10);color:var(--azul);font-weight:700;padding:4px 12px;border-radius:999px;font-size:13px;display:inline-block}
+  .badge-modo{background:var(--amarillo-40);color:#8a6d00;font-weight:700;padding:4px 12px;border-radius:999px;font-size:13px;display:inline-block;margin-left:6px}
+  .badge-linea{background:var(--verde-bg);color:var(--verde);font-weight:700;padding:4px 12px;border-radius:999px;font-size:13px;display:inline-block;margin-left:6px}
+
+  /* COMPARACIÓN HOY vs AMPARITO */
+  .comparacion{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  @media(max-width:720px){.comparacion{grid-template-columns:1fr}}
+  .comp-card{border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.5}
+  .comp-hoy{background:var(--hueso);border:1px dashed var(--grafito-20);color:var(--grafito)}
+  .comp-amparito{background:var(--azul-10);border:1px solid var(--azul-40);color:#2b2b2a}
+  .comp-card .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:8px}
+  .comp-hoy .tag{background:var(--grafito-20);color:var(--grafito)}
+  .comp-amparito .tag{background:var(--azul);color:#fff}
+
+  /* AVISO SIMULACIÓN */
+  .aviso-simulacion{background:var(--amarillo-40);border:2px solid var(--amarillo);border-radius:12px;padding:14px 18px;font-size:14px;color:#6b5600;margin-bottom:16px;line-height:1.5}
+  .aviso-simulacion b{font-weight:800}
+
+  /* FILA DE PLANILLA */
+  .planilla-scroll{overflow-x:auto;border:1px solid var(--linea);border-radius:12px}
+  .planilla{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+  .planilla th{background:var(--hueso);text-align:left;color:var(--grafito);font-weight:700;padding:10px 14px;border-bottom:2px solid var(--linea);font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  .planilla td{padding:12px 14px;color:#2b2b2a;vertical-align:top}
+  .planilla td.pend{font-size:12.5px;line-height:1.5;color:var(--grafito);min-width:220px}
+  .btn-copiar{background:var(--amarillo);color:#3a3a2e;border:0;border-radius:10px;padding:10px 20px;font-weight:800;font-size:14px;cursor:pointer;font-family:var(--f-texto);margin-top:14px;box-shadow:0 4px 12px rgba(255,208,0,.3)}
+  .btn-copiar:hover{filter:brightness(1.04)}
+  .btn-copiar.copiado{background:var(--verde);color:#fff}
+
+  /* RESPONSIVE */
+  @media(max-width:720px){
+    .bo-header h1{font-size:18px}
+    .tabla-perfil .etiqueta{width:auto}
+    .bloque{padding:18px}
+    .bloque h2{font-size:16px}
+    .panel{padding:16px}
+    .tabla-leads .col-oculta-movil{display:none}
+  }
+
+  /* FOOTER */
+  footer{background:#0e1b28;color:#9fb8cc;padding:28px 0;font-size:13px;margin-top:8px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:center}
+  footer a{color:#bfe0f6}
+  .footer-brand{display:flex;align-items:center;gap:10px}
+  .footer-brand img{height:32px;filter:invert(1) brightness(2)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="bo-header">
+  <div class="wrap">
+    <div class="inner">
+      <div>
+        <div class="brand">
+          <img src="colsubsidio-blanco.png" alt="Colsubsidio">
+          <div>
+            <h1>Centro de Control · Área de Seguros</h1>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:6px">La vista del asesor Colsubsidio sobre Amparito — qué está pasando con los afiliados que cotizan, quiénes aceptaron y qué se le reporta a la aseguradora</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <a href="index.html" style="color:#fff;font-weight:600;font-size:14px;text-decoration:none;border:1px solid rgba(255,255,255,.5);border-radius:9px;padding:7px 14px">← Volver al chat</a>
+        <span class="badge-bo">Vista de jurados</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="aviso-demo">
+    <b>Vista de demostración</b> — datos de ejemplo; en producción se alimenta de la base de interacciones del chat. Los leads con "Ver detalle" consultan el motor real en vivo.
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis" id="kpis"></div>
+
+  <!-- TABLA DE LEADS -->
+  <div class="panel">
+    <h2>Leads del día</h2>
+    <p class="hint">Haz clic en un lead con perfil completo para abrir su expediente (llamada en vivo al motor determinista).</p>
+    <div style="overflow-x:auto">
+      <table class="tabla-leads">
+        <thead>
+          <tr>
+            <th>Lead</th>
+            <th>Intención</th>
+            <th>Estado</th>
+            <th class="col-oculta-movil">Afinidad</th>
+            <th class="col-oculta-movil">Hora</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-leads-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ESTADO / LOADING -->
+  <div class="estado" id="estado"></div>
+</div>
+
+<!-- DETALLE DEL LEAD -->
+<div class="detalle wrap" id="contenido" style="display:none">
+
+  <!-- BLOQUE 1: LEAD PERFILADO -->
+  <div class="bloque" id="bloque-perfil">
+    <p class="bloque-titulo">Expediente · bloque 1 de 3</p>
+    <h2><span class="icono icono-perfil">👤</span>Lead perfilado — lo que entregó el afiliado</h2>
+    <table class="tabla-perfil">
+      <thead>
+        <tr>
+          <th>Var.</th>
+          <th>Pregunta capturada</th>
+          <th>Respuesta del afiliado</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-perfil-body"></tbody>
+    </table>
+    <div class="chips-row" id="chips-perfil"></div>
+    <p class="nota-legal">Datos capturados en el chat con autorización previa de tratamiento (Ley 1581 de 2012).</p>
+  </div>
+
+  <!-- BLOQUE 2: EXPEDIENTE DEL MOTOR -->
+  <div class="bloque" id="bloque-expediente">
+    <p class="bloque-titulo">Expediente · bloque 2 de 3</p>
+    <h2><span class="icono icono-expediente">🔍</span>Expediente del motor — lo que recibe Colsubsidio</h2>
+    <div class="ficha-meta" id="ficha-meta"></div>
+    <div class="ficha-wrap" id="ficha-wrap"></div>
+  </div>
+
+  <!-- BLOQUE 3: REPORTE A LA ASEGURADORA -->
+  <div class="bloque" id="bloque-reporte">
+    <p class="bloque-titulo">Expediente · bloque 3 de 3</p>
+    <h2><span class="icono icono-reporte">📋</span>Reporte a la aseguradora — el registro por evento</h2>
+
+    <div class="comparacion">
+      <div class="comp-card comp-hoy">
+        <span class="tag">Hoy</span>
+        <p>Planilla mensual de Google Sheets con todos los leads del mes, consolidada a mano y enviada a la aseguradora <b>una vez al mes</b>.</p>
+      </div>
+      <div class="comp-card comp-amparito">
+        <span class="tag">Con Amparito</span>
+        <p>Este registro se genera <b>en el momento</b> en que el afiliado acepta la cotización, listo para agregarse a la planilla o enviarse por correo a la aseguradora.</p>
+      </div>
+    </div>
+
+    <div class="aviso-simulacion">
+      <b>Simulación del flujo de reporte</b> — el registro se construye con los datos reales del motor; el envío automático (planilla/correo) hace parte del roadmap.
+    </div>
+
+    <div class="planilla-scroll">
+      <table class="planilla">
+        <thead>
+          <tr>
+            <th>Fecha / hora</th>
+            <th>Afiliado</th>
+            <th>Producto</th>
+            <th>Línea</th>
+            <th>Afinidad</th>
+            <th>Modo de cierre</th>
+            <th>Estado</th>
+            <th>Datos pendientes para póliza</th>
+          </tr>
+        </thead>
+        <tbody id="planilla-body"></tbody>
+      </table>
+    </div>
+    <button class="btn-copiar" id="btn-copiar">⧉ Copiar registro</button>
+    <span style="font-size:12.5px;color:var(--grafito-60);margin-left:10px">Formato separado por tabulaciones — se pega directo en Google Sheets.</span>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-brand">
+      <img src="scala-labs.png" alt="Scala Labs">
+      <span>Motor determinista en vivo · scala-labs.onrender.com · Scala Labs</span>
+    </div>
+    <div><a href="index.html">Volver al demo principal</a> · <span style="color:#7fa8c9">Hackathon Colsubsidio × 30X · Reto 02</span></div>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// PERFILES REALES — tomados EXACTOS del index.html
+// ============================================================
+const PERSONAS = {
+  madre: {
+    label: "Madre soltera, 2 hijos",
+    afiliado: true,
+    producto_explicito: null,
+    perfil: {
+      V1: "26-35 años",
+      V2: "Femenino",
+      V3: "Formal dependiente",
+      V4: "Bajo (< $1.3M)",
+      V5: "Monoparental con hijos",
+      V6: "Arrendada",
+      V7: "No",
+      V8: "No tiene",
+      V9: "No",
+      V10: "No",
+      V11: "Sí"
+    }
+  },
+  joven: {
+    label: "Joven en moto, independiente",
+    afiliado: false,
+    producto_explicito: null,
+    perfil: {
+      V1: "18-25 años",
+      V2: "Masculino",
+      V3: "Informal / cuenta propia sin cotización",
+      V4: "Bajo (< $1.3M)",
+      V5: "Soltero(a) sin hijos",
+      V6: "Arrendada",
+      V7: "No",
+      V8: "Moto",
+      V9: "No",
+      V10: "No",
+      V11: "No"
+    }
+  },
+  pareja: {
+    label: "Pareja con casa y carro",
+    afiliado: true,
+    producto_explicito: "hogar",
+    perfil: {
+      V1: "36-45 años",
+      V2: "Femenino",
+      V3: "Formal independiente / profesional",
+      V4: "Alto (> $4.6M)",
+      V5: "Pareja sin hijos",
+      V6: "Propia financiada (hipoteca)",
+      V7: "No",
+      V8: "Carro",
+      V9: "Sí",
+      V10: "No",
+      V11: "No"
+    }
+  }
+};
+
+// ============================================================
+// DATASET DE DEMOSTRACIÓN (rotulado como tal en la interfaz).
+// Las afinidades mostradas provienen de resultados reales del
+// motor (precalculadas con los mismos perfiles de la demo).
+// ============================================================
+const LEADS = [
+  { id: 1, nombre: "Madre soltera, 2 hijos",       sub: "Afiliada · Bogotá",        intencion: "Explorando (sin producto)", estado: "Aceptó",                 afinidad: "61.3%", hora: "09:12", persona: "madre"  },
+  { id: 2, nombre: "Joven en moto, independiente", sub: "No afiliado · Medellín",   intencion: "Movilidad",                 estado: "Cotización enviada",     afinidad: "87.5%", hora: "10:05", persona: "joven"  },
+  { id: 3, nombre: "Afiliado · Soacha",            sub: "Registro de demostración", intencion: "Mascotas",                  estado: "En conversación",        afinidad: null,    hora: "10:47", persona: null     },
+  { id: 4, nombre: "Pareja con casa y carro",      sub: "Afiliada · Bogotá",        intencion: "Hogar",                     estado: "Aceptó",                 afinidad: "95.8%", hora: "11:40", persona: "pareja" },
+  { id: 5, nombre: "Afiliada · Chía",              sub: "Registro de demostración", intencion: "Exequial",                  estado: "Remitido a aseguradora", afinidad: "70.8%", hora: "12:18", persona: null     },
+  { id: 6, nombre: "Afiliada · Bogotá",            sub: "Registro de demostración", intencion: "Educación",                 estado: "Derivado a asesor",      afinidad: "72.0%", hora: "13:02", persona: null     },
+  { id: 7, nombre: "Afiliado · Bogotá",            sub: "Registro de demostración", intencion: "Viajes",                    estado: "En conversación",        afinidad: null,    hora: "13:45", persona: null     },
+  { id: 8, nombre: "No afiliada · Cali",           sub: "Registro de demostración", intencion: "Mascotas",                  estado: "Remitido a aseguradora", afinidad: null,    hora: "14:10", persona: null     }
+];
+
+const ESTADO_CLASE = {
+  "En conversación":        "st-conversacion",
+  "Cotización enviada":     "st-cotizacion",
+  "Aceptó":                 "st-acepto",
+  "Remitido a aseguradora": "st-remitido",
+  "Derivado a asesor":      "st-derivado"
+};
+
+// Etiquetas legibles para las variables del perfil
+const ETIQUETAS = {
+  V1:  "Rango de edad",
+  V2:  "Género",
+  V3:  "Situación laboral",
+  V4:  "Nivel de ingreso mensual",
+  V5:  "Composición familiar",
+  V6:  "Tipo de vivienda",
+  V7:  "¿Es propietario que arrienda un inmueble a terceros?",
+  V8:  "Tenencia de vehículo",
+  V9:  "¿Tiene mascota (perro o gato)?",
+  V10: "¿Usa bicicleta o patineta eléctrica como transporte habitual?",
+  V11: "¿Es jefatura de hogar femenina sin pareja?"
+};
+
+// ============================================================
+// KPIs — calculados del dataset, no quemados
+// ============================================================
+function renderKpis() {
+  const total = LEADS.length;
+  const conCotizacion = LEADS.filter(l =>
+    ["Cotización enviada", "Aceptó", "Remitido a aseguradora", "Derivado a asesor"].includes(l.estado)
+  ).length;
+  const aceptadas = LEADS.filter(l =>
+    ["Aceptó", "Remitido a aseguradora"].includes(l.estado)
+  ).length;
+  const remitidas = LEADS.filter(l => l.estado === "Remitido a aseguradora").length;
+  const derivadas = LEADS.filter(l => l.estado === "Derivado a asesor").length;
+
+  const datos = [
+    { num: total,         lbl: "Conversaciones hoy" },
+    { num: conCotizacion, lbl: "Cotizaciones generadas" },
+    { num: aceptadas,     lbl: "Aceptadas" },
+    { num: remitidas,     lbl: "Remitidas a aseguradora" },
+    { num: derivadas,     lbl: "Derivadas a asesor humano" }
+  ];
+
+  const cont = document.getElementById('kpis');
+  cont.innerHTML = '';
+  datos.forEach(d => {
+    const div = document.createElement('div');
+    div.className = 'kpi';
+    div.innerHTML = `<div class="num">${d.num}</div><div class="lbl">${escHtml(d.lbl)}</div>`;
+    cont.appendChild(div);
+  });
+}
+
+// ============================================================
+// TABLA DE LEADS
+// ============================================================
+function renderTablaLeads() {
+  const tbody = document.getElementById('tabla-leads-body');
+  tbody.innerHTML = '';
+  LEADS.forEach(l => {
+    const tr = document.createElement('tr');
+    if (l.persona) {
+      tr.className = 'clicable';
+      tr.dataset.persona = l.persona;
+      tr.addEventListener('click', () => seleccionarLead(l.persona, tr));
+    }
+    tr.innerHTML = `
+      <td><span class="lead-nombre">${escHtml(l.nombre)}</span><br><span class="lead-sub">${escHtml(l.sub)}</span></td>
+      <td>${escHtml(l.intencion)}</td>
+      <td><span class="estado-chip ${ESTADO_CLASE[l.estado] || ''}">${escHtml(l.estado)}</span></td>
+      <td class="col-oculta-movil">${l.afinidad ? `<span class="afinidad-val">${escHtml(l.afinidad)}</span>` : '<span style="color:var(--grafito-60)">—</span>'}</td>
+      <td class="col-oculta-movil"><span class="hora-val">${escHtml(l.hora)}</span></td>
+      <td>${l.persona ? '<span class="ver-detalle">Ver detalle →</span>' : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// ESTADO GLOBAL / LLAMADA AL MOTOR
+// ============================================================
+let leadActual = null;
+let respuestaMotor = null;
+let retryTimer = null;
+let intentos = 0;
+const MOTOR = "https://scala-labs.onrender.com/recomendar";
+const TIMEOUT_NORMAL = 10000;   // 10s primer intento
+const TIMEOUT_TOTAL  = 90000;   // 90s máximo
+let tiempoInicio = 0;
+
+function mostrarEstado(html, esError) {
+  const el = document.getElementById('estado');
+  el.innerHTML = html;
+  el.className = 'estado' + (esError ? ' error-txt' : '');
+}
+function ocultarEstado() {
+  document.getElementById('estado').innerHTML = '';
+  document.getElementById('estado').className = 'estado';
+}
+function mostrarContenido(visible) {
+  document.getElementById('contenido').style.display = visible ? 'block' : 'none';
+}
+
+async function llamarMotor(lead) {
+  const body = { perfil: lead.perfil, afiliado: lead.afiliado, producto_explicito: lead.producto_explicito || null };
+
+  const elapsed = Date.now() - tiempoInicio;
+  if (elapsed > TIMEOUT_TOTAL) {
+    mostrarEstado(
+      '<span>El motor no respondió en 90 segundos.</span><br>' +
+      '<button class="btn-retry" onclick="reintentar()">Reintentar</button>',
+      true
+    );
+    return;
+  }
+
+  intentos++;
+  const timeout = intentos === 1 ? TIMEOUT_NORMAL : 15000;
+
+  mostrarEstado(
+    elapsed > 3000
+      ? '<span class="spinner"></span> Despertando el motor (plan free de Render, ~30 s)… espera un momento.'
+      : '<span class="spinner"></span> Consultando el motor de recomendación…'
+  );
+
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeout);
+
+    const resp = await fetch(MOTOR, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: ctrl.signal
+    });
+    clearTimeout(t);
+
+    if (!resp.ok) throw new Error('http_' + resp.status);
+
+    const datos = await resp.json();
+    if (!datos || !datos.top || !datos.ficha) throw new Error('respuesta_invalida');
+
+    respuestaMotor = datos;
+    ocultarEstado();
+    renderizar(lead, datos);
+
+  } catch (err) {
+    const elapsed2 = Date.now() - tiempoInicio;
+    if (elapsed2 < TIMEOUT_TOTAL) {
+      const resta = Math.round((TIMEOUT_TOTAL - elapsed2) / 1000);
+      mostrarEstado(
+        '<span class="spinner"></span> Despertando el motor (plan free de Render, ~30 s)… ' +
+        resta + 's restantes. <button class="btn-retry" onclick="llamarMotor(leadActual)">Reintentar ya</button>'
+      );
+      retryTimer = setTimeout(() => llamarMotor(lead), 8000);
+    } else {
+      mostrarEstado(
+        '<span>No se pudo conectar con el motor.</span><br>' +
+        '<button class="btn-retry" onclick="reintentar()">Reintentar</button>',
+        true
+      );
+    }
+  }
+}
+
+function reintentar() {
+  if (!leadActual) return;
+  intentos = 0;
+  tiempoInicio = Date.now();
+  llamarMotor(leadActual);
+}
+
+// ============================================================
+// RENDERIZADO DEL DETALLE
+// ============================================================
+function renderizar(lead, datos) {
+  mostrarContenido(true);
+  renderPerfil(lead, datos);
+  renderExpediente(lead, datos);
+  renderReporte(lead, datos);
+  document.getElementById('bloque-perfil').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// --- BLOQUE 1: PERFIL ---
+function renderPerfil(lead, datos) {
+  const tbody = document.getElementById('tabla-perfil-body');
+  tbody.innerHTML = '';
+
+  Object.entries(lead.perfil).forEach(([k, v]) => {
+    const tr = document.createElement('tr');
+    const esBoolean = v === 'Sí' || v === 'No' || v === 'si' || v === 'no';
+    const chip = esBoolean
+      ? `<span class="chip ${v === 'Sí' || v === 'si' ? 'chip-si' : 'chip-no'}">${v}</span>`
+      : `<span style="color:#2b2b2a">${escHtml(v)}</span>`;
+
+    tr.innerHTML = `
+      <td class="var">${k}</td>
+      <td class="etiqueta">${escHtml(ETIQUETAS[k] || k)}</td>
+      <td class="valor">${chip}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const chips = document.getElementById('chips-perfil');
+  chips.innerHTML = '';
+
+  const chipAfil = document.createElement('span');
+  chipAfil.className = 'chip chip-afiliado';
+  chipAfil.textContent = lead.afiliado ? '✓ Afiliado a Colsubsidio' : '✕ No afiliado';
+  chips.appendChild(chipAfil);
+
+  const chipInt = document.createElement('span');
+  chipInt.className = 'chip chip-intention';
+  chipInt.textContent = lead.producto_explicito
+    ? 'Intención explícita: ' + lead.producto_explicito
+    : 'Sin intención explícita — motor decide';
+  chips.appendChild(chipInt);
+}
+
+// --- BLOQUE 2: EXPEDIENTE ---
+function renderExpediente(lead, datos) {
+  const top = datos.top;
+
+  const meta = document.getElementById('ficha-meta');
+  const modoLabel = top.modo_cierre === 'auto' ? 'Cierre automático en el chat' : 'Con asesor especializado';
+  meta.innerHTML = `
+    <span class="badge-score">Score ${top.score}/${top.max_score} · ${top.pct}% de afinidad</span>
+    <span class="badge-linea">${escHtml(top.linea)}</span>
+    <span class="badge-modo">${modoLabel}</span>
+    <div style="margin-top:8px;font-weight:600">Producto recomendado: <strong style="color:var(--azul)">${escHtml(top.nombre)}</strong> <span style="color:var(--grafito-60);font-size:13px">(${escHtml(top.key)})</span></div>
+  `;
+
+  const wrap = document.getElementById('ficha-wrap');
+  wrap.innerHTML = '';
+  parsearFicha(datos.ficha, wrap);
+}
+
+function parsearFicha(fichaTexto, container) {
+  const lineas = fichaTexto.split('\n');
+  let seccionActual = null;
+  let itemsActuales = [];
+
+  const SECCIONES = {
+    'Perfil capturado:':      'Perfil capturado por el chat',
+    'Por qué este producto:': 'Razonamiento del motor',
+    'Datos para cotizar:':    'Datos pendientes para cotizar',
+    'Siguiente paso:':        'Siguiente paso'
+  };
+
+  function flushSeccion() {
+    if (seccionActual && itemsActuales.length > 0) {
+      const titulo = document.createElement('p');
+      titulo.className = 'ficha-titulo';
+      titulo.textContent = SECCIONES[seccionActual] || seccionActual;
+      container.appendChild(titulo);
+      itemsActuales.forEach(item => {
+        const p = document.createElement('p');
+        p.className = 'ficha-linea';
+        const colonIdx = item.indexOf(':');
+        if (colonIdx > 0 && colonIdx < item.length - 1) {
+          const label = item.substring(0, colonIdx + 1);
+          const valor = item.substring(colonIdx + 1);
+          p.innerHTML = `<b>${escHtml(label)}</b>${escHtml(valor)}`;
+        } else {
+          p.textContent = item;
+        }
+        container.appendChild(p);
+      });
+      itemsActuales = [];
+    }
+  }
+
+  lineas.forEach(raw => {
+    const l = raw.trim();
+    if (!l) return;
+
+    // Cabeceras del documento y meta ya mostrada arriba
+    if (/^FICHA DE CIERRE AUTOMATIZADO|^RESUMEN PARA ASESOR|^Perfilador Colsubsidio/.test(l)) return;
+    if (/^Cliente afiliado|^Producto recomendado:|^Modo de cierre:/.test(l)) return;
+
+    if (SECCIONES[l] !== undefined) {
+      flushSeccion();
+      seccionActual = l;
+      return;
+    }
+
+    if (seccionActual) {
+      itemsActuales.push(l.replace(/^[-—–]\s*/, ''));
+    }
+  });
+
+  flushSeccion();
+
+  // Fallback: formato no reconocido → texto plano limpio
+  if (container.children.length === 0) {
+    lineas.forEach(l => {
+      if (!l.trim()) return;
+      const p = document.createElement('p');
+      p.className = 'ficha-linea';
+      p.textContent = l;
+      container.appendChild(p);
+    });
+  }
+}
+
+// --- BLOQUE 3: FILA DE PLANILLA ---
+let registroActual = null; // para el botón de copiar
+
+function renderReporte(lead, datos) {
+  const top = datos.top;
+  const ahora = new Date();
+  const fechaHora = ahora.toLocaleDateString('es-CO') + ' ' + ahora.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+
+  const datosPendientes = extraerDatosCotizar(datos.ficha);
+  const modoLabel = top.modo_cierre === 'auto' ? 'Automático en el chat' : 'Con asesor especializado';
+
+  registroActual = {
+    fechaHora: fechaHora,
+    afiliado: lead.afiliado ? 'Sí' : 'No',
+    producto: top.nombre,
+    linea: top.linea,
+    afinidad: top.pct + '%',
+    modo: modoLabel,
+    estado: 'Aceptó cotización',
+    pendientes: datosPendientes.join('; ')
+  };
+
+  const tbody = document.getElementById('planilla-body');
+  tbody.innerHTML = `
+    <tr>
+      <td style="white-space:nowrap">${escHtml(registroActual.fechaHora)}</td>
+      <td>${escHtml(registroActual.afiliado)}</td>
+      <td style="font-weight:700;color:var(--azul)">${escHtml(registroActual.producto)}</td>
+      <td>${escHtml(registroActual.linea)}</td>
+      <td style="font-weight:700">${escHtml(registroActual.afinidad)}</td>
+      <td>${escHtml(registroActual.modo)}</td>
+      <td><span class="estado-chip st-acepto">Aceptó cotización</span></td>
+      <td class="pend">${escHtml(registroActual.pendientes)}</td>
+    </tr>
+  `;
+
+  // Reset del botón de copiar
+  const btn = document.getElementById('btn-copiar');
+  btn.classList.remove('copiado');
+  btn.textContent = '⧉ Copiar registro';
+}
+
+function extraerDatosCotizar(ficha) {
+  const lineas = ficha.split('\n');
+  let enSeccion = false;
+  const items = [];
+  lineas.forEach(l => {
+    const t = l.trim();
+    if (/^Datos para cotizar:/.test(t)) { enSeccion = true; return; }
+    if (enSeccion) {
+      if (!t || /^Siguiente paso:|^[A-Z]/.test(t)) { enSeccion = false; return; }
+      const limpio = t.replace(/^[-—–]\s*/, '').replace(/^—\s*/, '');
+      if (limpio) items.push(limpio);
+    }
+  });
+  return items;
+}
+
+// --- COPIAR AL PORTAPAPELES (tab-separated, pegable en Sheets) ---
+document.getElementById('btn-copiar').addEventListener('click', async () => {
+  if (!registroActual) return;
+  const cab = ['Fecha/hora', 'Afiliado', 'Producto', 'Línea', 'Afinidad', 'Modo de cierre', 'Estado', 'Datos pendientes para póliza'];
+  const fila = [
+    registroActual.fechaHora,
+    registroActual.afiliado,
+    registroActual.producto,
+    registroActual.linea,
+    registroActual.afinidad,
+    registroActual.modo,
+    registroActual.estado,
+    registroActual.pendientes
+  ];
+  const tsv = cab.join('\t') + '\n' + fila.join('\t');
+  const btn = document.getElementById('btn-copiar');
+  try {
+    await navigator.clipboard.writeText(tsv);
+    btn.classList.add('copiado');
+    btn.textContent = '✓ Copiado — pégalo en Sheets';
+    setTimeout(() => {
+      btn.classList.remove('copiado');
+      btn.textContent = '⧉ Copiar registro';
+    }, 2500);
+  } catch (e) {
+    btn.textContent = 'No se pudo copiar';
+    setTimeout(() => { btn.textContent = '⧉ Copiar registro'; }, 2000);
+  }
+});
+
+// ============================================================
+// SELECCIÓN DE LEAD
+// ============================================================
+function seleccionarLead(personaKey, fila) {
+  if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+
+  document.querySelectorAll('.tabla-leads tr').forEach(tr => tr.classList.remove('activa'));
+  if (fila) fila.classList.add('activa');
+
+  leadActual = PERSONAS[personaKey];
+  respuestaMotor = null;
+  intentos = 0;
+  tiempoInicio = Date.now();
+  mostrarContenido(false);
+  llamarMotor(leadActual);
+}
+
+// ============================================================
+// UTILIDADES
+// ============================================================
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderKpis();
+renderTablaLeads();
+</script>
+</body>
+</html>

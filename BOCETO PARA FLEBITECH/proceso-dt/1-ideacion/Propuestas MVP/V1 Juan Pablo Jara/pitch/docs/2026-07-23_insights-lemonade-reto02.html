@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights de Lemonade para el Reto 02 — Venta Automatizada de Seguros</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--line:#2a323d;--tx:#e8edf3;--tx2:#9fb0c3;--tx3:#6b7a8d;--acc:#5b8cff;--acc2:#3ad0a0;--warn:#f0b429}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 28px 70px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(91,140,255,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+  h2{font-size:20px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px;color:#fff}
+  p,li{font-size:14.5px;color:var(--tx)}
+  li{margin:4px 0}
+  blockquote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;margin:14px 0;padding:12px 16px;color:var(--tx2)}
+  blockquote p{margin:4px 0;color:var(--tx2);font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:var(--acc2)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto}
+  pre code{border:none;background:none;padding:0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  strong{color:#fff}
+  .back{display:inline-block;margin-bottom:20px;font-size:13px;font-weight:600}
+  .metabar{font-size:12px;color:var(--tx3);margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+</style></head><body><div class="wrap">
+<a class="back" href="../2026-07-22_avances-jara.html">&larr; Volver al reporte</a>
+<div class="metabar">Hackathon Colsubsidio × 30X · Scala Labs · Reto 02 — entregable del repo (investigacion/2026-07-23_insights-lemonade-reto02.md)</div>
+<h1>Insights de Lemonade para el Reto 02 — Venta Automatizada de Seguros</h1>
+<blockquote>
+<p>Fuente: entrevista a Daniel Schreiber (CEO de Lemonade) en After Earnings,
+&ldquo;How Lemonade Uses AI to Compete in the MASSIVE Insurance Market&rdquo; (~30 min).
+https://youtu.be/fBmk4mqZf1g · Transcripción completa extraída y analizada.
+Construido con Fable 5 (alto).</p>
+</blockquote>
+<h2>Por qué importa para el reto</h2>
+<p>Lemonade es una aseguradora pública en EE.UU. (NYSE: LMND) fundada en 2015 que
+opera <strong>exactamente el modelo que pide el Reto 02</strong>: venta de seguros por chat sin
+humano, 24/7, con cierre real. No es una hipótesis — es una empresa con 2,3 millones
+de clientes y ~US$890M en primas vigentes. Para un jurado de expertos en seguros,
+citar a Lemonade convierte &ldquo;¿esto funciona?&rdquo; en &ldquo;esto ya funciona a escala; la
+pregunta es quién lo trae al afiliado de Colsubsidio primero&rdquo;.</p>
+<h2>Cifras clave (para el pitch y el deck)</h2>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Valor</th>
+<th>Uso en el pitch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pólizas vendidas por bots</td>
+<td><strong>97%</strong></td>
+<td>Prueba de existencia del modelo del reto</td>
+</tr>
+<tr>
+<td>Claims resueltos automatizados</td>
+<td>55%</td>
+<td>La automatización no para en la venta</td>
+</tr>
+<tr>
+<td>Clientes menores de 35 años</td>
+<td>70%</td>
+<td>El digital-first sí compra seguros</td>
+</tr>
+<tr>
+<td>Clientes / primas vigentes</td>
+<td>2,3M / ~US$890M</td>
+<td>Escala real, no piloto</td>
+</tr>
+<tr>
+<td>Crecimiento vs. headcount (3 años)</td>
+<td>Negocio 2x, headcount +2%</td>
+<td>Viabilidad operativa</td>
+</tr>
+<tr>
+<td>Último trimestre</td>
+<td>Top line +24%, headcount −7%, sin despidos</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td>Loss ratio</td>
+<td>73% (−10 pts YoY)</td>
+<td>La IA mejora el pricing del riesgo</td>
+</tr>
+<tr>
+<td>Tamaño del sector seguros</td>
+<td>~11% del PIB (mayor que petróleo, defensa o software)</td>
+<td>Tamaño del premio</td>
+</tr>
+</tbody>
+</table>
+<h2>8 insights mapeados a los criterios del jurado</h2>
+<h3>1. Prueba de existencia global → Viabilidad (20%+20%) y Pitch (10%)</h3>
+<p>Frase candidata: <em>&ldquo;Esto no es una apuesta nuestra: Lemonade, aseguradora pública en
+EE.UU., vende el 97% de sus pólizas por chat desde hace años. Lo que proponemos es
+traer ese modelo probado al 1,56M de afiliados de Colsubsidio.&rdquo;</em>
+Desactiva la objeción central ante expertos del sector.</p>
+<h3>2. La desconfianza es EL problema del sector → Impacto (30%) e Innovación (20%)</h3>
+<p>Schreiber: el mayor problema de los seguros es la <strong>desconfianza</strong> — se percibe como
+juego de suma cero (&ldquo;si me niegan el claim, ellos se quedan la plata&rdquo;), y eso produce
+fraude por decenas de miles de millones, baja lealtad y churn. Su respuesta es
+<strong>Giveback</strong>: la utilidad de underwriting que exceda un umbral va a ONGs que elige el
+cliente → &ldquo;no estamos peleando por esa moneda&rdquo;.
+<strong>Mapeo Colsubsidio:</strong> una caja de compensación está <em>mejor</em> posicionada que Lemonade
+para esto — el excedente puede volver al ecosistema del afiliado (subsidios,
+beneficios, convenios). Giro potencial del pitch: <em>&ldquo;el afiliado nunca pierde: lo que
+no se paga en siniestros regresa a su caja&rdquo;</em>. ⚠️ Hipótesis regulatoria por validar
+(SFC / régimen de cajas) antes de decirlo en el pitch.</p>
+<h3>3. &ldquo;Graduarse con el cliente&rdquo; → soporta la idea del marketplace/suscripción</h3>
+<p>Lemonade arrancó con renters (barato, joven) y fue sumando mascotas, hogar y auto a
+medida que sus clientes avanzan de etapa de vida. Mapeo directo a nuestra base:
+soltero joven (51,6%) entra por microseguro/AP/protección urbana; monoparental
+(24,6%) escala a vida/educación; etc. El chat es la puerta de entrada; el LTV está
+en el viaje. Encaja con la propuesta de marketplace con suscripción única (pestaña 6
+del reporte del 22-jul).</p>
+<h3>4. Propensión y LTV calculados en tiempo real → Data e Innovación</h3>
+<p>Cada visitante de Lemonade pasa por ~50 modelos de ML (probabilidad de claim, churn,
+cross-sell) que se descuentan a valor presente: &ldquo;este cliente vale $1.300 hoy&rdquo;. El
+90% del gasto de marketing se asigna así (&ldquo;algo trading approach to acquiring
+customers&rdquo;). Para el MVP basta un score de propensión simple por segmento (ya
+tenemos la segmentación v2 de la base); para la slide de visión, este es el norte.
+Insight profundo citado por Schreiber: colapsar el feedback de 1–2 años a lectura
+instantánea de qué cliente estás adquiriendo.</p>
+<h3>5. El roadmap de asesores queda validado → Viabilidad de implementación (20%)</h3>
+<p>Lemonade duplicó el negocio con headcount casi plano y <strong>sin despidos</strong>: la gente que
+respondía tickets hoy entrena IAs, audita respuestas y corrige prompts, sin ser
+ingenieros (&ldquo;managers de IAs&rdquo;). Esto valida punto por punto el roadmap de 3 fases que
+JP ya metió a la propuesta (asistida → autonomía progresiva → asesores a
+postventa/retención). Frase de Schreiber utilizable ante un jurado sensible al
+empleo: <em>&ldquo;el headcount humano quedó estático; la cantidad total de inteligencia
+desplegada creció dramáticamente&rdquo;</em>.</p>
+<h3>6. Microseguro para bajos ingresos ya probado → Impacto (30%)</h3>
+<p>Lemonade.org (su brazo sin ánimo de lucro) vende seguro de cosechas a agricultores de
+subsistencia en África subsahariana: se compra desde el teléfono y <strong>paga
+automáticamente</strong> (paramétrico, smart contracts) porque el costo tradicional de
+distribución y ajuste hacía imposible asegurarlos. Argumento para nuestra base (76%
+categoría A): <em>&ldquo;el costo de distribución es lo que excluye al afiliado de bajos
+ingresos; la automatización no es un gadget — ES la política de inclusión&rdquo;</em>.</p>
+<h3>7. Disciplina de foco: asegurar solo lo que sabes evaluar → defensa en Q&amp;A</h3>
+<p>Lemonade NO vende hogar en Florida ni en zonas de incendio de California: donde no
+tiene ventaja de underwriting, no juega. Lección para el alcance del MVP: el chat de
+5 preguntas debe ofrecer solo productos donde la idoneidad sí se puede evaluar con
+esas preguntas (AP, protección urbana, SOAT como ancla, mascotas), y decir
+explícitamente cuáles quedan fuera y por qué. Respuesta lista para &ldquo;¿y si le venden
+lo que no le conviene?&rdquo;: el sistema sabe qué NO vender.</p>
+<h3>8. Frases y analogías citables</h3>
+<ul>
+<li>&ldquo;Comprar tu seguro en pijama a las 2 a.m. y que te paguen el claim en segundos.&rdquo;</li>
+<li>&ldquo;El sector es ~11% del PIB — más grande que petróleo, defensa o software — y está
+  desatendido precisamente porque se percibe gris y aburrido.&rdquo; (= ventaja del
+  outsider con ojos frescos, nuestra narrativa de mitigación del punto ciego)</li>
+<li>&ldquo;No descubrimos la IA en 2023&rdquo; → nosotros tampoco llegamos a improvisar: llegamos
+  con el playbook de quien ya lo hizo.</li>
+<li>&ldquo;Dos tercios de los conductores son mejores que el promedio&rdquo; → personalizar
+  beneficia a la mayoría; los promedios castigan al buen cliente.</li>
+</ul>
+<h2>Lo que NO aplica (para no distraerse)</h2>
+<ul>
+<li><strong>Telemática del teléfono</strong> para pricing de auto: fuera de alcance del reto.</li>
+<li><strong>Synthetic agents</strong> (General Catalyst financia 80% del CAC contra 16% de primas):
+  fascinante pero irrelevante para un demo de 3 min. A lo sumo, nota mental para la
+  vida real de FMA.</li>
+<li><strong>Blockchain/cripto</strong> del caso África: citar el resultado (pago paramétrico
+  instantáneo), no la tecnología — con este jurado suma más &ldquo;automático y auditable&rdquo;
+  que &ldquo;smart contract&rdquo;.</li>
+</ul>
+<h2>Mini-plan de investigación propuesto (horas, no días — build empieza vie 24)</h2>
+<ol>
+<li><strong>Playbook de venta por chat de Lemonade</strong> — Investor Day nov (video público) +
+   S-1/shareholder letters: flujo real de preguntas de Maya (su bot), tiempos de
+   cierre, manejo de idoneidad/consentimiento. Output: 1 pág. de patrones para el
+   diseño del chat del MVP.</li>
+<li><strong>Benchmarks de venta digital de seguros en Colombia/Latam</strong> — R5, Seguros
+   Falabella, 123Seguro, Betterfly, Súper (SFC) sobre canales digitales. Output:
+   2–3 cifras locales para que el pitch &ldquo;huela a real&rdquo; ante Colsubsidio.</li>
+<li><strong>Validación regulatoria del &ldquo;giveback criollo&rdquo;</strong> — ¿puede el excedente volver al
+   afiliado vía beneficios de la caja sin romper régimen de seguros/cajas? Extiende
+   la investigación de recaudo del 22-jul. Output: semáforo (se dice en el pitch /
+   se dice como visión / no se dice).</li>
+<li><strong>Referentes de microseguro inclusivo</strong> — lemonade.org, Pula, MicroEnsure y casos
+   Latam. Output: 2 datos duros para el bloque de impacto (76% categoría A).</li>
+</ol>
+<p>Cada frente es un agente en paralelo (~1 sesión). Prioridad si hay que recortar:
+1 y 3 (alimentan demo y pitch directamente).</p>
+</div></body></html>

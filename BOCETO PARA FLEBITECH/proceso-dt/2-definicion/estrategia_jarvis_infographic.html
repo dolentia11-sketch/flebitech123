@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Estrategia Jarvis Seguros Colsubsidio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        
+        :root {
+            --primary: #6366F1;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --bg-slate: #F8FAFC;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-slate);
+            color: #1E293B;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        .card-elevation {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card-elevation:hover {
+            transform: translateY(-4px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #6366F1, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 
+    PALETA SELECCIONADA: "Vibrant Indigo & Emerald" (Basada en Brilliant Blues & Energetic)
+    #6366F1 (Indigo), #10B981 (Emerald), #F59E0B (Amber), #FFFFFF (White)
+    -->
+
+    <!-- 
+    NARRATIVE PLAN SUMMARY:
+    1. Introduction: Hook with the "Win Rate" and Jarvis concept.
+    2. Core Strategy: "Lo que QUIERE vs Lo que NECESITA" comparison.
+    3. Segmentation: Detailed analysis of Categories A, B, and C with subsidy impacts.
+    4. Conversational Flow: 5-step process visual breakdown.
+    5. Product Ecosystem: Premium comparison and coverage values.
+    6. Technical Integrity: Reliability and Accuracy KPIs.
+    -->
+
+    <!-- 
+    VISUALIZATION SELECTION GUIDE:
+    - Big Number KPI -> Goal: Inform (Single value 84.3%).
+    - Stacked Bar Chart (Chart.js) -> Goal: Compare (Subsidies across categories).
+    - Radar Chart (Plotly) -> Goal: Relationships (System Performance Metrics).
+    - Donut Chart (Chart.js) -> Goal: Inform (Product distribution).
+    - Step Diagram -> Goal: Organize (HTML/CSS Flexbox flow).
+    - Bar Chart (Chart.js) -> Goal: Compare (Premium costs).
+    -->
+
+    <!-- 
+    CONFIRMATION: NO SVG OR MERMAID JS USED. 
+    Diagrams implemented via HTML/CSS Grid and Flexbox. 
+    Charts rendered via Canvas (Chart.js/Plotly).
+    -->
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="font-black text-xl tracking-tighter text-indigo-600">JARVIS ESTRATEGIA</div>
+            <nav class="hidden md:flex gap-6 text-sm font-semibold text-slate-600">
+                <a href="#intro" class="hover:text-indigo-600">Impacto</a>
+                <a href="#segments" class="hover:text-indigo-600">Segmentación</a>
+                <a href="#process" class="hover:text-indigo-600">Proceso</a>
+                <a href="#products" class="hover:text-indigo-600">Productos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-12 space-y-20">
+
+        <!-- Hero Section -->
+        <section id="intro" class="text-center space-y-6">
+            <span class="bg-indigo-100 text-indigo-600 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Hackathon Colsubsidio x 30X</span>
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight">Seguros Embebidos en <br><span class="gradient-text">Solo 5 Mensajes</span></h1>
+            <p class="max-w-2xl mx-auto text-slate-500 text-lg">
+                Jarvis revoluciona la colocación de seguros mediante una estrategia consultiva que prioriza el beneficio inmediato del afiliado para ganar confianza y cerrar la protección necesaria.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8">
+                <div class="bg-white p-8 rounded-3xl card-elevation border border-slate-100">
+                    <div class="text-5xl font-black text-indigo-600 mb-2">84.3%</div>
+                    <div class="text-sm font-bold text-slate-800 uppercase">Win Rate Estimado</div>
+                    <p class="text-xs text-slate-400 mt-2">Simulación Monte Carlo vs. Proceso Tradicional</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl card-elevation border border-slate-100">
+                    <div class="text-5xl font-black text-emerald-500 mb-2">100%</div>
+                    <div class="text-sm font-bold text-slate-800 uppercase">Determinismo Legal</div>
+                    <p class="text-xs text-slate-400 mt-2">Cero alucinaciones financieras con motor Python</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl card-elevation border border-slate-100">
+                    <div class="text-5xl font-black text-amber-500 mb-2">0.5s</div>
+                    <div class="text-sm font-bold text-slate-800 uppercase">Tiempo Respuesta</div>
+                    <p class="text-xs text-slate-400 mt-2">Latencia optimizada en Jarvis Voice Engine</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategy Logic Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <h2 class="text-3xl font-extrabold text-slate-900">La Metodología: "Quiere vs. Necesita"</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    Convertimos la fricción de venta en gratificación inmediata. Primero resolvemos el deseo táctico del afiliado (subsidios de recreación) para habilitar la conversación sobre su protección financiera a largo plazo.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold shrink-0">Q</div>
+                        <div>
+                            <h4 class="font-bold text-amber-900">Lo que QUIERE</h4>
+                            <p class="text-sm text-amber-800 opacity-80">Subsidios en Piscilago, boletas de cine, convenios veterinarios.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold shrink-0">N</div>
+                        <div>
+                            <h4 class="font-bold text-emerald-900">Lo que NECESITA</h4>
+                            <p class="text-sm text-emerald-800 opacity-80">Póliza de accidentes, salud para mascotas, renta por invalidez.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-3xl card-elevation">
+                <div class="chart-container">
+                    <canvas id="strategyChart"></canvas>
+                </div>
+                <p class="text-center text-[11px] text-slate-400 mt-4 italic">Distribución del impacto comercial según la etapa de la conversación.</p>
+            </div>
+        </section>
+
+        <!-- Segmentation Section -->
+        <section id="segments" class="space-y-10">
+            <div class="text-center space-y-4">
+                <h2 class="text-3xl font-extrabold text-slate-900">Segmentación & Subsidios</h2>
+                <p class="max-w-2xl mx-auto text-slate-500">
+                    Adaptamos la oferta según la categoría de afiliación, maximizando el valor percibido a través de los beneficios de la Caja de Compensación.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl card-elevation">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-indigo-600 rounded-full"></span>
+                        Costo vs. Subsidio por Categoría
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="subsidyChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl card-elevation">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                        Distribución de Mercado Meta
+                    </h3>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Flow (NO SVG / NO MERMAID) -->
+        <section id="process" class="space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-slate-900">El Viaje del Usuario Jarvis</h2>
+                <p class="text-slate-500 mt-2">Flujo lógico de 5 pasos para la expedición autónoma.</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Progress Line Background -->
+                <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 hidden lg:block"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 relative">
+                    <!-- Step 1 -->
+                    <div class="bg-white p-6 rounded-2xl card-elevation border border-slate-100 z-10 text-center">
+                        <div class="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">1</div>
+                        <h4 class="font-bold text-sm mb-2 uppercase">Diagnóstico</h4>
+                        <p class="text-[11px] text-slate-500">NLU identifica deseos y metas inmediatas del afiliado.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-white p-6 rounded-2xl card-elevation border border-amber-500/30 z-10 text-center">
+                        <div class="w-12 h-12 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">2</div>
+                        <h4 class="font-bold text-sm mb-2 uppercase text-amber-600">Beneficio</h4>
+                        <p class="text-[11px] text-slate-500">Se entrega el subsidio o convenio (Ej: Piscilago).</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="bg-white p-6 rounded-2xl card-elevation border border-emerald-500/30 z-10 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">3</div>
+                        <h4 class="font-bold text-sm mb-2 uppercase text-emerald-600">Embeber</h4>
+                        <p class="text-[11px] text-slate-500">Jarvis ofrece el seguro como complemento natural.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="bg-white p-6 rounded-2xl card-elevation border border-slate-100 z-10 text-center">
+                        <div class="w-12 h-12 bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">4</div>
+                        <h4 class="font-bold text-sm mb-2 uppercase">Conformidad</h4>
+                        <p class="text-[11px] text-slate-500">Validación determinista e idoneidad en micro-segundos.</p>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="bg-white p-6 rounded-2xl card-elevation border border-indigo-600 z-10 text-center">
+                        <div class="w-12 h-12 bg-indigo-900 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-4">5</div>
+                        <h4 class="font-bold text-sm mb-2 uppercase">Emisión</h4>
+                        <p class="text-[11px] text-slate-500">Registro en Supabase con hash criptográfico.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Ecosystem -->
+        <section id="products" class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="bg-white p-8 rounded-3xl card-elevation">
+                <h3 class="text-xl font-bold mb-6">Comparativa de Micro-primas</h3>
+                <div class="chart-container">
+                    <canvas id="premiumChart"></canvas>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Ecosistema de Productos</h2>
+                    <p class="text-slate-500 mt-2">Seguros diseñados para micro-consumo diario o mensual.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex items-center justify-between p-4 bg-white rounded-xl border-l-4 border-indigo-500 shadow-sm">
+                        <span class="font-bold">Accidentes Personales</span>
+                        <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg font-bold">$1.400 /día</span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-white rounded-xl border-l-4 border-emerald-500 shadow-sm">
+                        <span class="font-bold">Salud Mascotas MetLife</span>
+                        <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-lg font-bold">$9.750 /mes</span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-white rounded-xl border-l-4 border-amber-500 shadow-sm">
+                        <span class="font-bold">Renta Vida Voluntaria</span>
+                        <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-lg font-bold">$13.200 /mes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical KPIs -->
+        <section class="space-y-10 pb-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-slate-900">Métricas de Rendimiento Jarvis</h2>
+                <p class="text-slate-500 mt-2">Análisis de confiabilidad del sistema de IA y motor de reglas.</p>
+            </div>
+            <div class="bg-white p-8 rounded-3xl card-elevation">
+                <div id="performanceRadar" class="w-full h-[400px]"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <div class="font-black text-white text-xl tracking-tighter mb-2">SCALA LABS</div>
+                <p class="text-xs">Propuesta Tecnológica para el Reto Seguros Colsubsidio 2024</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white">C</div>
+                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white">M</div>
+                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white">J</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Label Wrapping Utility (Mandatory 16-char logic)
+        function wrapLabel(label) {
+            if (typeof label !== 'string') return label;
+            if (label.length <= 16) return label;
+            
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // Shared Tooltip Config
+        const sharedTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // 1. Strategy Chart (Donut)
+        const ctxStrategy = document.getElementById('strategyChart').getContext('2d');
+        new Chart(ctxStrategy, {
+            type: 'doughnut',
+            data: {
+                labels: [wrapLabel('Identificación de Deseos'), wrapLabel('Entrega de Valor Directo'), wrapLabel('Conversión de Seguro')],
+                datasets: [{
+                    data: [30, 40, 30],
+                    backgroundColor: ['#6366F1', '#F59E0B', '#10B981'],
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } },
+                    tooltip: sharedTooltipConfig
+                }
+            }
+        });
+
+        // 2. Subsidy Chart (Stacked Bar)
+        const ctxSubsidy = document.getElementById('subsidyChart').getContext('2d');
+        new Chart(ctxSubsidy, {
+            type: 'bar',
+            data: {
+                labels: ['Categoría A', 'Categoría B', 'Categoría C', 'Particular'],
+                datasets: [
+                    {
+                        label: 'Subsidio Caja',
+                        data: [40, 20, 0, 0],
+                        backgroundColor: '#10B981'
+                    },
+                    {
+                        label: 'Costo Usuario',
+                        data: [60, 80, 100, 115],
+                        backgroundColor: '#6366F1'
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true, max: 120, title: { display: true, text: '% del Costo Base' } }
+                },
+                plugins: { tooltip: sharedTooltipConfig }
+            }
+        });
+
+        // 3. Distribution Chart (Pie)
+        const ctxDist = document.getElementById('distributionChart').getContext('2d');
+        new Chart(ctxDist, {
+            type: 'pie',
+            data: {
+                labels: [wrapLabel('Trabajadores Cat A/B'), wrapLabel('Grupo Familiar'), wrapLabel('No Afiliados')],
+                datasets: [{
+                    data: [45, 35, 20],
+                    backgroundColor: ['#6366F1', '#818CF8', '#CBD5E1']
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: sharedTooltipConfig
+                }
+            }
+        });
+
+        // 4. Premium Chart (Bar)
+        const ctxPremium = document.getElementById('premiumChart').getContext('2d');
+        new Chart(ctxPremium, {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Accidentes Piscilago'), wrapLabel('Mascotas MetLife'), wrapLabel('Renta Invalidez')],
+                datasets: [{
+                    label: 'Prima (COP)',
+                    data: [1400, 9750, 13200],
+                    backgroundColor: '#F59E0B',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { tooltip: sharedTooltipConfig }
+            }
+        });
+
+        // 5. Performance Radar (Plotly - Canvas Rendering)
+        const radarData = [{
+            type: 'scatterpolar',
+            r: [98, 95, 99, 92, 90, 98],
+            theta: ['Precisión Legal','Latencia Voz','Win Rate','Retención','UX Score','Seguridad'],
+            fill: 'toself',
+            fillcolor: 'rgba(99, 102, 241, 0.3)',
+            line: { color: '#6366F1' }
+        }];
+
+        const radarLayout = {
+            polar: {
+                radialaxis: { visible: true, range: [0, 100] }
+            },
+            showlegend: false,
+            margin: { l: 40, r: 40, b: 40, t: 40 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { family: 'Inter', size: 10 }
+        };
+
+        Plotly.newPlot('performanceRadar', radarData, radarLayout, { responsive: true, displayModeBar: false });
+
+    </script>
+</body>
+</html>

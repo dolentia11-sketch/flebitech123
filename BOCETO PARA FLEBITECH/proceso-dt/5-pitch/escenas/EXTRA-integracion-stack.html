@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EXTRA · Integración — "Nos conectamos a lo que ya existe" (slide para pitch en vivo)</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo:#1c1c1b;--superficie:#282826;--borde:#3a3a38;--tinta:#f5f3ed;
+    --tinta-suave:#9A9A99;--tinta-tenue:#6f6f6d;--amarillo:#FFD000;
+    --azul:#0067B1;--azul-dato:#66A4D0;--verde-wa:#25D366;--azul-sf:#00A1E0;
+    --f-texto:'Plus Jakarta Sans',sans-serif;--f-cifra:'Montserrat',sans-serif;
+  }
+  html,body{margin:0;height:100%;background:#000;overflow:hidden}
+  #stage{width:1920px;height:1080px;background:var(--fondo);position:relative;
+    transform-origin:top left;font-family:var(--f-texto);color:var(--tinta);overflow:hidden;
+    padding:0;box-sizing:border-box}
+  h1{position:absolute;left:64px;top:56px;margin:0;font-size:54px;font-weight:800;line-height:1.15}
+  h1 b{color:var(--amarillo)}
+  #sub{position:absolute;left:64px;top:130px;font-size:26px;color:var(--tinta-suave);max-width:900px;line-height:1.45}
+
+  /* fila de nodos del flujo */
+  #flujo{position:absolute;left:64px;right:64px;top:300px;display:flex;align-items:stretch;gap:0}
+  .nodo{flex:1;background:var(--superficie);border:1.5px solid var(--borde);border-radius:24px;
+    padding:30px 32px;display:flex;flex-direction:column;gap:12px;position:relative}
+  .nodo .ico{font-size:44px;line-height:1}
+  .nodo b{font-size:29px;font-weight:800}
+  .nodo b i{font-style:normal;font-size:20px;color:var(--tinta-suave);font-weight:600;display:block;margin-top:2px}
+  .nodo p{margin:0;font-size:21px;color:var(--tinta-suave);line-height:1.4}
+  .nodo .hoy{position:absolute;top:-16px;right:22px;font-size:16px;font-weight:800;letter-spacing:.5px;
+    border-radius:999px;padding:5px 14px;background:var(--borde);color:var(--tinta)}
+  .nodo.existe .hoy{background:var(--azul-dato);color:#10222e}
+  .nodo.nuestro{border-color:var(--amarillo)}
+  .nodo.nuestro .hoy{background:var(--amarillo);color:#20201e}
+  .flecha{align-self:center;font-size:40px;color:var(--tinta-tenue);padding:0 14px;flex:0 0 auto}
+  .nodo.wa .ico{color:var(--verde-wa)}
+  .nodo.sf b span{color:var(--azul-sf)}
+
+  /* beneficio */
+  #gan{position:absolute;left:64px;right:64px;top:660px;background:#20261f;border:2px solid var(--amarillo);
+    border-radius:24px;padding:34px 44px;display:flex;align-items:center;gap:36px}
+  #gan .num{font-family:var(--f-cifra);font-weight:800;font-size:76px;color:var(--amarillo);line-height:1;flex:0 0 auto}
+  #gan .txt{font-size:28px;line-height:1.45}
+  #gan .txt b{color:var(--amarillo)}
+
+  #pie{position:absolute;left:64px;bottom:110px;right:64px;font-size:22px;color:var(--tinta-suave);line-height:1.5;max-width:1500px}
+  #pie b{color:var(--tinta)}
+  #logo-row{position:absolute;left:64px;bottom:36px;font-size:19px;color:var(--tinta-tenue)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <h1>Próximo paso: <b>conectarnos a lo que ya existe</b></h1>
+  <p id="sub">Colsubsidio ya tiene el CRM, el canal y los afiliados. Amparito no reemplaza nada:
+  se enchufa. Cambiar de chat web a WhatsApp es cambiar un conector — no el motor.</p>
+
+  <div id="flujo">
+    <div class="nodo wa existe">
+      <span class="hoy">YA EXISTE</span>
+      <span class="ico">🟢</span>
+      <b>WhatsApp Business API<i>el canal donde ya están los afiliados</i></b>
+      <p>El afiliado escribe por WhatsApp, como ya le escribe hoy a Colsubsidio.</p>
+    </div>
+    <span class="flecha">→</span>
+    <div class="nodo sf existe">
+      <span class="hoy">YA EXISTE</span>
+      <span class="ico">☁️</span>
+      <b><span>Salesforce</span><i>el CRM que Colsubsidio ya opera</i></b>
+      <p>Cruce del número de WhatsApp contra la base del CRM: el sistema sabe <b>quién es</b> antes de la primera pregunta.</p>
+    </div>
+    <span class="flecha">→</span>
+    <div class="nodo nuestro">
+      <span class="hoy">LO CONSTRUIMOS</span>
+      <span class="ico">🛡️</span>
+      <b>Amparito + Motor<i>lo que mostramos hoy, funcionando</i></b>
+      <p>Arranca con el expediente precargado: afiliación, grupo familiar, historial de productos. Solo pregunta lo que falta.</p>
+    </div>
+  </div>
+
+  <div id="gan">
+    <span class="num">–50%</span>
+    <span class="txt">de las preguntas se eliminan para un afiliado identificado:
+    <b>de contacto a recomendación del motor en menos de la mitad de los turnos.</b>
+    La conversación empieza donde otros formularios terminan.</span>
+  </div>
+
+  <p id="pie"><b>Por qué es realista:</b> la API oficial de WhatsApp Business y la API REST de Salesforce
+  son integraciones estándar documentadas; el motor ya expone endpoints HTTP (los mismos que usa el
+  chat web de hoy). Ninguna pieza nueva de infraestructura — tres conectores y credenciales.</p>
+
+  <span id="logo-row">Scala Labs · Hackathon Colsubsidio × 30X · slide de apoyo para Q&A / próximos pasos</span>
+</div>
+<script>
+  function ajusta(){
+    const s=Math.min(innerWidth/1920,innerHeight/1080);
+    const st=document.getElementById('stage');
+    st.style.transform=`scale(${s})`;
+    st.style.marginLeft=((innerWidth-1920*s)/2)+'px';
+    st.style.marginTop=((innerHeight-1080*s)/2)+'px';
+  }
+  addEventListener('resize',ajusta);ajusta();
+</script>
+</body>
+</html>

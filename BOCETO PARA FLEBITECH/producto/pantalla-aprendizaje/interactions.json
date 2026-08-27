@@ -1,0 +1,778 @@
+{
+ "_meta": {
+  "fuente": "interactions.db (export simulado)",
+  "generado": "2026-07-25T12:30:00-05:00",
+  "artefacto": "Datos sintéticos de demo — construido con Claude Haiku 4.5, orquestado por Fable 5"
+ },
+ "sessions": [
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "started_at": "2026-07-25T09:15:00-05:00",
+   "ended_at": "2026-07-25T09:20:00-05:00",
+   "canal": "web",
+   "origen": "campaña",
+   "afiliado": 1,
+   "id_hash": "4dcdc5c684d3809d07ddd9191ef1c52337b9a4ca7e143bcd2902ee252b91f876",
+   "consent_datos": 1,
+   "consent_compra": 1,
+   "estado_final": "cerrada",
+   "producto_cerrado": "vida-personal-familiar",
+   "paso_abandono": null
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "started_at": "2026-07-25T09:35:00-05:00",
+   "ended_at": "2026-07-25T09:42:00-05:00",
+   "canal": "web",
+   "origen": "QR",
+   "afiliado": 0,
+   "id_hash": null,
+   "consent_datos": 1,
+   "consent_compra": 0,
+   "estado_final": "abandonada",
+   "producto_cerrado": null,
+   "paso_abandono": "cierre — solicitud de cédula"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "started_at": "2026-07-25T09:50:00-05:00",
+   "ended_at": "2026-07-25T09:58:00-05:00",
+   "canal": "web",
+   "origen": "directo",
+   "afiliado": 1,
+   "id_hash": "e7ebeb04d1c4e9d4f554112ae6b51b45d062aa7de92e4f75dce6e0e5510d993d",
+   "consent_datos": 1,
+   "consent_compra": 0,
+   "estado_final": "handoff_asesor",
+   "producto_cerrado": null,
+   "paso_abandono": null
+  }
+ ],
+ "events": [
+  {
+   "event_id": 1,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:15:15-05:00",
+   "tipo": "consentimiento",
+   "actor": "usuario",
+   "contenido_raw": "El usuario acepta los términos de privacidad y tratamiento de datos",
+   "contenido_estructurado": "{\"consentimiento_datos\": true, \"timestamp\": \"2026-07-25T09:15:15-05:00\"}"
+  },
+  {
+   "event_id": 2,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:15:45-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Eres afiliado de Colsubsidio?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V1_afiliado\", \"opciones\": [\"Sí\", \"No\"]}"
+  },
+  {
+   "event_id": 3,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:16:00-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Sí, soy afiliado",
+   "contenido_estructurado": "{\"afiliado\": true, \"variable\": \"V1\"}"
+  },
+  {
+   "event_id": 4,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:16:30-05:00",
+   "tipo": "consulta_crm",
+   "actor": "make",
+   "contenido_raw": "Consulta base de datos de afiliados con datos preexistentes",
+   "contenido_estructurado": "{\"endpoint\": \"crm/afiliados/lookup\", \"id_afiliado\": \"hash_simulado\", \"datos_recuperados\": {\"edad\": \"29\", \"genero\": \"F\", \"ocupacion\": \"Empleada — auxiliar administrativa\", \"nombre\": \"Camila\"}}"
+  },
+  {
+   "event_id": 5,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:16:50-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Cuál es tu situación familiar actual?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V5_familia\", \"opciones\": [\"Hogar monoparental\", \"Familia nuclear\", \"Pareja conyugal\", \"Familia ampliada\"]}"
+  },
+  {
+   "event_id": 6,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:17:10-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Hogar monoparental, tengo 2 hijos a cargo",
+   "contenido_estructurado": "{\"familia\": \"Hogar monoparental, 2 hijos\", \"variable\": \"V5\"}"
+  },
+  {
+   "event_id": 7,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:17:35-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Dónde vives actualmente?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V6_vivienda\", \"opciones\": [\"Casa propia\", \"Apartamento arrendado\", \"Otro arreglo\"]}"
+  },
+  {
+   "event_id": 8,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:17:55-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Apartamento arrendado",
+   "contenido_estructurado": "{\"vivienda\": \"Apartamento arrendado\", \"variable\": \"V6\"}"
+  },
+  {
+   "event_id": 9,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:15-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Tienes mascota en el hogar?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V9_mascota\", \"opciones\": [\"Sí, perro\", \"Sí, gato\", \"Sí, otra mascota\", \"No\"]}"
+  },
+  {
+   "event_id": 10,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:35-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "No tengo mascota",
+   "contenido_estructurado": "{\"mascota\": \"No\", \"variable\": \"V9\"}"
+  },
+  {
+   "event_id": 11,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:50-05:00",
+   "tipo": "recomendacion",
+   "actor": "motor",
+   "contenido_raw": "Motor de scoring genera top 3 de productos recomendados",
+   "contenido_estructurado": "{\"productos_recomendados\": [{\"rank\": 1, \"producto_id\": \"vida-personal-familiar\", \"score\": 34.0, \"pct_afinidad\": 87.2}, {\"rank\": 2, \"producto_id\": \"exequial\", \"score\": 29.0, \"pct_afinidad\": 74.4}, {\"rank\": 3, \"producto_id\": \"ap-digital-chubb\", \"score\": 26.5, \"pct_afinidad\": 68.1}]}"
+  },
+  {
+   "event_id": 12,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:19:00-05:00",
+   "tipo": "respaldo",
+   "actor": "usuario",
+   "contenido_raw": "El usuario elige continuar de forma independiente sin asesor",
+   "contenido_estructurado": "{\"decision_asesor\": false, \"motivo\": \"usuario elige autoprocedimiento\"}"
+  },
+  {
+   "event_id": 13,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:19:15-05:00",
+   "tipo": "consentimiento",
+   "actor": "usuario",
+   "contenido_raw": "El usuario acepta los términos de compra",
+   "contenido_estructurado": "{\"consentimiento_compra\": true, \"timestamp\": \"2026-07-25T09:19:15-05:00\"}"
+  },
+  {
+   "event_id": 14,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:19:30-05:00",
+   "tipo": "cierre",
+   "actor": "make",
+   "contenido_raw": "Cierre de sesión con póliza emitida: Nº COL-2026-8841",
+   "contenido_estructurado": "{\"tipo_cierre\": \"compra_exitosa\", \"producto\": \"vida-personal-familiar\", \"poliza_numero\": \"COL-2026-8841\", \"estado\": \"activa\"}"
+  },
+  {
+   "event_id": 15,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:35:30-05:00",
+   "tipo": "consentimiento",
+   "actor": "usuario",
+   "contenido_raw": "El usuario acepta los términos de privacidad",
+   "contenido_estructurado": "{\"consentimiento_datos\": true, \"timestamp\": \"2026-07-25T09:35:30-05:00\"}"
+  },
+  {
+   "event_id": 16,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:36:00-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Eres afiliado de Colsubsidio?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V1_afiliado\", \"opciones\": [\"Sí\", \"No\"]}"
+  },
+  {
+   "event_id": 17,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:36:15-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "No, no soy afiliado",
+   "contenido_estructurado": "{\"afiliado\": false, \"variable\": \"V1\"}"
+  },
+  {
+   "event_id": 18,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:36:45-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Cuál es tu edad?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V1_edad\", \"rango\": \"18-70\"}"
+  },
+  {
+   "event_id": 19,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:37:00-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Tengo 41 años",
+   "contenido_estructurado": "{\"edad\": \"41\", \"variable\": \"V1\"}"
+  },
+  {
+   "event_id": 20,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:37:30-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Cuál es tu situación familiar?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V5_familia\", \"opciones\": [\"Hogar monoparental\", \"Familia nuclear\", \"Pareja conyugal\", \"Familia ampliada\"]}"
+  },
+  {
+   "event_id": 21,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:37:50-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Familia nuclear: pareja y 1 hijo",
+   "contenido_estructurado": "{\"familia\": \"Familia nuclear, pareja y 1 hijo\", \"variable\": \"V5\"}"
+  },
+  {
+   "event_id": 22,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:38:15-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Dónde vives actualmente?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V6_vivienda\", \"opciones\": [\"Casa propia\", \"Apartamento arrendado\", \"Otro\"]}"
+  },
+  {
+   "event_id": 23,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:38:35-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Casa propia",
+   "contenido_estructurado": "{\"vivienda\": \"Casa propia\", \"variable\": \"V6\"}"
+  },
+  {
+   "event_id": 24,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:39:00-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Cuál es tu ingreso mensual aproximado?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V4_ingreso\", \"opciones\": [\"Hasta 1 SMLV\", \"Entre 1 y 1.5 SMLV\", \"Entre 2 y 2.5 SMLV\", \"Más de 3 SMLV\"]}"
+  },
+  {
+   "event_id": 25,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:39:20-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Entre 2 y 2.5 SMLV",
+   "contenido_estructurado": "{\"ingreso\": \"Entre 2 y 2.5 SMLV\", \"variable\": \"V4\"}"
+  },
+  {
+   "event_id": 26,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:39:50-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Tienes vehículo propio?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V8_vehiculo\", \"opciones\": [\"Sí, carro\", \"Sí, moto\", \"No\"]}"
+  },
+  {
+   "event_id": 27,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:10-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Sí, tengo carro propio",
+   "contenido_estructurado": "{\"vehiculo\": \"Carro propio\", \"variable\": \"V8\"}"
+  },
+  {
+   "event_id": 28,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:40-05:00",
+   "tipo": "recomendacion",
+   "actor": "motor",
+   "contenido_raw": "Motor de scoring genera top 3 de productos recomendados",
+   "contenido_estructurado": "{\"productos_recomendados\": [{\"rank\": 1, \"producto_id\": \"hogar-contenido\", \"score\": 31.0, \"pct_afinidad\": 81.5}, {\"rank\": 2, \"producto_id\": \"todo-riesgo-carro\", \"score\": 28.9, \"pct_afinidad\": 76.0}, {\"rank\": 3, \"producto_id\": \"vida-personal-familiar\", \"score\": 27.3, \"pct_afinidad\": 70.2}]}"
+  },
+  {
+   "event_id": 29,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:45-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "Antes de seguir, ¿me regalas tu nombre?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"nombre\", \"campo_requerido\": true}"
+  },
+  {
+   "event_id": 30,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:52-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Me llamo Andrés",
+   "contenido_estructurado": "{\"nombre\": \"Andrés\"}"
+  },
+  {
+   "event_id": 31,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:41:00-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "Para continuar, necesitamos validar tu identidad. Por favor, ingresa tu número de cédula",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"validacion_cedula\", \"campo_requerido\": true}"
+  },
+  {
+   "event_id": 32,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:42:00-05:00",
+   "tipo": "abandono",
+   "actor": "usuario",
+   "contenido_raw": "El usuario dejó de responder al solicitar la cédula y cerró la sesión",
+   "contenido_estructurado": "{\"razon_abandono\": \"solicitud_de_cedula\", \"evento\": \"usuario_inactivo\", \"duracion_sesion_segundos\": 390}"
+  },
+  {
+   "event_id": 33,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:50:15-05:00",
+   "tipo": "consentimiento",
+   "actor": "usuario",
+   "contenido_raw": "El usuario acepta los términos de privacidad",
+   "contenido_estructurado": "{\"consentimiento_datos\": true, \"timestamp\": \"2026-07-25T09:50:15-05:00\"}"
+  },
+  {
+   "event_id": 34,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:50:45-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Eres afiliado de Colsubsidio?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V1_afiliado\", \"opciones\": [\"Sí\", \"No\"]}"
+  },
+  {
+   "event_id": 35,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:51:00-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Sí, soy afiliado",
+   "contenido_estructurado": "{\"afiliado\": true, \"variable\": \"V1\"}"
+  },
+  {
+   "event_id": 36,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:51:30-05:00",
+   "tipo": "consulta_crm",
+   "actor": "make",
+   "contenido_raw": "Consulta base de datos de afiliados con datos preexistentes",
+   "contenido_estructurado": "{\"endpoint\": \"crm/afiliados/lookup\", \"id_afiliado\": \"hash_simulado_2\", \"datos_recuperados\": {\"edad\": \"61\", \"genero\": \"F\", \"ocupacion\": \"Pensionada\", \"nombre\": \"Rosa\"}}"
+  },
+  {
+   "event_id": 37,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:52:00-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Cuál es tu situación familiar actual?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V5_familia\", \"opciones\": [\"Hogar monoparental\", \"Familia nuclear\", \"Pareja conyugal\", \"Familia ampliada\"]}"
+  },
+  {
+   "event_id": 38,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:52:20-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Pareja conyugal, sin hijos en casa",
+   "contenido_estructurado": "{\"familia\": \"Pareja conyugal, sin hijos en casa\", \"variable\": \"V5\"}"
+  },
+  {
+   "event_id": 39,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:52:50-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Dónde vives actualmente?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V6_vivienda\", \"opciones\": [\"Casa propia\", \"Apartamento arrendado\", \"Otro\"]}"
+  },
+  {
+   "event_id": 40,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:53:10-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Apartamento propio",
+   "contenido_estructurado": "{\"vivienda\": \"Apartamento propio\", \"variable\": \"V6\"}"
+  },
+  {
+   "event_id": 41,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:53:40-05:00",
+   "tipo": "pregunta",
+   "actor": "llm",
+   "contenido_raw": "¿Tienes mascota en el hogar?",
+   "contenido_estructurado": "{\"tipo_pregunta\": \"V9_mascota\", \"opciones\": [\"Sí, perro\", \"Sí, gato\", \"Sí, otra mascota\", \"No\"]}"
+  },
+  {
+   "event_id": 42,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:54:00-05:00",
+   "tipo": "respuesta",
+   "actor": "usuario",
+   "contenido_raw": "Sí, tengo una gata de 8 años",
+   "contenido_estructurado": "{\"mascota\": \"Gata, 8 años\", \"variable\": \"V9\"}"
+  },
+  {
+   "event_id": 43,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:54:30-05:00",
+   "tipo": "recomendacion",
+   "actor": "motor",
+   "contenido_raw": "Motor de scoring genera top 3 de productos recomendados",
+   "contenido_estructurado": "{\"productos_recomendados\": [{\"rank\": 1, \"producto_id\": \"asistencias-medicas-familiares\", \"score\": 30.1, \"pct_afinidad\": 79.8}, {\"rank\": 2, \"producto_id\": \"exequial\", \"score\": 29.4, \"pct_afinidad\": 77.5}, {\"rank\": 3, \"producto_id\": \"mascota-perro-gato\", \"score\": 20.9, \"pct_afinidad\": 55.0}]}"
+  },
+  {
+   "event_id": 44,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:55:00-05:00",
+   "tipo": "respaldo",
+   "actor": "motor",
+   "contenido_raw": "Sistema detecta preexistencia declarada y restringe elegibilidad",
+   "contenido_estructurado": "{\"restriccion\": \"preexistencia_detectada\", \"variable_afectada\": \"V1_edad\", \"motivo\": \"edad_mayor_55_sin_evaluacion_medica\"}"
+  },
+  {
+   "event_id": 45,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:55:45-05:00",
+   "tipo": "handoff",
+   "actor": "make",
+   "contenido_raw": "Sesión escalada a asesor especializado para evaluación de elegibilidad",
+   "contenido_estructurado": "{\"tipo_handoff\": \"restriccion_medica\", \"asesor_asignado\": \"especialista_seguros_mayores\", \"razon\": \"evaluacion_preexistencia_requerida\", \"estado\": \"pendiente_contacto_asesor\"}"
+  }
+ ],
+ "features": [
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V1",
+   "valor": "29",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:16:30-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V2",
+   "valor": "F",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:16:30-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V3",
+   "valor": "Empleada — auxiliar administrativa",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:16:30-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V5",
+   "valor": "Hogar monoparental, 2 hijos",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:17:10-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V6",
+   "valor": "Apartamento arrendado",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:17:55-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V9",
+   "valor": "No",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:18:35-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V4",
+   "valor": "Entre 1 y 1.5 SMLV",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:18:50-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V7",
+   "valor": "No",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:18:50-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V8",
+   "valor": "No tiene",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:18:50-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V10",
+   "valor": "No",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:18:50-05:00"
+  },
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "variable": "V11",
+   "valor": "Sí",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:18:50-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V1",
+   "valor": "41",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:37:00-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V5",
+   "valor": "Familia nuclear, pareja y 1 hijo",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:37:50-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V6",
+   "valor": "Casa propia",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:38:35-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V4",
+   "valor": "Entre 2 y 2.5 SMLV",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:39:20-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V8",
+   "valor": "Carro propio",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:40:10-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V2",
+   "valor": "M",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:40:40-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "variable": "V11",
+   "valor": "No",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:40:40-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V1",
+   "valor": "61",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:51:30-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V2",
+   "valor": "F",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:51:30-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V3",
+   "valor": "Pensionada",
+   "fuente": "precarga_crm",
+   "ts": "2026-07-25T09:51:30-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V5",
+   "valor": "Pareja conyugal, sin hijos en casa",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:52:20-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V6",
+   "valor": "Apartamento propio",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:53:10-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V9",
+   "valor": "Gata, 8 años",
+   "fuente": "pregunta",
+   "ts": "2026-07-25T09:54:00-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V4",
+   "valor": "Entre 1 y 1.5 SMLV",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:54:30-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "variable": "V11",
+   "valor": "No",
+   "fuente": "inferencia",
+   "ts": "2026-07-25T09:54:30-05:00"
+  }
+ ],
+ "outputs": [
+  {
+   "output_id": 1,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:50-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "vida-personal-familiar",
+   "score": 34.0,
+   "pct_afinidad": 87.2,
+   "rank": 1,
+   "modo_cierre": "asesoria",
+   "porque": "Composición familiar: hogar monoparental con 2 dependientes"
+  },
+  {
+   "output_id": 2,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:50-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "exequial",
+   "score": 29.0,
+   "pct_afinidad": 74.4,
+   "rank": 2,
+   "modo_cierre": "auto",
+   "porque": "Jefatura de hogar sin red de respaldo registrada"
+  },
+  {
+   "output_id": 3,
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "ts": "2026-07-25T09:18:50-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "ap-digital-chubb",
+   "score": 26.5,
+   "pct_afinidad": 68.1,
+   "rank": 3,
+   "modo_cierre": "auto",
+   "porque": "Edad y perfil digital joven"
+  },
+  {
+   "output_id": 4,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:40-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "hogar-contenido",
+   "score": 31.0,
+   "pct_afinidad": 81.5,
+   "rank": 1,
+   "modo_cierre": "auto",
+   "porque": "Vivienda propia con patrimonio a proteger"
+  },
+  {
+   "output_id": 5,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:40-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "todo-riesgo-carro",
+   "score": 28.9,
+   "pct_afinidad": 76.0,
+   "rank": 2,
+   "modo_cierre": "auto",
+   "porque": "Vehículo propio declarado"
+  },
+  {
+   "output_id": 6,
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "ts": "2026-07-25T09:40:40-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "vida-personal-familiar",
+   "score": 27.3,
+   "pct_afinidad": 70.2,
+   "rank": 3,
+   "modo_cierre": "asesoria",
+   "porque": "Familia nuclear con dependientes"
+  },
+  {
+   "output_id": 7,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:54:30-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "asistencias-medicas-familiares",
+   "score": 30.1,
+   "pct_afinidad": 79.8,
+   "rank": 1,
+   "modo_cierre": "asesoria",
+   "porque": "Edad y necesidad de acompañamiento médico"
+  },
+  {
+   "output_id": 8,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:54:30-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "exequial",
+   "score": 29.4,
+   "pct_afinidad": 77.5,
+   "rank": 2,
+   "modo_cierre": "auto",
+   "porque": "Rango de edad mayor de 55"
+  },
+  {
+   "output_id": 9,
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "ts": "2026-07-25T09:54:30-05:00",
+   "motor_version": "v1.0",
+   "producto_id": "mascota-perro-gato",
+   "score": 20.9,
+   "pct_afinidad": 55.0,
+   "rank": 3,
+   "modo_cierre": "auto",
+   "porque": "Mascota declarada en el hogar"
+  }
+ ],
+ "labels": [
+  {
+   "session_id": "a47b3c21-8f42-4d9e-b1a2-7c5d9e1f3a4b",
+   "label": "compro",
+   "producto_id": "vida-personal-familiar",
+   "ts": "2026-07-25T09:19:30-05:00"
+  },
+  {
+   "session_id": "b52c4d32-9f53-5e0f-c2b3-8d6e0f2g4b5c",
+   "label": "abandono",
+   "producto_id": "hogar-contenido",
+   "ts": "2026-07-25T09:42:00-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "label": "no_elegible",
+   "producto_id": "asistencias-medicas-familiares",
+   "ts": "2026-07-25T09:55:00-05:00"
+  },
+  {
+   "session_id": "c63d5e43-0g64-6f1g-d3c4-9e7f1g3h5c6d",
+   "label": "handoff",
+   "producto_id": "asistencias-medicas-familiares",
+   "ts": "2026-07-25T09:55:45-05:00"
+  }
+ ]
+}

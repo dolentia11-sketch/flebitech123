@@ -1,0 +1,34 @@
+variable,etiqueta_variable,categoria,vida,accidentes,renta,cancer,salud,exequial,mascotas,autos,hogar,bicicletas,arrendamiento,educacion,racional
+V1,Rango de edad,18-25 años,1,3,1,0,2,1,3,1,1,4,1,1,Prioridad en bicicleta/patineta eléctrica y mascota (perfil joven urbano); vida y cáncer casi irrelevantes a esta edad.
+V1,Rango de edad,26-35 años,3,3,2,1,3,1,4,3,2,3,3,3,"Edad pico de tenencia de mascota (30-50 años, SURA) y de arriendo (DANE); comienza a evaluar vida y autos."
+V1,Rango de edad,36-45 años,5,2,3,2,3,2,3,4,4,2,3,5,Pico de compra de vivienda y auto propio; arranca la lógica HLV/DIME de vida por responsabilidades familiares.
+V1,Rango de edad,46-55 años,4,2,4,4,4,3,2,4,4,1,2,3,"21,7% de casos de cáncer ocurre en 55-64 años, el riesgo ya es relevante desde los 46; renta por hospitalización sube."
+V1,Rango de edad,56-65 años,2,2,5,5,4,4,1,3,3,1,1,1,Cáncer y renta hospitalización en niveles altos; exequial empieza a ganar peso.
+V1,Rango de edad,66+ años,1,2,5,5,3,5,1,1,2,0,0,0,"53,2% de los casos de cáncer en hombres ocurre en 65+ años (INC); exequial es prioridad máxima."
+V2,Género,Masculino,3,3,2,3,2,2,2,3,2,3,2,2,Mayor peso relativo en autos/motos y cáncer de próstata/estómago.
+V2,Género,Femenino,4,2,3,4,3,3,4,2,2,2,2,3,76% de clientes de seguros de mascotas son mujeres (SURA); mayor probabilidad de jefatura de hogar.
+V3,Situación laboral,Formal dependiente,2,1,1,2,3,2,2,3,3,2,2,3,"Ya cuenta con EPS, ARL y pensión vía empleador; prioridad en complementarios por mayor estabilidad de ingreso."
+V3,Situación laboral,Formal independiente / profesional,5,4,4,3,4,2,2,3,3,2,3,4,Sin seguro de vida grupal ni ARL automática; el 84% de la PEA no tiene vida individual (Fasecolda).
+V3,Situación laboral,Informal / cuenta propia sin cotización,3,5,3,1,1,4,1,1,1,1,1,2,"55,4% de la población ocupada (DANE); sin ARL ni pensión, accidentes y exequial son la protección más accesible."
+V4,Nivel de ingreso mensual,Bajo (< $1.3M),1,3,1,1,0,4,1,0,0,2,0,1,Capacidad de pago limitada a prima baja; exequial tiene fuerte arraigo cultural en estratos bajos.
+V4,Nivel de ingreso mensual,Medio ($1.3M - $4.6M),3,3,3,3,3,2,3,3,3,2,2,3,"Segmento de clase media (32-34% de la población, DANE) — el segmento con mayor potencial de conversión."
+V4,Nivel de ingreso mensual,Alto (> $4.6M),4,2,3,3,5,1,4,5,5,1,4,4,Mayor probabilidad de vivienda y vehículo propios; foco en salud complementaria y patrimonio.
+V5,Composición familiar,Soltero(a) sin hijos,1,3,1,1,2,1,4,2,1,4,1,0,"Sin dependientes económicos; prioridad en mascota, bicicleta/patineta eléctrica y accidentes personales sobre vida."
+V5,Composición familiar,Pareja sin hijos,2,2,2,2,3,2,4,3,4,2,2,0,"Enfoque en patrimonio compartido (hogar, auto) y mascota."
+V5,Composición familiar,Con hijos menores de edad,5,3,4,3,5,3,2,3,4,1,1,5,Máxima prioridad en vida y salud familiar (lógica HLV/DIME); sube renta por hospitalización y educación.
+V5,Composición familiar,Monoparental con hijos,5,3,3,2,3,4,1,1,2,1,1,4,"24,3% de los hogares (DANE); único proveedor, vida, exequial y educación son críticos."
+V5,Composición familiar,Multigeneracional / adulto mayor a cargo,3,2,5,4,3,5,1,1,2,0,0,2,"Mayor probabilidad de necesitar renta por hospitalización, cáncer y exequial para el adulto mayor."
+V6,Tipo de vivienda,Propia pagada,2,1,1,1,2,1,2,2,5,1,1,1,Activo consolidado sin deuda; el seguro de hogar es decisión 100% voluntaria.
+V6,Tipo de vivienda,Propia financiada (hipoteca),3,1,1,1,2,1,1,2,5,1,1,1,+70% de pólizas de hogar atadas a crédito hipotecario (Fasecolda) — casi obligatorio en la práctica.
+V6,Tipo de vivienda,Arrendada,1,1,1,1,1,1,2,1,1,1,0,1,Menor necesidad de seguro de hogar; puede necesitar seguro de contenidos básico.
+V7,¿Es propietario que arrienda un inmueble a terceros?,Sí,0,0,0,0,0,0,0,0,1,0,5,0,Oportunidad de venta cruzada específica de Arrendamiento (garantía a terceros).
+V7,¿Es propietario que arrienda un inmueble a terceros?,No,0,0,0,0,0,0,0,0,0,0,0,0,Sin relevancia en esta variable.
+V8,Tenencia de vehículo,Carro,1,1,0,0,0,0,0,5,0,0,0,0,"Solo 12,2% del parque automotor tiene todo riesgo (Fasecolda) — alta oportunidad."
+V8,Tenencia de vehículo,Moto,2,3,1,0,0,0,0,3,0,0,0,0,"Motos son 61-63% del parque pero solo 2,8-3% tiene todo riesgo — brecha grande; sube accidentes personales."
+V8,Tenencia de vehículo,No tiene,0,0,0,0,0,0,0,0,0,0,0,0,Sin relevancia para productos de vehículo.
+V9,¿Tiene mascota (perro o gato)?,Sí,0,0,0,0,0,0,5,0,0,0,0,0,Oportunidad de venta cruzada directa de Mascotas.
+V9,¿Tiene mascota (perro o gato)?,No,0,0,0,0,0,0,0,0,0,0,0,0,Sin relevancia en esta variable.
+V10,¿Usa bicicleta o patineta eléctrica como transporte o deporte habitual?,Sí,0,2,0,0,0,0,0,0,0,5,0,0,"Oportunidad de venta cruzada directa de Bicicletas y patinetas eléctricas (hurto cada 2,5h en Bogotá, 2025)."
+V10,¿Usa bicicleta o patineta eléctrica como transporte o deporte habitual?,No,0,0,0,0,0,0,0,0,0,0,0,0,Sin relevancia en esta variable.
+V11,¿Es jefatura de hogar femenina sin pareja?,Sí,3,1,1,1,1,2,0,0,0,0,0,3,"46,5% jefatura femenina, 68,8% sin pareja (DANE) — foco especial del ICP de soycaropinzón; también sube educación por ser único proveedor."
+V11,¿Es jefatura de hogar femenina sin pareja?,No,0,0,0,0,0,0,0,0,0,0,0,0,Sin relevancia en esta variable.

@@ -1,0 +1,301 @@
+{
+  "meta": {
+    "fuente": "colsubsidio.com/seguros y subpáginas oficiales + clausulados PDF + páginas de aliados (Chubb, Sura)",
+    "fecha_captura": "2026-07-22",
+    "version": "v2 — corregida tras revisión multiagéntica (SOAT reestructurado, productos Chubb agregados, viajes y medicina prepagada mascotas agregados)",
+    "rol_colsubsidio": "Sponsor / distribuidor. No diseña ni emite las pólizas; facilita el acceso a productos de varias aseguradoras.",
+    "nota_precios": "Las primas NO son públicas (la web exige cotización) y se simulan en el MVP — EXCEPTO el SOAT, cuya tarifa es regulada y pública (la fija anualmente la Superintendencia Financiera por tipo de vehículo, cilindraje y antigüedad): usar valor real, no simulado.",
+    "nota_soat": "Según los organizadores (presentación en vivo del reto, 22-jul-2026), SOAT es una de las líneas de seguros con mayor volumen de ventas de Colsubsidio.",
+    "formas_pago": ["Cupo de crédito de la Tarjeta de Afiliación", "Cuota monetaria", "Otro canal autorizado por la aseguradora"],
+    "aseguradoras_aliadas": ["MetLife Colombia Seguros de Vida S.A.", "Chubb Seguros Colombia", "BMI Seguros Colombia", "Seguros SURA"]
+  },
+  "productos": [
+    {
+      "id": "vida-personal-familiar",
+      "familia": "Vida y exequial",
+      "producto": "Seguro de Vida (personal y familiar)",
+      "aseguradora": null,
+      "cubre": ["Fallecimiento", "Incapacidad", "Respaldo económico para beneficiarios"],
+      "dirigido_a": "Personas y familias que quieren proteger su ingreso y a sus beneficiarios",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/familiares/vida"
+    },
+    {
+      "id": "vida-ahorro",
+      "familia": "Vida y exequial",
+      "producto": "Seguro Vida y Ahorro (Doble Beneficio)",
+      "aseguradora": "BMI Seguros Colombia (por confirmar en el flujo de compra)",
+      "cubre": ["Fallecimiento accidental", "Incremento automático de capital", "Componente de ahorro"],
+      "dirigido_a": "Quien busca protección por fallecimiento accidental mientras ahorra",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/personal/vida-exequial/vida-ahorro"
+    },
+    {
+      "id": "accidentes-personales-metlife",
+      "familia": "Vida y exequial",
+      "producto": "Seguro de Accidentes Personales (clausulado MetLife)",
+      "aseguradora": "MetLife Colombia Seguros de Vida S.A.",
+      "cubre": ["Muerte accidental", "Muerte presunta por desaparecimiento", "Muerte o lesiones por atraco", "Incapacidad", "Gastos médicos", "Gastos funerarios"],
+      "dirigido_a": "Afiliados que quieren protección económica ante un accidente; entrada de bajo costo. Nota: coexiste con el AP de Chubb — confirmar cuál vende el canal del reto",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/personal/accidentes"
+    },
+    {
+      "id": "accidentes-personales-chubb",
+      "familia": "Vida y exequial",
+      "producto": "Accidentes Personales (Chubb, anual)",
+      "aseguradora": "Chubb Seguros Colombia",
+      "cubre": ["Accidentes personales (cobertura básica anual)"],
+      "dirigido_a": "Afiliados; producto del paquete Chubb-Colsubsidio",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.chubb.com/co-es/personas-y-familias/colsubsidio.html"
+    },
+    {
+      "id": "ap-digital-chubb",
+      "familia": "Vida y exequial",
+      "producto": "Accidentes Personales Digital (Chubb)",
+      "aseguradora": "Chubb Seguros Colombia",
+      "cubre": ["Accidentes personales por canal de venta digital"],
+      "dirigido_a": "Afiliados en canal digital — encaja de forma natural con un funnel de venta automatizada",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.chubb.com/co-es/personas-y-familias/colsubsidio.html"
+    },
+    {
+      "id": "proteccion-urbana-chubb",
+      "familia": "Vida y exequial",
+      "producto": "Protección Urbana (Chubb)",
+      "aseguradora": "Chubb Seguros Colombia",
+      "cubre": ["Protección integral ante riesgos urbanos"],
+      "dirigido_a": "Afiliados en entornos urbanos; producto del paquete Chubb-Colsubsidio",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.chubb.com/co-es/personas-y-familias/colsubsidio.html"
+    },
+    {
+      "id": "accidentes-exequial",
+      "familia": "Vida y exequial",
+      "producto": "Seguro de Accidentes Personales y Exequial",
+      "aseguradora": null,
+      "cubre": ["Muerte accidental", "Servicio exequial / gastos funerarios"],
+      "dirigido_a": "Familias que quieren accidentes + respaldo funerario en un solo producto",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/familiares/accidente-exequial"
+    },
+    {
+      "id": "exequial",
+      "familia": "Vida y exequial",
+      "producto": "Seguro Exequial (funerario)",
+      "aseguradora": "BMI Seguros Colombia",
+      "cubre": ["Gastos funerarios completos", "Acompañamiento en el fallecimiento de un ser querido"],
+      "dirigido_a": "Personas que quieren cubrir gastos funerarios propios y de su grupo familiar",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/personal/vida-exequial/funerario"
+    },
+    {
+      "id": "oncologico",
+      "familia": "Salud y asistencias",
+      "producto": "Producto Oncológico (Chubb)",
+      "aseguradora": "Chubb Seguros Colombia",
+      "cubre": ["Diagnóstico y tratamiento de cáncer", "Suma asegurada oncológica"],
+      "dirigido_a": "Personas que quieren protección financiera ante el cáncer. Nota: el Crédito Mujer de Colsubsidio incluye protección oncológica como beneficio",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.chubb.com/co-es/personas-y-familias/colsubsidio.html"
+    },
+    {
+      "id": "asistencias-multiples",
+      "familia": "Salud y asistencias",
+      "producto": "Asistencias Múltiples para Hogar y Vehículo",
+      "aseguradora": null,
+      "cubre": ["Asistencia para el hogar", "Asistencia para el vehículo", "Servicios de emergencia 24/7"],
+      "dirigido_a": "Hogares que quieren respaldo ante imprevistos domésticos y del carro",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/personal/asistencias-multiples"
+    },
+    {
+      "id": "asistencias-medicas-familiares",
+      "familia": "Salud y asistencias",
+      "producto": "Asistencias médicas familiares",
+      "aseguradora": null,
+      "cubre": ["Orientación y atención médica", "Asistencias para la familia"],
+      "dirigido_a": "Familias que quieren respaldo médico complementario",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/familiares"
+    },
+    {
+      "id": "asistencias-medicas-viajes",
+      "familia": "Salud y asistencias",
+      "producto": "Asistencia médica en viajes",
+      "aseguradora": null,
+      "cubre": ["Protección médica en viajes nacionales e internacionales"],
+      "dirigido_a": "Afiliados que viajan; posible venta cruzada con agencia de viajes Colsubsidio",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/familiares/asistencias-medicas-viajes"
+    },
+    {
+      "id": "hogar-contenido",
+      "familia": "Hogar y patrimonio",
+      "producto": "Seguro para el Hogar y su Contenido",
+      "aseguradora": null,
+      "cubre": ["Terremoto", "Incendio", "Robo", "Erupción", "Contenidos del hogar"],
+      "dirigido_a": "Propietarios y arrendatarios que quieren proteger su vivienda y sus bienes",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/hogar/contenido"
+    },
+    {
+      "id": "arrendamiento",
+      "familia": "Hogar y patrimonio",
+      "producto": "Seguro de Arrendamiento (garantía de arriendo)",
+      "aseguradora": "Seguros SURA (versión digital)",
+      "cubre": ["Garantía del canon de arriendo", "Protección del contrato y del inmueble"],
+      "dirigido_a": "Propietarios que arriendan; afiliados y no afiliados (versión digital)",
+      "relevante_reto": false,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/hogar/arrendamiento"
+    },
+    {
+      "id": "soat",
+      "familia": "Vehículos",
+      "producto": "SOAT (carro y moto)",
+      "aseguradora": null,
+      "cubre": ["Gastos médicos por accidente de tránsito", "Incapacidad permanente", "Muerte y gastos funerarios", "Transporte de víctimas"],
+      "dirigido_a": "Todo dueño de vehículo (obligatorio por ley; renovación anual = contacto recurrente). Una de las líneas de mayor volumen de ventas según los organizadores",
+      "relevante_reto": true,
+      "precio_desde": "Tarifa regulada pública — fijada por la Superintendencia Financiera según tipo de vehículo, cilindraje y antigüedad. Usar valor real, no simulado",
+      "url": "https://www.colsubsidio.com/seguros/vehiculos/soat"
+    },
+    {
+      "id": "todo-riesgo-carro",
+      "familia": "Vehículos",
+      "producto": "Seguro Todo Riesgo para Carro",
+      "aseguradora": null,
+      "cubre": ["Daños", "Robo", "Responsabilidad civil a terceros", "Grúa y asistencia 24/7"],
+      "dirigido_a": "Dueños de carro que quieren cobertura más allá del SOAT",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/vehiculos/carro"
+    },
+    {
+      "id": "todo-riesgo-moto",
+      "familia": "Vehículos",
+      "producto": "Seguro Todo Riesgo para Moto",
+      "aseguradora": null,
+      "cubre": ["Todo riesgo", "Daños a terceros", "Servicio de grúa", "Protección legal"],
+      "dirigido_a": "Dueños de moto que quieren cobertura más allá del SOAT",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/vehiculos/moto"
+    },
+    {
+      "id": "vehiculo-bici-patineta",
+      "familia": "Vehículos",
+      "producto": "Seguro para Bicicleta, Scooter y Patineta eléctrica",
+      "aseguradora": null,
+      "cubre": ["Daños", "Robo", "Responsabilidad civil"],
+      "dirigido_a": "Usuarios de micromovilidad",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/vehiculos/bicicleta-patineta"
+    },
+    {
+      "id": "mascota-perro-gato",
+      "familia": "Mascotas",
+      "producto": "Seguro para Mascotas (perro y gato)",
+      "aseguradora": null,
+      "cubre": ["Asistencia médica veterinaria", "Responsabilidad civil", "Protección ante daños"],
+      "dirigido_a": "Dueños de perros y gatos",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/mascotas/perro-gato"
+    },
+    {
+      "id": "mascota-asistencia-veterinaria",
+      "familia": "Mascotas",
+      "producto": "Asistencia Veterinaria 24/7",
+      "aseguradora": null,
+      "cubre": ["Orientación telefónica", "Consultas", "Emergencias", "Localización de mascotas"],
+      "dirigido_a": "Dueños de mascotas que quieren respaldo veterinario de bajo costo",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/mascotas/asistencia-veterinaria"
+    },
+    {
+      "id": "mascota-medicina-prepagada",
+      "familia": "Mascotas",
+      "producto": "Medicina Prepagada para Mascotas",
+      "aseguradora": null,
+      "cubre": ["Plan de medicina prepagada veterinaria"],
+      "dirigido_a": "Dueños de mascotas; producto distinto del seguro y de la asistencia (verificar diferencias exactas en la página)",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/mascotas/medicina-prepagada"
+    },
+    {
+      "id": "vida-deudor",
+      "familia": "Deudores / crédito",
+      "producto": "Seguro de Vida Deudor",
+      "aseguradora": null,
+      "cubre": ["Cancelación de la deuda por muerte", "Cancelación por incapacidad permanente"],
+      "dirigido_a": "Quien toma un crédito y quiere que su familia no herede la deuda",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/deudores-financieros/vida"
+    },
+    {
+      "id": "desempleo",
+      "familia": "Deudores / crédito",
+      "producto": "Seguro de Desempleo (atado a crédito)",
+      "aseguradora": null,
+      "cubre": ["Pago de cuotas del crédito ante desempleo", "Incapacidad temporal"],
+      "dirigido_a": "Trabajadores con crédito Colsubsidio. OJO: paga cuotas del crédito, NO reemplaza ingreso — no venderlo como protección de ingreso general",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/deudores-financieros/desempleo"
+    },
+    {
+      "id": "incendio-credito",
+      "familia": "Deudores / crédito",
+      "producto": "Seguro de Incendio (crédito hipotecario)",
+      "aseguradora": null,
+      "cubre": ["Incendio", "Daños", "Eventos naturales (vendaval, granizo, etc.)"],
+      "dirigido_a": "Deudores hipotecarios",
+      "relevante_reto": false,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/seguros/deudores-financieros",
+      "nota": "URL específica anterior devolvía 404; se enlaza la familia. Verificar URL vigente"
+    },
+    {
+      "id": "vida-desempleo-credito-consumo",
+      "familia": "Deudores / crédito",
+      "producto": "Vida con anexo de desempleo (incluido en crédito de consumo)",
+      "aseguradora": "MetLife Colombia Seguros de Vida S.A.",
+      "cubre": ["Fallecimiento", "Incapacidad permanente total", "Incapacidad temporal", "Desempleo", "Asistencia para el hogar"],
+      "dirigido_a": "Todo tomador de crédito de consumo Colsubsidio (viene activado)",
+      "relevante_reto": true,
+      "precio_desde": null,
+      "url": "https://ayuda.colsubsidio.com/que-seguros-cuenta-credito-consumo-colsubsidio"
+    },
+    {
+      "id": "empresas-colectivo-vida",
+      "familia": "Empresas (colectivos)",
+      "producto": "Seguro de Vida para Empleados (colectivo)",
+      "aseguradora": null,
+      "cubre": ["Vida grupal para la nómina de una empresa"],
+      "dirigido_a": "Empresas afiliadas (no aplica al reto de venta individual)",
+      "relevante_reto": false,
+      "precio_desde": null,
+      "url": "https://www.colsubsidio.com/empresas/bienestar/seguros/colectivo-vida"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+key,nombre,linea
+vida,Vida,Familia
+accidentes,Accidentes personales,Familia
+renta,Renta por hospitalización,Familia
+cancer,Diagnóstico positivo de cáncer,Familia
+salud,Póliza de salud,Familia
+exequial,Exequial familiar,Familia
+mascotas,Seguro de mascotas,Familia
+autos,Todo riesgo autos y motos,Patrimonio
+hogar,Todo riesgo hogar,Patrimonio
+bicicletas,Bicicletas y patinetas eléctricas,Patrimonio
+arrendamiento,Arrendamiento,Patrimonio
+educacion,Educación,Familia

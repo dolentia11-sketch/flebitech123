@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief oficial — Reto 02: Venta automatizada de seguros</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--line:#2a323d;--tx:#e8edf3;--tx2:#9fb0c3;--tx3:#6b7a8d;--acc:#5b8cff;--acc2:#3ad0a0;--warn:#f0b429}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 28px 70px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(91,140,255,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+  h2{font-size:20px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px;color:#fff}
+  p,li{font-size:14.5px;color:var(--tx)}
+  li{margin:4px 0}
+  blockquote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;margin:14px 0;padding:12px 16px;color:var(--tx2)}
+  blockquote p{margin:4px 0;color:var(--tx2);font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:var(--acc2)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto}
+  pre code{border:none;background:none;padding:0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  strong{color:#fff}
+  .back{display:inline-block;margin-bottom:20px;font-size:13px;font-weight:600}
+  .metabar{font-size:12px;color:var(--tx3);margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+</style></head><body><div class="wrap">
+<a class="back" href="../2026-07-22_avances-jara.html">&larr; Volver al reporte</a>
+<div class="metabar">Hackathon Colsubsidio × 30X · Scala Labs · Reto 02 — entregable del repo (investigacion/2026-07-22_brief-oficial-reto02.md)</div>
+<h1>Brief oficial — Reto 02: Venta automatizada de seguros</h1>
+<p>Publicado por la organización el 22 jul 2026. Fuente de verdad del reto.</p>
+<h2>El problema</h2>
+<p>Hoy, comprar un seguro en Colsubsidio exige un asesor comercial que identifica la
+necesidad, cotiza, explica coberturas y concreta la venta. Sin esa intervención, la
+venta no ocurre. Ese modelo:</p>
+<ul>
+<li><strong>No escala:</strong> un asesor atiende a uno a la vez.</li>
+<li><strong>No está 24/7:</strong> si alguien lo necesita un sábado 10 pm, espera al lunes.</li>
+<li><strong>Genera experiencias inconsistentes:</strong> cada asesor explica, ofrece y cierra distinto.</li>
+</ul>
+<p><strong>Misión:</strong> llevar al potencial cliente de &ldquo;no sé qué seguro necesito&rdquo; a &ldquo;ya quedé
+asegurado&rdquo; sin que hable con nadie.</p>
+<p><strong>Rol de Colsubsidio = SPONSOR</strong> (no diseña ni emite pólizas; no es asegurador ni
+intermediario). Facilita el acceso a seguros de distintas aseguradoras. El reto:
+ayudar a cada persona a identificar la opción más adecuada del catálogo y acompañarla
+hasta quedar asegurada.</p>
+<h2>Cómo se ve un buen resultado (criterios de éxito)</h2>
+<ul>
+<li><strong>Identifica propensión:</strong> qué tipo de persona tiene mayor probabilidad de necesitar
+  un seguro y por qué.</li>
+<li><strong>Oferta adaptada al perfil:</strong> distinta para soltero sin hijos vs. casado con 3 hijos
+  (en tipo de seguro y coberturas, no solo precio).</li>
+<li><strong>Autogestión:</strong> ajustar coberturas, comparar opciones y resolver dudas sin llamar.</li>
+<li><strong>Cierra la vinculación:</strong> aceptación, confirmación y resumen → queda asegurada.</li>
+<li><strong>Recorrible de inicio a fin sin que el equipo lo explique al jurado.</strong> Autogestionado.</li>
+</ul>
+<blockquote>
+<p>No importa si es app, chat, flujo guiado u otra cosa. Quieren ver la forma de resolverlo.</p>
+</blockquote>
+<h2>El dominio (contexto, no instrucción)</h2>
+<ol>
+<li><strong>Colsubsidio es sponsor, no asegurador ni intermediario.</strong> El catálogo reúne
+   productos de varias aseguradoras. El flujo no diseña el seguro; ayuda a encontrar
+   el adecuado entre los existentes y a vincularse.</li>
+<li><strong>La propensión NO puede ser aleatoria.</strong> Debe basarse en variables reales:
+   nº de beneficiarios, edad, eventos de vida, tipo de empleo, hábitos. El jurado
+   preguntará: ¿por qué a esta persona este seguro y no otro? &ldquo;Porque sí&rdquo; no califica.</li>
+<li><strong>La oferta debe variar por perfil.</strong> Soltero sin hijos vs. casado con 3 hijos =
+   ofertas claramente distintas (tipo de seguro + coberturas). Genérica no califica.</li>
+<li><strong>La experiencia debe transmitir confianza.</strong> No es comprar una camiseta; está
+   decidiendo proteger algo importante. Interfaz personal, no formulario genérico.
+   Lenguaje claro, info relevante visible, sin tecnicismos. Pregunta del jurado:
+   <strong>¿yo usaría esto para comprar un seguro real?</strong></li>
+<li><strong>Timing y canal (opcional, potente).</strong> Detectar cuándo y por dónde contactar
+   (tras un evento de vida, tras X días sin interacción, tras consultar cierto
+   servicio) eleva mucho el puntaje estratégico.</li>
+</ol>
+<h2>Qué NO toca el reto (fuera de alcance → se simula)</h2>
+<ul>
+<li>Integración real con aseguradoras.</li>
+<li>Firma electrónica con validez legal.</li>
+<li>Gestión de siniestros, renovaciones o multi-aseguradora en producción.</li>
+<li>Pasarela de pago real.</li>
+</ul>
+<hr />
+<h2>Implicaciones para mí (hustler) — lectura estratégica</h2>
+<p><strong>El brief movió el peso hacia mis fortalezas.</strong> Tres de los cinco criterios de éxito
+son marketing/UX/copy puro, no ingeniería:</p>
+<ul>
+<li><strong>&ldquo;Transmitir confianza&rdquo; = mi terreno.</strong> Tono, copy sin tecnicismos, jerarquía de
+  info, diseño que se sienta humano. Debo <strong>ser dueño de la voz y la experiencia</strong> del
+  funnel. Es lo que responde el &ldquo;¿yo usaría esto?&rdquo; del jurado.</li>
+<li><strong>&ldquo;Propensión por variables reales&rdquo; = mi descubrimiento alimenta esto.</strong> Mis
+  entrevistas deben capturar las variables exactas del brief: beneficiarios, edad,
+  eventos de vida, tipo de empleo, hábitos. Eso le da al motor su lógica defendible.</li>
+<li><strong>&ldquo;Oferta que varía por perfil&rdquo; = arquetipos.</strong> Puedo construir 3–4 personas-tipo
+  (soltero joven, casado con hijos, cabeza de familia mayor…) con su oferta lógica.
+  Le da al equipo los casos de demo y al jurado el &ldquo;por qué a cada quién&rdquo;.</li>
+<li><strong>&ldquo;Timing y canal&rdquo; (el bonus) = growth marketing.</strong> Diseñar la capa de disparadores
+  por evento de vida es exactamente mi oficio. Casi ningún equipo técnico lo clava —
+  diferenciador de puntaje estratégico.</li>
+</ul>
+<p><strong>Reframe clave del pitch:</strong> Colsubsidio es <em>sponsor</em>, no vendedor. La narrativa no es
+&ldquo;vendemos seguros sin humanos&rdquo; (suena agresivo/riesgoso) sino <strong>&ldquo;ayudamos a cada
+afiliado a encontrar la protección correcta del catálogo, solo, cuando la necesita,
+sin fricción ni presión de venta.&rdquo;</strong> Más defendible y más humano.</p>
+<p><strong>Baja la alarma de compliance legal:</strong> al no ser intermediario, el miedo a
+&ldquo;intermediación de seguros&rdquo; se suaviza. Lo que queda no es un bloqueo legal sino un
+requisito de <strong>confianza e idoneidad</strong> — venta adecuada, claridad, consentimiento
+visible. Eso es diseño de experiencia, mi terreno, no un muro jurídico.</p>
+</div></body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validación de hipótesis — propuesta marketplace de protección</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--line:#2a323d;--tx:#e8edf3;--tx2:#9fb0c3;--tx3:#6b7a8d;--acc:#5b8cff;--acc2:#3ad0a0;--warn:#f0b429}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 28px 70px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(91,140,255,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+  h2{font-size:20px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px;color:#fff}
+  p,li{font-size:14.5px;color:var(--tx)}
+  li{margin:4px 0}
+  blockquote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;margin:14px 0;padding:12px 16px;color:var(--tx2)}
+  blockquote p{margin:4px 0;color:var(--tx2);font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:var(--acc2)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto}
+  pre code{border:none;background:none;padding:0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  strong{color:#fff}
+  .back{display:inline-block;margin-bottom:20px;font-size:13px;font-weight:600}
+  .metabar{font-size:12px;color:var(--tx3);margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+</style></head><body><div class="wrap">
+<a class="back" href="../2026-07-22_avances-jara.html">&larr; Volver al reporte</a>
+<div class="metabar">Hackathon Colsubsidio × 30X · Scala Labs · Reto 02 — entregable del repo (investigacion/2026-07-22_validacion-hipotesis-marketplace.md)</div>
+<h1>Validación de hipótesis — propuesta marketplace de protección</h1>
+<p>Investigación web realizada el 2026-07-22 (3 agentes en paralelo, foco Colombia,
+evidencia actual). Las 3 hipótesis de la propuesta de JP, contrastadas con fuentes.</p>
+<h2>H1 — &ldquo;Las aseguradoras dan descuento por volumen a tomadores/distribuidores&rdquo;</h2>
+<p><strong>Veredicto: SOPORTADA</strong> (con un matiz).</p>
+<ul>
+<li><strong>Colsubsidio ya opera esta mecánica.</strong> MetLife Colombia tiene una unidad de
+  &ldquo;Seguros Masivos&rdquo; por convenios, con página oficial del <strong>Convenio Colsubsidio</strong>
+  (4 líneas: cuota monetaria, cupo crédito, recreación, renta garantizada). También
+  tienen convenios Cafam, Seguros Falabella, Serfinanza, GMF, EPM-Coassist.
+  → metlife.com.co/seguros-masivos/colsubsidio</li>
+<li><strong>Los seguros colectivos implican primas de grupo menores.</strong> Referencia de mercado
+  colombiana: &ldquo;ahorro de hasta el 25% respecto a otros tipos de pólizas&rdquo; (E-Broker).
+  Sura y Allianz Colombia comercializan &ldquo;Vida Grupo&rdquo;/&rdquo;Colectivos&rdquo; como líneas formales.</li>
+<li><strong>Fasecolda empuja seguros inclusivos por canal masivo:</strong> NOVASEG (laboratorio con
+  Banca de las Oportunidades + PNUD, 2025-2026), pólizas inclusivas desde $5.000 COP
+  (La República).</li>
+<li><strong>Marco legal de base:</strong> Ley 389 de 1997 + Decreto 1367 de 1998 (uso de red,
+  bancaseguros).</li>
+</ul>
+<p><strong>Matiz:</strong> el descuento exacto NO es tarifario público — se negocia caso a caso según
+tamaño, perfil y siniestralidad del grupo. El precio preferencial del convenio
+Colsubsidio–MetLife es inferencia de la figura colectiva (no hay cifra pública).</p>
+<h2>H2 — &ldquo;El recaudo único mensual multi-aseguradora es operable regulatoriamente&rdquo;</h2>
+<p><strong>Veredicto: OPERABLE CON CONDICIONES.</strong></p>
+<p>Tres vías legales vigentes para que una entidad no aseguradora comercialice y recaude:</p>
+<table>
+<thead>
+<tr>
+<th>Vía</th>
+<th>Figura</th>
+<th>Base legal</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A (la más directa)</td>
+<td><strong>Tomador de pólizas colectivas</strong> — la caja toma una póliza colectiva con CADA aseguradora, recauda un pago del usuario y paga prima única como tomador</td>
+<td>Práctica reconocida por la URF (doc. técnico 2018): &ldquo;el pago de una prima única por un solo tomador reduce costos y riesgos&rdquo;</td>
+<td>Es lo que ya hace el sector; no dar asesoría de intermediario sin autorización</td>
+</tr>
+<tr>
+<td>B</td>
+<td><strong>Corresponsal de seguros</strong> (contrato con cada aseguradora)</td>
+<td>Decreto 2555 de 2010, arts. 2.36.9.x (mod. 2015/2020/2023) — habilita expresamente recaudo de primas de cualquier ramo</td>
+<td>Productos con universalidad/sencillez/estandarización</td>
+</tr>
+<tr>
+<td>C</td>
+<td><strong>Agencia de seguros</strong> (filial/unidad) representando varias aseguradoras con facultad de recaudo</td>
+<td>EOSF art. 41; personal acreditado en SUCIS (CE 050/2015 SFC)</td>
+<td>No se puede ser agencia y corresponsal a la vez (CE 049/2016)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Precedente directo de recaudo por tercero:</strong> Enel/Codensa cobra primas de seguros
+  (p.ej. &ldquo;Salud Vital&rdquo;) <strong>en la factura de energía</strong>, autorizado en el condicionado
+  público. La URF reconoce a empresas de servicios públicos, grandes superficies y
+  concesionarios como tomadores colectivos operantes.</li>
+<li><strong>Colsubsidio ya distribuye seguros de MetLife y Chubb</strong> a afiliados con pago atado a
+  canales de la caja — el caso multi-aseguradora exacto.</li>
+<li><strong>Insurtech:</strong> R5 masificó el SOAT digital (1M+ clientes) con aseguradoras aliadas.</li>
+</ul>
+<p><strong>Condiciones/zona gris:</strong>
+- La figura de &ldquo;agregador digital multi-aseguradora&rdquo; <strong>no tiene categoría regulatoria
+  propia</strong> — doc. PNUD/industria (sept-2025): unos operan como corresponsalía digital,
+  otros como arriendo de plataforma; el marco está en construcción.
+- <strong>Uso de red NO aplica</strong> a cajas de compensación (la red debe ser entidad vigilada
+  por la SFC).
+- Si el modelo no encaja limpio: <strong>sandbox de la SFC</strong> disponible (laArenera /
+  Decreto 1234 de 2020).
+- No se encontró norma de la Superintendencia del Subsidio Familiar que lo prohíba;
+  la operación pública de Colsubsidio/Cafam sugiere que está admitido (habilitación
+  específica bajo Ley 21 de 1982: no confirmada con fuente directa).</p>
+<h2>H3 — &ldquo;Marcas externas pagarían por presencia/incentivos en la plataforma&rdquo;</h2>
+<p><strong>Veredicto: PARCIALMENTE SOPORTADA.</strong></p>
+<p><strong>Donde está probada (dinero real fluye al dueño de la plataforma):</strong>
+- <strong>Rappi Ads:</strong> publicidad ≈13% de los ingresos de Rappi, creciendo &gt;50% anual
+  (Sacra, Contrary Research). El caso más cercano a la analogía de la propuesta.
+- <strong>Mercado Ads:</strong> captura &gt;50% del retail media de LatAm (eMarketer); crecimiento
+  26-67% YoY en 2025.
+- <strong>Puntos Colombia (el precedente colombiano clave):</strong> los comercios aliados <strong>pagan
+  quincenalmente</strong> por los puntos que acumulan a sus clientes; el modelo se financia
+  con comisiones de 200+ aliados (corporativo.puntoscolombia.com; Forbes Colombia,
+  nov-2024). ~7M usuarios.
+- <strong>Card-linked offers (global):</strong> el comercio financia el descuento y suele haber
+  revenue share con el emisor (merchant-funded offers).</p>
+<p><strong>Donde NO está documentada:</strong> en cajas de compensación. Compensar (262 convenios) y
+Colsubsidio (443 convenios, 16.000 puntos de venta) operan bajo <strong>reciprocidad</strong>: el
+aliado aporta el descuento a cambio de acceso a la audiencia; no hay evidencia pública
+de pago monetario a la caja.</p>
+<p><strong>Lectura estratégica:</strong> la red de convenios de Colsubsidio ya existe (los 443); el
+paso que plantea la propuesta es <strong>evolucionar de convenio recíproco a monetización</strong>
+— el mismo salto que dio Puntos Colombia. Argumento: &ldquo;el activo ya existe; falta
+cobrarlo&rdquo;, con precedente colombiano documentado.</p>
+<p><strong>Referencias de ecosistema seguros+beneficios:</strong> Ping An (China — caso invertido: la
+aseguradora paga a proveedores para retener pólizas); Vitality en LatAm vía alianza
+Prudential–Vitality Global a 10 años (feb-2023); Betterfly (Chile, B2B — paga el
+empleador).</p>
+<h2>Fuentes (con enlace)</h2>
+<h3>H1 — descuento por volumen</h3>
+<ul>
+<li><a href="https://www.metlife.com.co/seguros-masivos/colsubsidio/">MetLife — Convenio Colsubsidio</a></li>
+<li><a href="https://www.metlife.com.co/seguros-masivos/cafam/">MetLife — Convenio Cafam</a> · <a href="https://www.metlife.com.co/seguros-masivos/falabella/">Convenio Seguros Falabella</a> · <a href="https://www.metlife.com.co/seguros/masivos/serfinanza-vida-grupo/">Convenio Serfinanza</a></li>
+<li><a href="https://e-broker.com.co/blog/seguros-colectivos-como-funcionan">E-Broker — Seguros colectivos: cómo funcionan</a></li>
+<li><a href="https://www.segurossura.com.co/Paginas/empresas/empleados/seguro-colectivo-vida.aspx">Sura — Seguro Colectivo de Vida</a> · <a href="https://www.allianz.co/seguros/empresas/colectivos.html">Allianz — Colectivos</a></li>
+<li><a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77594">Ley 389 de 1997 — Función Pública</a></li>
+<li><a href="https://www.undp.org/es/colombia/noticias/comunidades-vulnerables-tendran-nuevas-herramientas-asegurar-inversiones-medios-vida-microempresas">PNUD — NovaSeg, laboratorio de seguros inclusivos (sept-2025)</a> · <a href="https://www.fasecolda.com/cierra-experimento-de-seguros-inclusivos-y-soluciones-para-ampliar-el-acceso-al-aseguramiento/">Fasecolda — cierre experimento seguros inclusivos (2026)</a></li>
+<li><a href="https://www.larepublica.co/finanzas/polizas-desde-5-000-hasta-50-000-son-las-que-puede-encontrar-en-seguros-inclusivos-3995481">La República — pólizas inclusivas desde $5.000</a></li>
+<li><a href="https://ayuda.colsubsidio.com/que-documentos-reclamar-cobertura-desempleo-seguro-vida-creditos-colsubsidio">Ayuda Colsubsidio — cobertura de desempleo (créditos)</a></li>
+</ul>
+<h3>H2 — recaudo único / regulación</h3>
+<ul>
+<li><a href="https://publicaciones.fasecolda.com/regimen-de-seguros/chapter/p2-c10-4/">Fasecolda — Régimen de Seguros cap. 10.4 (corresponsales)</a> · <a href="https://publicaciones.fasecolda.com/regimen-de-seguros/chapter/p2-c10-2/">cap. 10.2 (uso de red)</a></li>
+<li><a href="https://www.urf.gov.co/documents/283253/0/19.1+20181115+DT+Comercializacio%CC%81n+de+seguros+-+2123_2018.pdf/9be6e6e2-921c-d715-661f-52d8ac23cffc?t=1739369857323">URF — doc. técnico Comercialización de seguros (2018)</a></li>
+<li><a href="https://www.undp.org/sites/g/files/zskgke326/files/2025-09/undp_co_doc_desarrollo_desarrollo_comercializacion_seguros_sept12_2025.pdf">PNUD — El esquema de comercialización de seguros en Colombia (sept-2025)</a></li>
+<li><a href="https://www.superfinanciera.gov.co/publicaciones/10114253/innovasfclaarenerasandbox-del-supervisor-10114253/">SFC — laArenera (sandbox del supervisor)</a> · <a href="https://www.superfinanciera.gov.co/publicaciones/10114254/innovasfclaarenerasandbox-regulatorio-10114254/">sandbox regulatorio</a></li>
+<li><a href="https://www.enel.com.co/content/dam/enel-co/espa%C3%B1ol/personas/1-13-2-2-seguro-de-salud-vital/condicionado-salud-vital-esp.pdf">Enel/Codensa — condicionado Salud Vital (cobro en factura)</a></li>
+<li><a href="https://www.eltiempo.com/economia/finanzas-personales/historia-de-r5-la-plataforma-que-vende-soat-de-manera-digital-796795">El Tiempo — R5, SOAT digital</a></li>
+<li><a href="https://agoramercatorum.uexternado.edu.co/la-promocion-del-seguro-nuevos-retos-para-la-industria-aseguradora-con-la-entrada-en-vigencia-de-la-circular-externa-050-de-2015/">U. Externado — CE 050 de 2015 y SUCIS</a></li>
+</ul>
+<h3>H3 — marcas pagan por presencia</h3>
+<ul>
+<li><a href="https://sacra.com/c/rappi/">Sacra — Rappi (ads ≈13% de ingresos)</a> · <a href="https://research.contrary.com/company/rappi">Contrary Research — Rappi</a></li>
+<li><a href="https://investor.mercadolibre.com/news-and-events/mercado-libre-builds-2024-momentum-strong-q1-2025-results-reporting-59-billion-revenue-and-494-million-net-income">Mercado Libre IR — Q1 2025</a> · <a href="https://www.emarketer.com/content/mercado-libre-q1-2025-retail-media-growth">eMarketer — Mercado Libre retail media</a></li>
+<li><a href="https://corporativo.puntoscolombia.com/lealtad">Puntos Colombia — modelo de aliados (pagan por puntos)</a> · <a href="https://forbes.co/2024/11/14/actualidad/el-negocio-de-acumular-puntos-esto-es-lo-que-las-empresas-buscan-con-esa-estrategia">Forbes Colombia (nov-2024)</a></li>
+<li><a href="https://www.pulseid.com/merchant-funded-offers/">Pulse iD — merchant-funded offers</a> · <a href="https://www.creditcards.com/education/card-linked-offers/">CreditCards.com — card-linked offers</a></li>
+<li><a href="https://group.pingan.com/about_us/our_businesses/health-and-senior-care.html">Ping An — Health and Senior Care</a></li>
+<li><a href="https://news.prudential.com/us-en/latest-news/prudential-news/2023/q1/prudential-vitality-global-expand-partnership-in-latin-america-02-28-2023">Prudential–Vitality en LatAm (feb-2023)</a> · <a href="https://www.vitalitygroup.com/company/international-markets/">Vitality Global — mercados</a></li>
+<li><a href="https://www.portafolio.co/mis-finanzas/ahorro/convenios-de-cajas-de-compensacion-generan-ahorros-millonarios-y-alivian-el-gasto-en-hogares-colombianos-491774">Portafolio — convenios de cajas</a> · <a href="https://www.semana.com/hablan-las-marcas/articulo/alianzas-que-multiplican-los-beneficios-de-las-cajas-de-compensacion-de-que-se-trata/202627/">Semana — alianzas cajas (2026-06-26)</a> · <a href="https://corporativo.compensar.com/descuentos-beneficios">Compensar — Privilegios</a></li>
+<li><a href="https://www.sura.co/bienestar">SURA — Bienestar (aliados)</a> · <a href="https://www.df.cl/df-lab/innovacion-y-startups/betterfly-apuesta-por-seguros-e-iaen-mexico-y-afirma-que-el-cambio-de">DF.cl — Betterfly</a></li>
+</ul>
+<hr />
+<p><em>Investigación: 3 agentes web en paralelo dirigidos con Claude Fable 5 (esfuerzo
+alto), 22-jul-2026. Regla aplicada: distinguir confirmado de inferido; lo no
+encontrado se declara.</em></p>
+</div></body></html>

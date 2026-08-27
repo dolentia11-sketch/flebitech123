@@ -1,0 +1,6 @@
+variable,categoria,producto_key,motivo
+V7,Sí,arrendamiento,Declara arrendar un inmueble a terceros.
+V8,Carro,autos,Declara poseer carro.
+V8,Moto,autos,Declara poseer moto.
+V9,Sí,mascotas,Declara tener perro o gato.
+V10,Sí,bicicletas,Declara usar bicicleta o patineta eléctrica.

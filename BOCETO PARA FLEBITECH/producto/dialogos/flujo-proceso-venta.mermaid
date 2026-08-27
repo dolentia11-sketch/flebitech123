@@ -1,0 +1,37 @@
+flowchart TD
+    A(["Persona llega al chat"]) --> B["Identifica qué quiere asegurar<br/>(1 de los 9 productos)"]
+    B --> C{"¿Ya eres afiliado<br/>a Colsubsidio?"}
+
+    C -->|Sí| D["'Para saber quién eres tú,<br/>indícame tu número de identificación'"]
+    D --> E["Consulta simulada:<br/>nombre, edad, género,<br/>ocupación, ciudad"]
+    E --> F["Saluda solo con el nombre.<br/>Los demás datos NUNCA se mencionan"]
+    F --> G["Recolecta SOLO los datos<br/>que faltan del producto<br/>(edad/ocupación/ciudad ya cubiertos si aplican)"]
+
+    C -->|No| H["Recolecta TODOS los datos<br/>del producto, uno por uno"]
+
+    G --> I["Reglas particulares del producto<br/>(ej. oferta de contenidos en Hogar,<br/>orden especial en Mascotas)"]
+    H --> I
+
+    I --> J["Da la recomendación<br/>(plan + razón + qué incluye)<br/>e invita a continuar"]
+
+    J --> K{"¿Confirma que<br/>quiere continuar?"}
+    K -->|"Duda / pregunta algo /<br/>tema fuera de contexto"| L["Diálogos de respaldo<br/>(1 al 8, según el caso)"]
+    L --> J
+
+    K -->|Sí| M{"¿Tipo de venta<br/>del producto?"}
+
+    M -->|Directa| N["Pide cédula si aún falta"]
+    N --> O["Pide correo electrónico<br/>('para validar tu identidad<br/>y pasar al pago')"]
+    O --> P(["CIERRE<br/>Solicitud lista para pago"])
+
+    M -->|Intermediario| Q["Ofrece elegir:<br/>'Tomar el seguro yo mismo'<br/>o 'Hablar con un asesor'"]
+    Q -->|Yo mismo| N
+    Q -->|Asesor| R["Pide cédula, correo,<br/>teléfono, WhatsApp<br/>y preferencia de contacto"]
+    R --> S(["CIERRE CON ASESOR<br/>Contacto programado"])
+
+    style A fill:#14304A,color:#fff
+    style P fill:#4C8C6B,color:#fff
+    style S fill:#E8622C,color:#fff
+    style C fill:#FFF4EC
+    style M fill:#FFF4EC
+    style K fill:#FFF4EC

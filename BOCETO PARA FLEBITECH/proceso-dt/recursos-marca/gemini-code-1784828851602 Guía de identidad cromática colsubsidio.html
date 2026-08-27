@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Identidad Cromática - Colsubsidio</title>
+    <style>
+        :root {
+            --amarillo-base: #ffd000;
+            --azul-base: #0067b1;
+            --grafito-base: #575756;
+            --fondo: #f8f9fa;
+            --texto: #212529;
+            --borde: #dee2e6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 26px;
+            color: var(--azul-base);
+            margin-bottom: 8px;
+            border-bottom: 2px solid var(--borde);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: var(--grafito-base);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: #ffffff;
+            font-size: 15px;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--borde);
+        }
+
+        th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .box-amarillo { background-color: var(--amarillo-base); }
+        .box-azul { background-color: var(--azul-base); }
+        .box-grafito { background-color: var(--grafito-base); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Guía de Identidad Cromática - Colsubsidio</h1>
+
+        <h2>Paleta de Colores Corporativos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Color</th>
+                    <th>Amarillo Colsubsidio</th>
+                    <th>Azul Colsubsidio</th>
+                    <th>Grafito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pantone</strong></td>
+                    <td>Pantone 109 C</td>
+                    <td>Pantone 2196 C</td>
+                    <td>Pantone Cool Gray 11 C</td>
+                </tr>
+                <tr>
+                    <td><strong>CMYK</strong></td>
+                    <td>0 / 18 / 100 / 0</td>
+                    <td>90 / 55 / 0 / 0</td>
+                    <td>0 / 0 / 0 / 80</td>
+                </tr>
+                <tr>
+                    <td><strong>RGB</strong></td>
+                    <td>255 / 208 / 0</td>
+                    <td>0 / 103 / 177</td>
+                    <td>87 / 87 / 86</td>
+                </tr>
+                <tr>
+                    <td><strong>HEX</strong></td>
+                    <td><code>#ffd000</code></td>
+                    <td><code>#0067b1</code></td>
+                    <td><code>#575756</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Variaciones de Tinte (Tint Tones)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Porcentaje</th>
+                    <th>Amarillo</th>
+                    <th>Azul</th>
+                    <th>Grafito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>100% (Base)</strong></td>
+                    <td><span class="color-box box-amarillo"></span>#ffd000</td>
+                    <td><span class="color-box box-azul"></span>#0067b1</td>
+                    <td><span class="color-box box-grafito"></span>#575756</td>
+                </tr>
+                <tr>
+                    <td><strong>80%</strong></td>
+                    <td>Tinte al 80%</td>
+                    <td>Tinte al 80%</td>
+                    <td>Tinte al 60%</td>
+                </tr>
+                <tr>
+                    <td><strong>60%</strong></td>
+                    <td>Tinte al 60%</td>
+                    <td>Tinte al 60%</td>
+                    <td>Tinte al 40%</td>
+                </tr>
+                <tr>
+                    <td><strong>40%</strong></td>
+                    <td>Tinte al 40%</td>
+                    <td>Tinte al 40%</td>
+                    <td>Tinte al 20%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

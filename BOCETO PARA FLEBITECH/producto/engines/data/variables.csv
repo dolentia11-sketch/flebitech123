@@ -1,0 +1,34 @@
+code,label,origen,categoria
+V1,Rango de edad,sistema,18-25 años
+V1,Rango de edad,sistema,26-35 años
+V1,Rango de edad,sistema,36-45 años
+V1,Rango de edad,sistema,46-55 años
+V1,Rango de edad,sistema,56-65 años
+V1,Rango de edad,sistema,66+ años
+V2,Género,sistema,Masculino
+V2,Género,sistema,Femenino
+V3,Situación laboral,sistema,Formal dependiente
+V3,Situación laboral,sistema,Formal independiente / profesional
+V3,Situación laboral,sistema,Informal / cuenta propia sin cotización
+V4,Nivel de ingreso mensual,sistema,Bajo (< $1.3M)
+V4,Nivel de ingreso mensual,sistema,Medio ($1.3M - $4.6M)
+V4,Nivel de ingreso mensual,sistema,Alto (> $4.6M)
+V5,Composición familiar,sistema,Soltero(a) sin hijos
+V5,Composición familiar,sistema,Pareja sin hijos
+V5,Composición familiar,sistema,Con hijos menores de edad
+V5,Composición familiar,sistema,Monoparental con hijos
+V5,Composición familiar,sistema,Multigeneracional / adulto mayor a cargo
+V6,Tipo de vivienda,formulario,Propia pagada
+V6,Tipo de vivienda,formulario,Propia financiada (hipoteca)
+V6,Tipo de vivienda,formulario,Arrendada
+V7,¿Es propietario que arrienda un inmueble a terceros?,formulario,Sí
+V7,¿Es propietario que arrienda un inmueble a terceros?,formulario,No
+V8,Tenencia de vehículo,formulario,Carro
+V8,Tenencia de vehículo,formulario,Moto
+V8,Tenencia de vehículo,formulario,No tiene
+V9,¿Tiene mascota (perro o gato)?,formulario,Sí
+V9,¿Tiene mascota (perro o gato)?,formulario,No
+V10,¿Usa bicicleta o patineta eléctrica como transporte o deporte habitual?,formulario,Sí
+V10,¿Usa bicicleta o patineta eléctrica como transporte o deporte habitual?,formulario,No
+V11,¿Es jefatura de hogar femenina sin pareja?,formulario,Sí
+V11,¿Es jefatura de hogar femenina sin pareja?,formulario,No

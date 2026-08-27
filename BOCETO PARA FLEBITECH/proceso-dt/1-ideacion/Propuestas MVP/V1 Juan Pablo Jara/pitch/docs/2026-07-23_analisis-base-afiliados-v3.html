@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de la base de afiliados v3 — base ACTUALIZADA por la organización (23-jul)</title>
+<style>
+  :root{--bg:#0e1116;--panel:#161b22;--line:#2a323d;--tx:#e8edf3;--tx2:#9fb0c3;--tx3:#6b7a8d;--acc:#5b8cff;--acc2:#3ad0a0;--warn:#f0b429}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.65;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:36px 28px 70px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(91,140,255,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  h1{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+  h2{font-size:20px;letter-spacing:-.01em;margin:34px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h3{font-size:16px;margin:26px 0 8px;color:#fff}
+  p,li{font-size:14.5px;color:var(--tx)}
+  li{margin:4px 0}
+  blockquote{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc2);border-radius:10px;margin:14px 0;padding:12px 16px;color:var(--tx2)}
+  blockquote p{margin:4px 0;color:var(--tx2);font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--tx3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px;color:var(--acc2)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto}
+  pre code{border:none;background:none;padding:0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  strong{color:#fff}
+  .back{display:inline-block;margin-bottom:20px;font-size:13px;font-weight:600}
+  .metabar{font-size:12px;color:var(--tx3);margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+</style></head><body><div class="wrap">
+<a class="back" href="../2026-07-22_avances-jara.html">&larr; Volver al reporte</a>
+<div class="metabar">Hackathon Colsubsidio × 30X · Scala Labs · Reto 02 — entregable del repo (investigacion/2026-07-23_analisis-base-afiliados-v3.md)</div>
+<h1>Análisis de la base de afiliados v3 — base ACTUALIZADA por la organización (23-jul)</h1>
+<p>Fuente: <code>Usos_Productos_Afiliados_SIN_ID.xlsx</code> (versión actualizada anunciada por la
+organización el 23-jul). <strong>500.000 filas, 15 columnas.</strong> Procesado por código (pandas).
+Reemplaza como fuente activa al CSV de 1.566.028 filas analizado el 22-jul
+([[2026-07-22_analisis-base-afiliados]] queda como registro histórico de la v1 de la base).</p>
+<blockquote>
+<p>Construido con Fable 5 (alto). Recomputado desde cero sobre el archivo nuevo;
+mapeo de valores enmascarados verificado por 4 dimensiones independientes.</p>
+</blockquote>
+<h2>Qué cambió respecto a la base anterior</h2>
+<table>
+<thead>
+<tr>
+<th>Cambio</th>
+<th>Antes (CSV 22-jul)</th>
+<th>Ahora (XLSX 23-jul)</th>
+<th>Implicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tamaño</td>
+<td>1.566.028 filas</td>
+<td><strong>500.000 filas</strong> (muestra)</td>
+<td>Los porcentajes se sostienen; los conteos absolutos ya no son &ldquo;toda la base&rdquo;</td>
+</tr>
+<tr>
+<td>PII</td>
+<td>Traía <code>NOMBRE_COMPLETO</code> con nombres reales</td>
+<td><strong>Columna eliminada</strong></td>
+<td>El hallazgo que reportamos fue atendido — la base ahora sí es anónima</td>
+</tr>
+<tr>
+<td>Valores categóricos</td>
+<td>Legibles (A/B/C, &ldquo;sin grupo familiar&rdquo;…)</td>
+<td><strong>Enmascarados con letras griegas</strong> (SIGMA, LAMBDA, RHO…)</td>
+<td>Hay que trabajar con mapeo inferido (abajo) y pedir el diccionario a la organización</td>
+</tr>
+<tr>
+<td>Columnas nuevas</td>
+<td>—</td>
+<td><strong>RANGO_SALARIAL</strong> (16 bandas SMLV), SEGMENTO_POBLACIONAL, PIRAMIDE_NUEVA, EMPRESA_FOCO</td>
+<td>RANGO_SALARIAL es el activo nuevo más valioso (ver abajo)</td>
+</tr>
+<tr>
+<td>Columnas eliminadas</td>
+<td>ESTADOAFILIADO (constante), NOMBRE_COMPLETO</td>
+<td>ya no están</td>
+<td>Sin pérdida real</td>
+</tr>
+<tr>
+<td>PISCILAGO</td>
+<td>4,9% SI (señal usable)</td>
+<td><strong>100% NO</strong></td>
+<td>Señal perdida — sacarla del motor</td>
+</tr>
+<tr>
+<td>DROGUERIA</td>
+<td>5,6% SI</td>
+<td><strong>17,6% SI</strong></td>
+<td>La marca se reconstruyó y creció, pero el acantilado de edad PERSISTE</td>
+</tr>
+</tbody>
+</table>
+<h2>Mapeo inferido de valores enmascarados (verificado, no oficial)</h2>
+<p>Cada equivalencia se verificó contra la base v1 por 4 dimensiones simultáneas
+(% del total, % categoría A, % mujeres, % &gt;55 / edad dominante). Coincidencia
+consistente en todas:</p>
+<p><strong>CATEGORIA:</strong> SIGMA = A (72,8%) · PI = B (16,4%) · ZETA = C (9,8%) · MU = sin dato (1,0%)</p>
+<p><strong>SEGMENTO_GRUPO_FAMILIAR:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Equivale a (inferido)</th>
+<th>n</th>
+<th>% base</th>
+<th>% cat A (SIGMA)</th>
+<th>% F</th>
+<th>% &gt;55</th>
+<th>% 20–35</th>
+<th>Edad dominante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAMBDA</td>
+<td>Sin grupo familiar registrado</td>
+<td>286.457</td>
+<td>57,3%</td>
+<td>72,3%</td>
+<td>42,7%</td>
+<td>9,8%</td>
+<td>59,3%</td>
+<td>20–35</td>
+</tr>
+<tr>
+<td>RHO</td>
+<td>Familia monoparental</td>
+<td>121.478</td>
+<td>24,3%</td>
+<td>80,3%</td>
+<td>58,5%</td>
+<td>3,0%</td>
+<td>44,8%</td>
+<td>20–35</td>
+</tr>
+<tr>
+<td>EPSILON</td>
+<td>Familia nuclear</td>
+<td>46.999</td>
+<td>9,4%</td>
+<td>68,8%</td>
+<td>37,4%</td>
+<td>8,7%</td>
+<td>23,5%</td>
+<td>36–45</td>
+</tr>
+<tr>
+<td>IOTA</td>
+<td>Pareja conyugal</td>
+<td>25.263</td>
+<td>5,1%</td>
+<td>65,7%</td>
+<td>39,3%</td>
+<td><strong>51,2%</strong></td>
+<td>11,4%</td>
+<td><strong>&gt;55</strong></td>
+</tr>
+<tr>
+<td>CHI</td>
+<td>Monoparental ampliada</td>
+<td>11.843</td>
+<td>2,4%</td>
+<td>64,2%</td>
+<td>58,8%</td>
+<td>7,6%</td>
+<td>41,1%</td>
+<td>20–35</td>
+</tr>
+<tr>
+<td>THETA</td>
+<td>Sin dato</td>
+<td>7.933</td>
+<td>1,6%</td>
+<td>34,7%</td>
+<td>44,5%</td>
+<td>4,0%</td>
+<td>61,7%</td>
+<td>20–35</td>
+</tr>
+<tr>
+<td>PI</td>
+<td>(residuo nuevo, 27 filas)</td>
+<td>27</td>
+<td>0,0%</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ Este mapeo es <strong>inferencia nuestra</strong>, no diccionario oficial. Es sólido (4
+dimensiones coinciden con la v1), pero la organización confirmó el 23-jul que el
+enmascaramiento es deliberado, &ldquo;sin divulgar la clasificación original de
+Colsubsidio&rdquo; → <strong>no esperar diccionario de valores, y NO presumir el mapeo en el
+pitch</strong> (es ingeniería inversa de algo que decidieron ocultar). Uso correcto:
+hipótesis interna de trabajo; ante el jurado, describir los segmentos por sus
+características observables (tamaño, edad, género, salario), no por la etiqueta
+reconstruida.</p>
+<h2>Distribuciones clave (v3)</h2>
+<ul>
+<li><strong>Categoría:</strong> A 72,8% · B 16,4% · C 9,8% · sin dato 1,0% — <em>(v1: 75,8/14,5/8,8)</em>.
+  El titular &ldquo;3 de cada 4 afiliados son categoría A&rdquo; <strong>se sostiene</strong>.</li>
+<li><strong>Edad:</strong> &lt;19 → 1,4% · 20–35 → 49,6% · 36–45 → 25,7% · 46–55 → 13,3% · &gt;55 → 10,0%.</li>
+<li><strong>Género:</strong> M 53,7% · F 46,3%.</li>
+<li><strong>Ciudad:</strong> 57,7% vacía; de las filas con ciudad, Bogotá D.C. = 82,1% (34,7% del
+  total). Municipios reales (no enmascarados): Soacha, Fusagasugá, Mosquera…</li>
+</ul>
+<h2>EL ACTIVO NUEVO: RANGO_SALARIAL (asequibilidad calculable)</h2>
+<p>Por primera vez tenemos ingreso declarado por bandas SMLV:</p>
+<ul>
+<li><strong>Entre 1 y 1,5 SMLV: 60,5%</strong> · Menor al SMLV: 6,8% → <strong>~67% gana ≤1,5 SMLV</strong></li>
+<li>Entre 1,5 y 2: 8,4% · 2–2,5: 5,5% · 2,5–3: 3,9% · 3–4: 4,8% · 4–6: 4,6% · &gt;6: ~4,9%</li>
+<li>Sin dato: 1,0% (+ bandas residuales con pocos registros: &ldquo;Menor a 2&rdquo;, &ldquo;Entre 2 y 4&rdquo;,
+  &ldquo;Entre 4 y 8&rdquo;, &ldquo;Entre 8 y 19&rdquo; — parecen restos de otra codificación; reportar)</li>
+</ul>
+<p><strong>Por qué importa:</strong> el motor puede calcular la prima como <strong>% del ingreso real</strong> del
+afiliado — la hiperpersonalización de asequibilidad deja de ser proxy por categoría y
+se vuelve un cálculo directo. Es el insumo que le faltaba a la pregunta 3 del chat
+(&ldquo;¿cuánto puedes pagar al mes?&rdquo;): el sistema puede validar que la prima recomendada
+no exceda un umbral responsable del ingreso. Conecta directo con el argumento de
+inclusión (microseguro para el 67% que gana ≤1,5 SMLV).</p>
+<h2>Contexto oficial de la organización (23-jul, grupo del reto — Andrea Garzón)</h2>
+<p>La organización aclaró en el grupo de WhatsApp del reto:</p>
+<ul>
+<li>El enmascaramiento (LAMBDA, SIGMA…) es una <strong>anonimización deliberada</strong> que
+  &ldquo;preserva la consistencia de los datos para análisis, agrupaciones y conteos, sin
+  divulgar la clasificación original de Colsubsidio&rdquo;.</li>
+<li><strong>CATEGORIA</strong> = categoría del afiliado dentro del sistema de subsidio familiar.</li>
+<li><strong>SEGMENTO_GRUPO_FAMILIAR</strong> = composición del hogar / estructura familiar.</li>
+<li><strong>SEGMENTO_POBLACIONAL</strong> = segmentación individual del afiliado construida a
+  partir de ingresos, edad y PAC (⚠️ &ldquo;PAC&rdquo; sin definir — preguntar).</li>
+<li><strong>PIRAMIDE_NUEVA</strong> = clasifica a la <strong>empresa aportante</strong> dentro de la pirámide
+  empresarial de Colsubsidio (es del empleador, no del afiliado).</li>
+</ul>
+<p><strong>Desbloqueo práctico:</strong> al ser consistentes por diseño, los valores enmascarados
+son <strong>usables tal cual como features del motor de scoring</strong> — el modelo no necesita
+saber qué significa LAMBDA, solo que sea estable. SEGMENTO_POBLACIONAL (composite
+oficial de ingreso+edad+PAC) es candidata directa a feature. PIRAMIDE_NUEVA queda
+como señal secundaria B2B (baja prioridad para el MVP).</p>
+<ul>
+<li><strong>EMPRESA_FOCO</strong>: EMP_000001 = 81,7% · EMP_000002 = 18,3%. Única columna que
+  sigue sin explicación oficial — preguntar.</li>
+</ul>
+<p>Distribuciones de referencia: SEGMENTO_POBLACIONAL → TAU 46,2% (97% cat A) ·
+PI 26,9% · ETA 25,5% · OMEGA 1,0% (96% &ldquo;sin dato&rdquo; de categoría) · XI 0,3% (99%
+cat C). PIRAMIDE_NUEVA → ETA 31,2%, XI 21,7%, UPSILON 20,4%…</p>
+<h2>Señales de consumo (v3)</h2>
+<ul>
+<li><strong>DROGUERIA (única marca con señal): la anomalía PERSISTE y se amplificó.</strong>
+  % SI por edad: 20–35 → 24,0% · 36–45 → 21,3% · <strong>46–55 → 0,35%</strong> · &gt;55 → 1,25%.
+  El acantilado a los 46 años sigue siendo implausible como comportamiento real.
+  Regla vigente: usarla solo en menores de 46.</li>
+<li><strong>Lift familiar dentro de 20–35 (confirmado y más fuerte):</strong> sin grupo 21,8% →
+  monoparental 28,4% → nuclear 32,4% → pareja 39,4%. La señal familiar es real.</li>
+<li><strong>PISCILAGO: muerta</strong> (100% NO — antes 4,9% SI). Sacarla del motor y del mapa
+  segmento→producto si se usaba.</li>
+<li>HOTELES (0,03%), AGENCIAS (0,02%), VIVIENDA (0,01%): siguen vacías, inservibles.</li>
+</ul>
+<h2>Qué se sostiene y qué cambia en los entregables</h2>
+<p><strong>Se sostiene (los titulares del pitch siguen válidos):</strong>
+- 3 de cada 4 afiliados = categoría A (72,8%)
+- Los segmentos grandes: sin grupo (57,3%) + monoparental (24,3%, 58,5% mujeres,
+  80,3% cat A) — la persona del pitch no cambia
+- El ejemplo del brief (&ldquo;casado con hijos&rdquo;) sigue siendo ~9,4%
+- Mitad de las parejas conyugales &gt;55 → la edad modula el producto
+- Bogotá ~82% de las filas con ciudad</p>
+<p><strong>Cambia (corregir en todos los entregables):</strong>
+- &ldquo;1,56M analizados&rdquo; → <strong>&ldquo;muestra oficial de 500.000&rdquo;</strong> (los 1,6M de afiliados de
+  Colsubsidio siguen siendo ciertos como contexto de mercado — Informe 2024 —, pero
+  la base entregada ya no es censo)
+- El hallazgo de PII pasa de &ldquo;pendiente&rdquo; a <strong>&ldquo;atendido por la organización en la v2
+  de la base&rdquo;</strong> (registro histórico nuestro se mantiene)
+- Nueva limitación: valores enmascarados → mapeo inferido, pedir diccionario
+- Piscilago fuera del motor; Droguería con % nuevos
+- Nueva oportunidad: RANGO_SALARIAL → prima como % del ingreso</p>
+<h2>Preguntas actualizadas para la organización</h2>
+<ol>
+<li>~~¿Diccionario de valores enmascarados?~~ → RESUELTO PARCIAL (23-jul): dieron la
+   semántica por columna; los valores seguirán ocultos por diseño. No insistir.</li>
+<li>¿Qué significa <strong>PAC</strong> (variable usada en SEGMENTO_POBLACIONAL)?</li>
+<li>¿Qué es <strong>EMPRESA_FOCO</strong>? (única columna sin contexto oficial)</li>
+<li>La anomalía de DROGUERIA a los 46 años persiste en la v2 — ¿artefacto confirmado?</li>
+<li>¿La muestra de 500K es aleatoria de la base de 1,56M? (afecta si podemos
+   extrapolar conteos absolutos)</li>
+<li>¿Las bandas residuales de RANGO_SALARIAL (&ldquo;Menor a 2&rdquo;, &ldquo;Entre 2 y 4&rdquo;…) son
+   errores de codificación?</li>
+</ol>
+</div></body></html>

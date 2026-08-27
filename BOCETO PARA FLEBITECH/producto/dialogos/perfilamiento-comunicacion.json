@@ -1,0 +1,392 @@
+{
+  "version": "2026-07-25",
+  "fuente": "Carolina Pinzón — Perfilamiento_y_Comunicacion_Colsubsidio.xlsx",
+  "nota": "variables_motor_sugeridas pendiente de mapeo V1-V11 (validar con Caro). Las cifras y primas SIEMPRE las pone el motor.",
+  "perfiles": [
+    {
+      "poliza": "Autos y Motos",
+      "perfil_objetivo": "Propietarios de carro",
+      "por_que": "Producto de alta prioridad y penetración relativa más alta dentro del parque automotor.",
+      "mensajes": {
+        "riesgo": "Un choque, un robo o una granizada pueden costarte en un día lo que ahorraste en años. Sin todo riesgo, ese golpe lo asumes tú solo.",
+        "tranquilidad": "Maneja sin pensar en el “y si me pasa algo”. Con tu carro asegurado, cada trayecto es un trayecto tranquilo.",
+        "cobertura": "Todo riesgo no es un gasto, es la forma más inteligente de proteger el activo que más usas todos los días."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Autos y Motos",
+      "perfil_objetivo": "Propietarios de moto",
+      "por_que": "Segmento grande y sub-penetrado; alta accidentalidad frente a otros vehículos.",
+      "mensajes": {
+        "riesgo": "Las motos tienen la mayor accidentalidad del país y la menor cobertura. Sin seguro, un accidente te puede dejar sin moto y sin ahorros.",
+        "tranquilidad": "Sal a rodar sabiendo que, pase lo que pase en la vía, tú y tu moto están cubiertos.",
+        "cobertura": "Por una fracción de lo que cuesta reparar tu moto por fuera, tienes una cobertura completa que la protege de verdad."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Autos y Motos",
+      "perfil_objetivo": "Categoría B-C / ingreso medio-alto",
+      "por_que": "Capacidad de pago para una prima de mayor valor que la de otras pólizas.",
+      "mensajes": {
+        "riesgo": "Cuanto más vale tu vehículo, más pierdes si no está asegurado. Un solo siniestro sin póliza puede borrar meses de ingresos.",
+        "tranquilidad": "Ya trabajaste duro por lo que tienes. Asegúralo y despreocúpate del resto.",
+        "cobertura": "Tu nivel de ingresos te da acceso a una cobertura completa, sin sacrificar nada de tu presupuesto mensual."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Patinetas y Bicicletas",
+      "perfil_objetivo": "Usuarios habituales de bicicleta como transporte o deporte",
+      "por_que": "Uso frecuente en grandes ciudades, con alto riesgo de hurto.",
+      "mensajes": {
+        "riesgo": "En Bogotá se hurta una bicicleta cada 2,5 horas. Sin seguro, perderla es perder tu medio de transporte de un día para otro.",
+        "tranquilidad": "Sal a rodar sin mirar para atrás cada vez que la dejas parqueada.",
+        "cobertura": "Protege tu bici por lo que realmente vale, no por lo que alcance a cubrir un seguro genérico."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Patinetas y Bicicletas",
+      "perfil_objetivo": "Usuarios de patineta eléctrica",
+      "por_que": "Equipo de alto valor comercial y fácil de hurtar o dañar.",
+      "mensajes": {
+        "riesgo": "Una patineta eléctrica es un blanco fácil de robo, y un golpe puede dañar su motor por completo. Sin seguro, ese costo es 100% tuyo.",
+        "tranquilidad": "Usa tu patineta todos los días sin el estrés de pensar en qué pasa si te la dañan o te la roban.",
+        "cobertura": "Asegura el valor real de tu equipo, no un estimado genérico que no cubre lo que cuesta reponerlo."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Patinetas y Bicicletas",
+      "perfil_objetivo": "Jóvenes y adultos 18-35 años en zonas urbanas",
+      "por_que": "Perfil de mayor uso habitual de estos medios de transporte.",
+      "mensajes": {
+        "riesgo": "Moverte todos los días en la ciudad te expone a robos y accidentes que un seguro básico no cubre.",
+        "tranquilidad": "Que tu medio de transporte diario no sea también tu mayor fuente de estrés.",
+        "cobertura": "Una póliza pensada para tu estilo de vida urbano, no un genérico que no se ajusta a cómo te mueves."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Hogar",
+      "perfil_objetivo": "Propietarios con vivienda financiada (crédito hipotecario)",
+      "por_que": "El seguro es casi obligatorio para respaldar la garantía del crédito.",
+      "mensajes": {
+        "riesgo": "Un incendio o una inundación puede dejarte pagando una deuda por una casa que ya no existe.",
+        "tranquilidad": "Duerme tranquilo sabiendo que tu casa, y tu crédito, están protegidos pase lo que pase.",
+        "cobertura": "Protege el patrimonio más grande que estás construyendo, no solo el crédito que lo respalda."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Hogar",
+      "perfil_objetivo": "Propietarios Categoría B-C con vivienda pagada",
+      "por_que": "Buscan proteger un patrimonio ya consolidado.",
+      "mensajes": {
+        "riesgo": "Después de años pagando tu casa, un solo siniestro sin seguro puede hacerte perder todo ese esfuerzo.",
+        "tranquilidad": "Tu casa ya es tuya. Que también sea intocable pase lo que pase.",
+        "cobertura": "Asegura el patrimonio que más te costó construir, con una cobertura a la altura de su valor real."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Hogar",
+      "perfil_objetivo": "Propietarios en zona urbana con inmueble de alto valor comercial",
+      "por_que": "Mayor valor asegurado, mayor necesidad de cobertura.",
+      "mensajes": {
+        "riesgo": "Entre más vale tu inmueble, más pierdes si no está bien asegurado.",
+        "tranquilidad": "Vive en tu casa sin pensar en el “qué pasaría si”.",
+        "cobertura": "Un inmueble de alto valor necesita una póliza que cubra ese valor real, no un básico genérico."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Mascotas",
+      "perfil_objetivo": "Mujeres de 26 a 50 años con mascota",
+      "por_que": "Perfil de mayor tenencia y de compra de este producto.",
+      "mensajes": {
+        "riesgo": "Una urgencia veterinaria puede costar más de lo que imaginas, y llega siempre sin avisar.",
+        "tranquilidad": "Que nunca tengas que elegir entre tu bolsillo y la salud de quien más te acompaña.",
+        "cobertura": "Un seguro para tu mascota cubre desde consultas hasta cirugías, sin que tengas que sacar dinero de emergencia."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Mascotas",
+      "perfil_objetivo": "Familias Categoría B-C con perro o gato",
+      "por_que": "Capacidad de pago para un seguro no esencial pero de alto valor emocional.",
+      "mensajes": {
+        "riesgo": "Los gastos veterinarios imprevistos pueden desestabilizar el presupuesto de cualquier familia.",
+        "tranquilidad": "Que tu mascota reciba la mejor atención, sin que eso sea una preocupación extra para la familia.",
+        "cobertura": "Cobertura completa para todo lo que tu mascota necesita, sin sorpresas en la factura."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Mascotas",
+      "perfil_objetivo": "Dueños de mascotas de razas consideradas de alta peligrosidad",
+      "por_que": "Mayor necesidad de cobertura de responsabilidad civil.",
+      "mensajes": {
+        "riesgo": "Si tu mascota causa un daño a un tercero, tú respondes legal y económicamente por eso.",
+        "tranquilidad": "Ten a tu mascota contigo sin preocuparte por lo que la ley te exige.",
+        "cobertura": "Responsabilidad civil incluida, para que estés protegido ante cualquier imprevisto con terceros."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Viajes",
+      "perfil_objetivo": "Personas que viajan al exterior por turismo o negocios",
+      "por_que": "Necesitan cobertura médica y de equipaje fuera del país.",
+      "mensajes": {
+        "riesgo": "Una urgencia médica en el exterior sin seguro puede costarte miles de dólares en un solo día.",
+        "tranquilidad": "Viaja pensando en tu destino, no en lo que podría salir mal.",
+        "cobertura": "Asistencia médica, equipaje y cancelaciones cubiertas en cualquier lugar del mundo al que vayas."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Viajes",
+      "perfil_objetivo": "Familias que viajan con menores de edad",
+      "por_que": "Buscan tranquilidad médica adicional para todo el grupo familiar.",
+      "mensajes": {
+        "riesgo": "Un imprevisto médico con un niño en el exterior te deja sin opciones si no tienes cobertura internacional.",
+        "tranquilidad": "Que todo el plan familiar se disfrute sin el “ojalá no pase nada”.",
+        "cobertura": "Protección para todo el grupo familiar, sin importar cuántos viajen contigo."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Viajes",
+      "perfil_objetivo": "Adultos mayores que viajan al exterior",
+      "por_que": "Mayor riesgo de emergencia médica y mayor costo de atención en el exterior.",
+      "mensajes": {
+        "riesgo": "La atención médica en el exterior para un adulto mayor es la más costosa y la más probable de necesitarse.",
+        "tranquilidad": "Que la edad nunca sea un motivo para dejar de viajar tranquilos.",
+        "cobertura": "Cobertura médica diseñada para las necesidades reales de un viajero mayor."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Viajes",
+      "perfil_objetivo": "Viajeros frecuentes (turismo recurrente o trabajo remoto)",
+      "por_que": "Alta probabilidad de necesitar la póliza más de una vez al año.",
+      "mensajes": {
+        "riesgo": "Cada viaje sin seguro es una apuesta distinta; entre más viajas, más veces te expones.",
+        "tranquilidad": "Un solo seguro, todos tus viajes del año cubiertos, sin volver a pensarlo cada vez que empacas.",
+        "cobertura": "Una póliza anual te sale más rentable y te cubre en cada viaje, sin trámites repetidos."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Exequial",
+      "perfil_objetivo": "Categoría A / estratos 1-3",
+      "por_que": "Fuerte arraigo cultural a la protección exequial en este segmento.",
+      "mensajes": {
+        "riesgo": "Un funeral sin seguro puede costar los ahorros de toda una familia en el peor momento posible.",
+        "tranquilidad": "Que en un momento tan difícil, el dinero nunca sea la preocupación.",
+        "cobertura": "Todos los servicios exequiales cubiertos, para toda la familia, por una cuota mínima mensual."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Exequial",
+      "perfil_objetivo": "Adultos mayores y hogares multigeneracionales",
+      "por_que": "Cubre el gasto más inmediato y sensible del hogar.",
+      "mensajes": {
+        "riesgo": "Sin este seguro, la familia tiene que reunir dinero de urgencia justo cuando menos puede pensar con calma.",
+        "tranquilidad": "Deja resuelto lo que nadie quiere hablar, para que tu familia solo se dedique a despedirte con calma.",
+        "cobertura": "Cobertura para varios miembros de la familia bajo una sola póliza."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Exequial",
+      "perfil_objetivo": "Trabajadores informales sin otra protección",
+      "por_que": "Suele ser el primer seguro que adquieren, antes que vida o salud.",
+      "mensajes": {
+        "riesgo": "Sin ningún tipo de seguro, cualquier imprevisto familiar recae completamente sobre ti.",
+        "tranquilidad": "Empieza a protegerte con lo más básico y urgente, sin que tu bolsillo lo sienta.",
+        "cobertura": "El primer paso de protección familiar, accesible desde ya."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Madres cabeza de hogar / familias monoparentales",
+      "por_que": "Único ingreso del hogar; si falta, no hay quién más responda.",
+      "mensajes": {
+        "riesgo": "Si tú faltas, ¿quién sigue pagando el colegio, el arriendo, la comida? Sin seguro, la respuesta es nadie.",
+        "tranquilidad": "Que tus hijos nunca tengan que sentir tu ausencia también en lo económico.",
+        "cobertura": "Un capital asegurado pensado para reemplazar tu ingreso el tiempo que tu familia lo necesite."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Parejas con hijos menores de edad",
+      "por_que": "Responsabilidad compartida; buscan asegurar el sostenimiento de los hijos.",
+      "mensajes": {
+        "riesgo": "Si a cualquiera de los dos le pasa algo, la otra persona tendría que sostener sola todos los gastos del hogar.",
+        "tranquilidad": "Que el proyecto de vida que construyeron esté protegido, sin importar lo que venga.",
+        "cobertura": "Protección para ambos, ajustada al ingreso real de cada uno de la pareja."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Personas con crédito hipotecario o de vehículo activo",
+      "por_que": "Necesitan que la deuda no recaiga sobre la familia (vida oneroso).",
+      "mensajes": {
+        "riesgo": "Si tú faltas, esa deuda no desaparece: la hereda tu familia junto con el dolor de tu ausencia.",
+        "tranquilidad": "Que tu familia se quede con tu casa, no con tu deuda.",
+        "cobertura": "Vida oneroso cubre exactamente el saldo de tu crédito, sin que pagues de más."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Independientes o profesionales sin seguro colectivo",
+      "por_que": "No tienen el respaldo de un seguro de vida grupal de empresa.",
+      "mensajes": {
+        "riesgo": "Sin empresa detrás, nadie más responde por tu familia si tú dejas de generar ingresos.",
+        "tranquilidad": "Constrúyete tu propia red de seguridad, la que ninguna empresa te va a dar.",
+        "cobertura": "Un seguro de vida a la medida de tu ingreso independiente, sin depender de nadie más."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Adultos 36-55 años con responsabilidades familiares",
+      "por_que": "Etapa de mayor carga económica: hijos, vivienda, crédito.",
+      "mensajes": {
+        "riesgo": "Es la etapa donde más personas dependen de ti, y la que menos margen de error tiene.",
+        "tranquilidad": "Disfruta esta etapa sabiendo que ya diste el paso de proteger a los tuyos.",
+        "cobertura": "Un monto asegurado que realmente responde al tamaño de tus responsabilidades actuales."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Vida",
+      "perfil_objetivo": "Personas con ingreso mayor a 2 SMMLV",
+      "por_que": "Capacidad de pago real para sostener una prima mensual.",
+      "mensajes": {
+        "riesgo": "Entre más generas, más se siente tu ausencia en el presupuesto familiar si algo te pasa.",
+        "tranquilidad": "Tu esfuerzo diario merece estar respaldado, no solo mientras estás, sino siempre.",
+        "cobertura": "Con tu nivel de ingreso, acceder a una cobertura real y completa es hoy más accesible de lo que crees."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Salud",
+      "perfil_objetivo": "Categoría B-C / clase media y alta",
+      "por_que": "Capacidad de pago para un plan complementario.",
+      "mensajes": {
+        "riesgo": "Sin un plan complementario, una enfermedad de alto costo puede consumir tus ahorros en semanas.",
+        "tranquilidad": "Atiéndete rápido, bien y sin filas, cada vez que lo necesites.",
+        "cobertura": "Acceso a especialistas y clínicas de primer nivel, sin las restricciones del régimen contributivo."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Salud",
+      "perfil_objetivo": "Formales dependientes e independientes",
+      "por_que": "Buscan complementar o mejorar la cobertura del régimen contributivo.",
+      "mensajes": {
+        "riesgo": "Confiar solo en la EPS puede significar meses de espera cuando el tiempo es justo lo que no tienes.",
+        "tranquilidad": "Que una cita médica nunca vuelva a ser una batalla contra el sistema.",
+        "cobertura": "Complementa tu EPS con atención ágil y coberturas que hoy no tienes."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Salud",
+      "perfil_objetivo": "Familias con hijos menores",
+      "por_que": "Buscan atención rápida y sin filas para toda la familia.",
+      "mensajes": {
+        "riesgo": "Los niños se enferman sin avisar, y las urgencias pediátricas no siempre tienen espacio inmediato en la red pública.",
+        "tranquilidad": "Que cuando tu hijo se enferme, la prioridad sea cuidarlo, no hacer filas.",
+        "cobertura": "Atención pediátrica prioritaria para toda la familia, sin depender solo de la EPS."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Salud",
+      "perfil_objetivo": "Personas con preexistencias o antecedentes relevantes (diabetes, cáncer, etc.)",
+      "por_que": "Buscan coberturas específicas de alto costo o enfermedades preexistentes.",
+      "mensajes": {
+        "riesgo": "Sin un plan adecuado, un diagnóstico de alto costo puede dejarte sin ahorros y sin opciones.",
+        "tranquilidad": "Enfrenta cualquier diagnóstico con la tranquilidad de tener respaldo económico y médico.",
+        "cobertura": "Coberturas específicas diseñadas para enfermedades de alto costo, con acompañamiento real."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Padres/madres con hijos en edad escolar (0-17 años)",
+      "por_que": "Quieren asegurar la continuidad de los estudios pase lo que pase.",
+      "mensajes": {
+        "riesgo": "Si a ti te pasa algo, ¿quién sigue pagando el colegio de tu hijo?",
+        "tranquilidad": "Que el futuro académico de tu hijo nunca dependa de un imprevisto tuyo.",
+        "cobertura": "Un plan que garantiza los estudios de tu hijo, pase lo que pase contigo."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Familias con hijos próximos a educación superior (15-18 años)",
+      "por_que": "Planeación cercana de universidad; la necesidad ya es concreta y urgente.",
+      "mensajes": {
+        "riesgo": "Sin un plan, la universidad puede quedar reducida a lo que alcance a pagar mes a mes.",
+        "tranquilidad": "Que cuando llegue el momento, la única decisión sea qué carrera estudiar, no cómo pagarla.",
+        "cobertura": "Un capital construido a tiempo para cubrir matrícula y sostenimiento universitario."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Madres cabeza de hogar con hijos menores",
+      "por_que": "Quieren blindar el futuro educativo del hijo si a ellas les llegara a faltar el ingreso.",
+      "mensajes": {
+        "riesgo": "Si tú faltas, ¿quién asegura que tu hijo siga estudiando?",
+        "tranquilidad": "Que el sueño educativo de tu hijo esté protegido, incluso si tú no estás para verlo.",
+        "cobertura": "Un plan educativo que se activa exactamente cuando tu familia más lo necesita."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Padres independientes o con ingreso variable",
+      "por_que": "Buscan la disciplina de un ahorro programado que no dependa de un mes bueno o malo.",
+      "mensajes": {
+        "riesgo": "Sin un ahorro programado, un mes malo puede aplazar los estudios de tu hijo.",
+        "tranquilidad": "Ahorra con disciplina, sin que dependa de cómo te vaya cada mes.",
+        "cobertura": "Un plan flexible que se ajusta a tu ingreso, sin perder el objetivo de fondo."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Personas con ingreso mayor a 2 SMMLV con hijos",
+      "por_que": "Capacidad de pago real para un aporte mensual o anual sostenido.",
+      "mensajes": {
+        "riesgo": "Postergar el ahorro educativo hoy significa pagar más y con menos opciones mañana.",
+        "tranquilidad": "Empieza hoy y deja que el tiempo trabaje a favor del futuro de tu hijo.",
+        "cobertura": "Tu capacidad de ahorro actual te permite construir un capital educativo sólido desde ya."
+      },
+      "variables_motor_sugeridas": []
+    },
+    {
+      "poliza": "Educación",
+      "perfil_objetivo": "Padres con una meta educativa ya identificada (colegio bilingüe, universidad, intercambio)",
+      "por_que": "El motivador es aspiracional y concreto, no solo de protección.",
+      "mensajes": {
+        "riesgo": "Sin un plan, esa meta que ya soñaste para tu hijo puede quedarse solo en la intención.",
+        "tranquilidad": "Convierte ese sueño en un plan concreto, con fecha y con monto definido.",
+        "cobertura": "Un producto diseñado exactamente para la meta que ya tienes clara: colegio bilingüe, universidad o intercambio."
+      },
+      "variables_motor_sugeridas": []
+    }
+  ]
+}

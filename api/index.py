@@ -13,6 +13,9 @@ root_dir = os.path.dirname(current_dir)
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
+from dotenv import load_dotenv
+load_dotenv(override=True)
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel

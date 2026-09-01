@@ -129,10 +129,13 @@ class RAGEngine:
                     text = f.read()
                 
                 # Dividir por secciones principales ## (preservando subsecciones ### dentro del mismo bloque temático)
-                sections = re.split(r'\n(?=##?\s)', text)
+                sections = re.split(r'\n(?=##\s)', text)
                 for idx, sec in enumerate(sections):
                     sec_str = sec.strip()
-                    if len(sec_str) < 30:
+                    # Omitir encabezados de metadatos o introducciones sin contenido clínico
+                    if len(sec_str) < 300 and not sec_str.startswith('##'):
+                        continue
+                    if len(sec_str) < 50:
                         continue
                     
                     lines = sec_str.split('\n')
@@ -220,17 +223,23 @@ class RAGEngine:
                     scores[i] += 20.0
                     matched_any_entity = True
             
-            # Boost por escalas clínicas en título
+            # Boost por escalas clínicas y algoritmos en título
             if 'diva' in q_norm and 'diva' in title_norm:
-                scores[i] += 25.0
-            if 'ins' in q_norm and 'ins' in title_norm:
-                scores[i] += 25.0
-            if ('vhp' in q_norm or 'vip' in q_norm) and ('vhp' in title_norm or 'vip' in title_norm):
-                scores[i] += 25.0
-            if ('calibre' in q_norm or 'gauge' in q_norm) and ('calibre' in title_norm or 'gauge' in title_norm):
+                scores[i] += 30.0
+            if ('adulto' in q_norm or 'criterios' in q_norm) and 'diva' in title_norm:
                 scores[i] += 20.0
-            if ('protocolo' in q_norm or 'insercion' in q_norm or 'algoritmo' in q_norm) and ('algoritmo' in title_norm or 'protocolo' in title_norm):
-                scores[i] += 15.0
+            if 'ins' in q_norm and 'ins' in title_norm:
+                scores[i] += 30.0
+            if ('vhp' in q_norm or 'vip' in q_norm) and ('vhp' in title_norm or 'vip' in title_norm):
+                scores[i] += 30.0
+            if ('elegibilidad' in q_norm or 'dispositivo' in q_norm or 'seleccion' in q_norm or 'midline' in q_norm or 'picc' in q_norm or 'cvc' in q_norm) and ('elegibilidad' in title_norm or 'dispositivo' in title_norm):
+                scores[i] += 30.0
+            if ('cateter' in q_norm or 'cateteres' in q_norm or 'via' in q_norm) and ('elegibilidad' in title_norm or 'calibre' in title_norm or 'algoritmo' in title_norm):
+                scores[i] += 20.0
+            if ('calibre' in q_norm or 'gauge' in q_norm) and ('calibre' in title_norm or 'gauge' in title_norm):
+                scores[i] += 25.0
+            if ('protocolo' in q_norm or 'insercion' in q_norm or 'puncion' in q_norm) and ('algoritmo' in title_norm or 'puncion' in title_norm):
+                scores[i] += 20.0
 
             # Coincidencia con título de sección
             if any(t in title_norm for t in q_tokens if len(t) > 3):

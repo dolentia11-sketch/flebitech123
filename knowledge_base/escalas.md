@@ -104,3 +104,16 @@ Flujo de 7 pasos estandarizado bajo el código institucional de buenas práctica
 | **20G** | Rosa | 1.1 mm | 55 - 65 ml/min | Transfusión de hemoderivados (glóbulos rojos, plasma), cirugías menores, hidratación rápida, fármacos con pH ácido o hiperosmolares en antebrazo. |
 | **18G** | Verde | 1.3 mm | 90 - 105 ml/min | Quirófano, urgencias, politrauma, administración rápida de fluidos de resucitación y transfusión masiva de sangre. Requiere vena de gran calibre. |
 | **16G / 14G** | Gris / Naranja | 1.7 - 2.1 mm | > 150 - 215 ml/min | Quirófano cardiovascular de alta complejidad, choque hipovolémico severo, cesárea de emergencia o trauma exanguinante. |
+
+---
+
+## 6. Criterios de Elegibilidad y Selección del Tipo de Dispositivo Vascular
+
+Matriz de toma de decisiones para la selección del dispositivo vascular adecuado según duración de la terapia, osmolaridad, pH y condición vascular:
+
+| Tipo de Catéter | Duración de Terapia Prevista | Osmolaridad y pH Permitidos | Criterios de Elegibilidad / Indicaciones | Ubicación de la Punta |
+| :--- | :--- | :--- | :--- | :--- |
+| **Catéter Periférico Corto (CPC)** | **<= 6 días** | • pH entre 5.0 y 9.0<br>• Osmolaridad < 600 mOsm/L | • Paciente con buen capital venoso (DIVA 0-1).<br>• Terapia de corta duración sin fármacos vesicantes.<br>• Hidratación basal, antibióticos isotónicos, analgesia. | Venas periféricas del antebrazo (cefálica, basílica o mediana). |
+| **Catéter de Línea Media (*Midline*)** | **7 a 29 días** | • pH entre 5.0 y 9.0<br>• Osmolaridad < 600 - 800 mOsm/L | • Terapia intravenosa intermedia (1 a 4 semanas).<br>• Paciente con DIVA >= 2-3 o agotamiento de vías periféricas.<br>• Fármacos no vesicantes en infusión continua.<br>• Inserción guiada por ultrasonido en tercio medio del brazo. | Vena axilar o subclavia (sin ingresar al tórax ni a vena cava). |
+| **Catéter Central de Inserción Periférica (*PICC*)** | **>= 30 días** (o vesicantes continuos) | • Sin límite de pH (pH < 5 o > 9)<br>• **Osmolaridad > 900 mOsm/L** (apto) | • Terapia antibiótica prolongada (osteomielitis, endocarditis).<br>• Nutrición Parenteral Total (NPT).<br>• Quimioterapia y fármacos vesicantes.<br>• Mediciones frecuentes de presión venosa central. | Unión Cavoauricular (Tercio distal de la Vena Cava Superior). |
+| **Catéter Venoso Central Clásico (*CVC*)** | **Urgencias / UCI / Corto plazo (< 14 días)** | • Sin límite de pH ni osmolaridad<br>• Inotrópicos / Vasoactivos a altas dosis | • Inestabilidad hemodinámica aguda, choque, paro cardiorrespiratorio.<br>• Infusión continua de agentes vasoactivos (Noradrenalina, Adrenalina).<br>• Monitorización invasiva en cirugía cardiovascular mayor. | Vena Cava Superior o Aurícula Derecha (vía yugular o subclavia). |

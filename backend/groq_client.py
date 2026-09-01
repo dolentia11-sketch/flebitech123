@@ -50,11 +50,12 @@ class GroqClient:
             return FALLBACK_MESSAGE, latency
 
         # Re-intentar inicializar si se cargó la key después
-        if self.client is None and not self.api_key:
+        if self.client is None:
             load_dotenv(override=True)
             new_key = os.getenv("GROQ_API_KEY", "")
-            if new_key:
+            if new_key and new_key != "tu_clave_groq_aqui":
                 self.api_key = new_key
+                self.model = os.getenv("GROQ_MODEL", self.model)
                 self._init_client()
 
         # 2. Si el cliente Groq está disponible y configurado
@@ -102,46 +103,31 @@ class GroqClient:
                         except Exception:
                             continue
                     else:
-                        print(f"Error llamando a Groq API ({e}). Usando motor determinista local de respaldo...")
+                        print(f"Aviso Groq API ({e}). Usando motor estructurado de respaldo...")
                         break
 
-        # 3. Motor local de respaldo determinista sintetizado
+        # 3. Motor local de respaldo estructurado completo
         response_text = self._local_deterministic_response(query, context)
         latency = (time.time() - start_time) * 1000
         return response_text, latency
 
     def _local_deterministic_response(self, query: str, context: str) -> str:
-        """Generador didáctico conciso basado exclusivamente en el contexto recuperado."""
+        """Generador didáctico estructurado basado exclusivamente en el contexto recuperado."""
         q_lower = query.lower()
         chunks = context.split("### [Fuente:")
         first_chunk = chunks[1] if len(chunks) > 1 else context
         lines = [line.strip() for line in first_chunk.strip().split("\n") if line.strip()]
 
-        # Filtrar solo las líneas más relevantes a la consulta
-        relevant_lines = []
-        source_title = lines[0].split("]")[0].strip() if len(lines) > 0 and "]" in lines[0] else "Material institucional"
+        # Extraer fuente
+        source_title = lines[0].split("]")[0].strip() if len(lines) > 0 and "]" in lines[0] else "Material institucional de Flebitech"
 
-        for line in lines[1:]:
-            line_l = line.lower()
-            if any(k in q_lower for k in ['ph', 'ácido', 'alcalino']) and 'ph:' in line_l:
-                relevant_lines.append(f"- **pH:** {line.replace('- pH:', '').strip()}")
-            elif any(k in q_lower for k in ['osmolaridad', 'mosm', 'tonicidad']) and ('osmolaridad:' in line_l or 'tonicidad:' in line_l):
-                relevant_lines.append(f"- **{line.lstrip('- ')}**")
-            elif any(k in q_lower for k in ['dilucion', 'dilución', 'diluyente', 'volumen']) and ('diluyente:' in line_l or 'volumen' in line_l):
-                relevant_lines.append(f"- **{line.lstrip('- ')}**")
-            elif any(k in q_lower for k in ['infusion', 'infusión', 'tiempo', 'velocidad']) and ('tiempo de infusión:' in line_l or 'velocidad' in line_l):
-                relevant_lines.append(f"- **{line.lstrip('- ')}**")
-            elif any(k in q_lower for k in ['riesgo', 'flebitis', 'vesicante']) and 'riesgo de flebitis:' in line_l:
-                relevant_lines.append(f"- **{line.lstrip('- ')}**")
-            elif any(k in q_lower for k in ['via', 'vía', 'cateter', 'catéter', 'central']) and 'vía recomendada:' in line_l:
-                relevant_lines.append(f"- **{line.lstrip('- ')}**")
+        # Si el usuario pregunta expresamente por un único atributo puntual
+        if any(k in q_lower for k in ['solo ph', 'cual es el ph', 'que ph tiene', 'valor de ph']):
+            for line in lines[1:]:
+                if 'ph:' in line.lower() or 'ph ' in line.lower():
+                    return f"- **pH:** {line.replace('- pH:', '').strip()}\n\n*Fuente: {source_title}*"
 
-        # Si encontramos líneas específicas directas, retornarlas concisamente
-        if relevant_lines:
-            summary = "\n".join(relevant_lines)
-            return f"{summary}\n\n*Fuente: {source_title}*"
-
-        # Fallback limpio: primeros 4 puntos clave
-        clean_lines = [l for l in lines[1:6] if not l.startswith("###")]
-        summary = "\n".join(clean_lines) if clean_lines else first_chunk[:300]
+        # Fallback estructurado completo (entrega la tabla, los pasos y los criterios íntegros)
+        clean_lines = [l for l in lines[1:] if not l.startswith("### [Fuente:")]
+        summary = "\n".join(clean_lines).strip() if clean_lines else first_chunk.strip()
         return f"{summary}\n\n*Fuente: {source_title}*"

@@ -620,8 +620,14 @@
         }
 
         // ─── Copy Message ───
-        function copyText(btn, text) {
-            navigator.clipboard.writeText(text).then(() => {
+        function copyBubbleText(btn) {
+            const bubble = btn.closest('.bubble-ai');
+            if (!bubble) return;
+            const clone = bubble.cloneNode(true);
+            const footer = clone.querySelector('.border-t');
+            if (footer) footer.remove();
+            const textToCopy = clone.innerText.trim();
+            navigator.clipboard.writeText(textToCopy).then(() => {
                 const icon = btn.querySelector('i');
                 const origClass = icon.className;
                 icon.className = 'fa-solid fa-check text-emerald-600';
@@ -650,7 +656,7 @@
                         <div class="flex items-center gap-1.5">
                             <i class="fa-solid fa-book-bookmark text-brand-600"></i> Fuentes: ${srcNames} · ${Math.round(latency)} ms
                         </div>
-                        <button onclick="copyText(this, ${JSON.stringify(text)})" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded">
+                        <button onclick="copyBubbleText(this)" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
                             <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>`;
@@ -659,7 +665,7 @@
                         <div class="flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-exclamation text-amber-500"></i> Fuera de la base indexada de Flebitech
                         </div>
-                        <button onclick="copyText(this, ${JSON.stringify(text)})" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded">
+                        <button onclick="copyBubbleText(this)" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
                             <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>`;

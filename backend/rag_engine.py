@@ -38,6 +38,19 @@ MED_ALIASES = {
     'metronidazol iv': ['metronidazol', 'flagyl']
 }
 
+CLINICAL_KEYWORDS = {
+    'ph', 'osmolaridad', 'tonicidad', 'flebitis', 'cateter', 'cateteres', 'vena', 'venas',
+    'venoso', 'venosa', 'dilucion', 'diluyente', 'infusion', 'velocidad', 'diva', 'ins',
+    'vhp', 'vip', 'puncion', 'calibre', 'gauge', 'gauges', 'antisepsia', 'clorhexidina',
+    'via', 'periferico', 'periferica', 'central', 'midline', 'picc', 'cvc', 'endotelio',
+    'eritema', 'edema', 'dolor', 'cordon', 'aposito', 'sangre', 'dosis', 'mg', 'meq', 'ml',
+    'solucion', 'ssn', 'dad', 'vesicante', 'irritante', 'complicacion', 'extravasacion',
+    'medicamento', 'farmaco', 'farmacos', 'antibiotico', 'neumonia', 'protocolo', 'escala',
+    'escalas', 'enfermeria', 'enfermero', 'enfermera', 'paciente', 'torno', 'torniquete',
+    'hemodilucion', 'lumen', 'antebrazo', 'mano', 'fosa', 'antecubital', 'criterios',
+    'evaluacion', 'cuidados', 'riesgo', 'algoritmo', 'trombosis', 'tromboflebitis'
+}
+
 class RAGEngine:
     def __init__(self, knowledge_base_path: str = "./knowledge_base/"):
         self.kb_path = os.path.abspath(knowledge_base_path)
@@ -115,8 +128,8 @@ class RAGEngine:
                 with open(fpath, 'r', encoding='utf-8') as f:
                     text = f.read()
                 
-                # Dividir por secciones #, ## o ### (regex mejorada)
-                sections = re.split(r'\n(?=#{1,3}\s)', text)
+                # Dividir por secciones principales ## (preservando subsecciones ### dentro del mismo bloque temático)
+                sections = re.split(r'\n(?=##?\s)', text)
                 for idx, sec in enumerate(sections):
                     sec_str = sec.strip()
                     if len(sec_str) < 30:
@@ -194,9 +207,11 @@ class RAGEngine:
         scores = [0.0] * len(self.chunks)
         matched_any_entity = False
 
-        # 1. Boost directo por entidad / fármaco con aliases
+        # 1. Boost directo por entidad / fármaco con aliases y títulos de escala
         for i, chunk in enumerate(self.chunks):
             ek = chunk.get('entity_key')
+            title_norm = self._normalize(chunk.get('title', ''))
+
             if ek:
                 ek_norm = self._normalize(ek)
                 aliases = MED_ALIASES.get(ek_norm, [ek_norm])
@@ -205,8 +220,20 @@ class RAGEngine:
                     scores[i] += 20.0
                     matched_any_entity = True
             
+            # Boost por escalas clínicas en título
+            if 'diva' in q_norm and 'diva' in title_norm:
+                scores[i] += 25.0
+            if 'ins' in q_norm and 'ins' in title_norm:
+                scores[i] += 25.0
+            if ('vhp' in q_norm or 'vip' in q_norm) and ('vhp' in title_norm or 'vip' in title_norm):
+                scores[i] += 25.0
+            if ('calibre' in q_norm or 'gauge' in q_norm) and ('calibre' in title_norm or 'gauge' in title_norm):
+                scores[i] += 20.0
+            if ('protocolo' in q_norm or 'insercion' in q_norm or 'algoritmo' in q_norm) and ('algoritmo' in title_norm or 'protocolo' in title_norm):
+                scores[i] += 15.0
+
             # Coincidencia con título de sección
-            if any(t in chunk['title'].lower() for t in q_tokens if len(t) > 3):
+            if any(t in title_norm for t in q_tokens if len(t) > 3):
                 scores[i] += 8.0
 
         # 2. Puntuación BM25Okapi de tokens de la pregunta
@@ -227,9 +254,12 @@ class RAGEngine:
                         
                         scores[i] += score * 3.0
 
+        # Verificar relevancia del dominio clínico
+        has_clinical = any(self._normalize(kw) in q_norm for kw in CLINICAL_KEYWORDS)
+
         # 3. Ordenar por relevancia
-        # Umbral mínimo de relevancia: score >= 0.5 si no es entidad exacta
-        min_threshold = 0.5
+        # Si la consulta no contiene entidades, fármacos ni conceptos clínicos clave, exige un score significativamente mayor
+        min_threshold = 0.5 if (matched_any_entity or has_med or has_clinical) else 15.0
         ranked_indices = sorted(range(len(scores)), key=lambda k: scores[k], reverse=True)
         top_indices = [idx for idx in ranked_indices[:top_k] if scores[idx] >= min_threshold]
 

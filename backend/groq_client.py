@@ -75,7 +75,7 @@ class GroqClient:
                         model=mod,
                         messages=messages,
                         temperature=0.1,
-                        max_tokens=1024,
+                        max_tokens=2048,
                         top_p=0.9
                     )
                     response_text = completion.choices[0].message.content.strip()
@@ -93,7 +93,7 @@ class GroqClient:
                                 model=mod,
                                 messages=messages,
                                 temperature=0.1,
-                                max_tokens=1024,
+                                max_tokens=2048,
                                 top_p=0.9
                             )
                             response_text = completion.choices[0].message.content.strip()

@@ -108,6 +108,17 @@ ctx, srcs, match = rag.search("Fenitoína pH alcalino", top_k=3)
 test("Busqueda 'Fenitoina' - match encontrado", match)
 test("Busqueda 'Fenitoina' - contexto relevante", "fenitoina" in ctx.lower() or "fenitoína" in ctx.lower() or "difenilhidantoina" in ctx.lower() or "difenilhidantoína" in ctx.lower())
 
+# Test: Normalización de acentos (sin tildes busca bien)
+ctx_sin_tilde, _, match_sin_tilde = rag.search("fenitoina sodica ph", top_k=3)
+test("Busqueda sin tildes 'fenitoina' funciona", match_sin_tilde)
+
+# Test: Alias de farmacos (ej. difenilhidantoina, kcl)
+ctx_alias, _, match_alias = rag.search("difenilhidantoina dosis y ph", top_k=3)
+test("Busqueda por alias 'difenilhidantoina' funciona", match_alias)
+
+ctx_kcl, _, match_kcl = rag.search("infusion kcl via periferica", top_k=3)
+test("Busqueda por alias 'kcl' funciona", match_kcl)
+
 # ===== 3. GROQ CLIENT (modo determinista) =====
 print("\n--- 3. Groq Client (Motor Determinista) ---")
 
@@ -122,6 +133,14 @@ response, latency = groq.ask("¿Qué pH tiene la Vancomicina?", ctx_vanc, has_re
 test("Respuesta local con contexto - no vacia", len(response) > 10)
 test("Respuesta local contiene info de contexto", "vancomicina" in response.lower() or "2.5" in response)
 test("Latencia calculada (>0)", latency > 0)
+
+# Con historial conversacional
+history_sample = [
+    {"role": "user", "content": "Quiero saber sobre la Vancomicina"},
+    {"role": "assistant", "content": "La Vancomicina es un antibiótico glucopéptido."}
+]
+response_hist, _ = groq.ask("¿Y cuál es su pH?", ctx_vanc, has_relevant_content=True, history=history_sample)
+test("Respuesta con historial soportada", len(response_hist) > 10)
 
 # Sin contenido relevante => debe dar FALLBACK exacto
 response_gap, latency_gap = groq.ask("¿Cuánto cuesta un pasaje a Madrid?", "", has_relevant_content=False)
@@ -236,15 +255,28 @@ test("GET /api/metrics - tiene stats", 'stats' in metrics)
 test("GET /api/metrics - tiene recent", 'recent' in metrics)
 test("GET /api/metrics - tiene gaps", 'gaps' in metrics)
 
+# POST /api/chat - Con historial de conversacion
+res_hist = client.post("/api/chat", json={
+    "query": "¿Y qué cuidados debo tener?",
+    "session_id": "test",
+    "history": [
+        {"role": "user", "content": "Hablemos de Vancomicina"},
+        {"role": "assistant", "content": "La Vancomicina tiene pH de 2.5 a 4.5."}
+    ]
+})
+test("POST /api/chat con historial - status 200", res_hist.status_code == 200)
+
 # ===== 6. GUARDRAILS CLINICOS =====
 print("\n--- 6. Guardrails Clinicos ---")
 
-from backend.prompt_system import SYSTEM_PROMPT, FALLBACK_MESSAGE, build_user_prompt
+from backend.prompt_system import SYSTEM_PROMPT, FALLBACK_MESSAGE, build_user_prompt, is_knowledge_gap
 
 test("SYSTEM_PROMPT no vacio", len(SYSTEM_PROMPT) > 100)
 test("SYSTEM_PROMPT menciona 'nunca inventes'", "nunca inventes" in SYSTEM_PROMPT.lower() or "nunca invent" in SYSTEM_PROMPT.lower())
 test("SYSTEM_PROMPT menciona pH y osmolaridad", "ph" in SYSTEM_PROMPT.lower() and "osmolaridad" in SYSTEM_PROMPT.lower())
 test("FALLBACK_MESSAGE contiene frase estandar", "no está disponible" in FALLBACK_MESSAGE)
+test("is_knowledge_gap detecta fallback estandar", is_knowledge_gap(FALLBACK_MESSAGE))
+test("is_knowledge_gap detecta respuesta valida", not is_knowledge_gap("El pH de la vancomicina es 2.5 a 4.5."))
 
 prompt = build_user_prompt("¿pH de Vancomicina?", "Vancomicina pH 2.5-4.5")
 test("build_user_prompt incluye contexto", "vancomicina" in prompt.lower())

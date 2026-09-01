@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Flebitech MVP — Asistente Educativo sobre Flebitis Química y Terapia Intravenosa
 Desarrollado en alianza académica-clínica entre Universidad de La Sabana y laCardio.
@@ -17,6 +17,7 @@ if sys.platform == "win32":
 
 from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
+from backend.prompt_system import is_knowledge_gap
 from backend.metrics import log_question, get_session_stats, get_recent_interactions, get_knowledge_gaps
 
 # 1. Configuración de página
@@ -194,9 +195,14 @@ with tab_chat:
         # 3. Consultar Groq / Fallback
         with st.chat_message("assistant"):
             with st.spinner("Consultando base de conocimiento de Flebitech..."):
-                response_text, latency = groq.ask(user_query, context, has_relevant_content=has_match)
+                response_text, latency = groq.ask(
+                    user_query,
+                    context,
+                    has_relevant_content=has_match,
+                    history=st.session_state.messages[:-1]
+                )
                 
-                is_gap = "Esa información no está disponible en el material de Flebitech" in response_text
+                is_gap = is_knowledge_gap(response_text) or not has_match
                 
                 st.markdown(response_text)
                 if sources and not is_gap:

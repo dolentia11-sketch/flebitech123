@@ -1,13 +1,14 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Motor de Búsqueda y Recuperación Aumentada (RAG) de Flebitech.
-Combina búsqueda léxica BM25/TF-IDF con filtro de stopwords y coincidencia de entidades farmacológicas.
+Combina búsqueda léxica BM25 con filtro de stopwords y coincidencia de entidades farmacológicas.
 """
 
 import os
 import json
 import re
 import math
+import unicodedata
 from typing import List, Dict, Any, Tuple
 
 SPANISH_STOPWORDS = {
@@ -18,15 +19,40 @@ SPANISH_STOPWORDS = {
     'sobre', 'entre', 'hacia', 'hasta', 'desde', 'durante', 'mediante', 'según', 'segun'
 }
 
+MED_ALIASES = {
+    'vancomicina': ['vancomicina'],
+    'cloruro de potasio (kcl)': ['cloruro de potasio', 'kcl', 'potasio'],
+    'amiodarona': ['amiodarona'],
+    'ciprofloxacina': ['ciprofloxacina', 'cipro'],
+    'fenitoina sodica': ['fenitoina', 'fenitoína', 'difenilhidantoina', 'difenilhidantoína'],
+    'ampicilina': ['ampicilina'],
+    'ampicilina sulbactam': ['ampicilina sulbactam', 'ampicilina', 'sulbactam'],
+    'ceftriaxona': ['ceftriaxona'],
+    'gluconato de calcio al 10%': ['gluconato de calcio', 'calcio', 'gluconato calcio'],
+    'dad 10%': ['dad 10', 'dextrosa 10', 'dad10'],
+    'dad 50%': ['dad 50', 'dextrosa 50', 'dad50'],
+    'nutricion parenteral total (npt)': ['nutricion parenteral', 'npt', 'nutrición parenteral'],
+    'furosemida': ['furosemida', 'lasix'],
+    'omeprazol iv': ['omeprazol'],
+    'claritromicina iv': ['claritromicina'],
+    'metronidazol iv': ['metronidazol', 'flagyl']
+}
+
 class RAGEngine:
     def __init__(self, knowledge_base_path: str = "./knowledge_base/"):
         self.kb_path = os.path.abspath(knowledge_base_path)
         self.chunks: List[Dict[str, Any]] = []
         self.medications: List[Dict[str, Any]] = []
-        self.vocab: Dict[str, int] = {}
         self.idf: Dict[str, float] = {}
-        self.doc_vectors: List[Dict[str, float]] = []
+        self.doc_vectors: List[Dict[str, int]] = []
+        self.doc_lengths: List[int] = []
+        self.avg_dl: float = 0.0
         self.index_documents()
+
+    @staticmethod
+    def _normalize(text: str) -> str:
+        """Normaliza el texto quitando acentos y pasándolo a minúsculas."""
+        return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii').lower()
 
     def _tokenize(self, text: str, remove_stopwords: bool = True) -> List[str]:
         cleaned = re.sub(r'[^\w\s\.\,\-\%]', ' ', text.lower())
@@ -39,66 +65,77 @@ class RAGEngine:
         self.chunks = []
         self.medications = []
         
-        # 1. Cargar medicamentos.json
-        med_file = os.path.join(self.kb_path, 'medicamentos.json')
-        if os.path.exists(med_file):
+        # Recorrer recursivamente buscando archivos .json y .md
+        md_files = []
+        json_files = []
+        
+        for root, _, files in os.walk(self.kb_path):
+            for file in files:
+                full_path = os.path.join(root, file)
+                if file.endswith('.json'):
+                    json_files.append((file, full_path))
+                elif file.endswith('.md'):
+                    md_files.append((file, full_path))
+        
+        # 1. Cargar archivos JSON (medicamentos y potencialmente otros)
+        for fname, fpath in json_files:
             try:
-                with open(med_file, 'r', encoding='utf-8') as f:
-                    self.medications = json.load(f)
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
                 
-                for med in self.medications:
-                    content = (
-                        f"MEDICAMENTO: {med.get('nombre')} ({med.get('grupo', '')})\n"
-                        f"- pH: {med.get('ph')}\n"
-                        f"- Osmolaridad: {med.get('osmolaridad')}\n"
-                        f"- Tonicidad: {med.get('tonicidad')}\n"
-                        f"- Vía Recomendada: {med.get('via_recomendada')}\n"
-                        f"- Riesgo de Flebitis: {med.get('riesgo_flebitis')}\n"
-                        f"- Diluyente: {med.get('diluyente_recomendado')}\n"
-                        f"- Volumen de Dilución: {med.get('volumen_minimo_dilucion')}\n"
-                        f"- Tiempo de Infusión: {med.get('tiempo_infusion_minimo')}\n"
-                        f"- Observaciones de Enfermería: {med.get('observaciones_enfermeria')}"
-                    )
-                    self.chunks.append({
-                        'id': f"med_{med.get('nombre')}",
-                        'source': 'medicamentos.json',
-                        'title': f"Ficha Farmacológica: {med.get('nombre')}",
-                        'content': content,
-                        'entity_key': med.get('nombre', '').lower()
-                    })
+                # Procesamiento específico si parece ser medicamentos
+                if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict) and 'nombre' in data[0]:
+                    self.medications.extend(data)
+                    for med in data:
+                        content = (
+                            f"MEDICAMENTO: {med.get('nombre')} ({med.get('grupo', '')})\n"
+                            f"- pH: {med.get('ph')}\n"
+                            f"- Osmolaridad: {med.get('osmolaridad')}\n"
+                            f"- Tonicidad: {med.get('tonicidad')}\n"
+                            f"- Vía Recomendada: {med.get('via_recomendada')}\n"
+                            f"- Riesgo de Flebitis: {med.get('riesgo_flebitis')}\n"
+                            f"- Diluyente: {med.get('diluyente_recomendado')}\n"
+                            f"- Volumen de Dilución: {med.get('volumen_minimo_dilucion')}\n"
+                            f"- Tiempo de Infusión: {med.get('tiempo_infusion_minimo')}\n"
+                            f"- Observaciones de Enfermería: {med.get('observaciones_enfermeria')}"
+                        )
+                        self.chunks.append({
+                            'id': f"med_{med.get('nombre')}",
+                            'source': fname,
+                            'title': f"Ficha Farmacológica: {med.get('nombre')}",
+                            'content': content,
+                            'entity_key': med.get('nombre', '').lower()
+                        })
             except Exception as e:
-                print(f"Aviso cargando medicamentos.json: {e}")
+                print(f"Aviso cargando {fname}: {e}")
 
         # 2. Cargar archivos Markdown
-        md_files = ['escalas.md', 'protocolo_basico.md', 'casos_clinicos.md']
-        for fname in md_files:
-            fpath = os.path.join(self.kb_path, fname)
-            if os.path.exists(fpath):
-                try:
-                    with open(fpath, 'r', encoding='utf-8') as f:
-                        text = f.read()
+        for fname, fpath in md_files:
+            try:
+                with open(fpath, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                
+                # Dividir por secciones #, ## o ### (regex mejorada)
+                sections = re.split(r'\n(?=#{1,3}\s)', text)
+                for idx, sec in enumerate(sections):
+                    sec_str = sec.strip()
+                    if len(sec_str) < 30:
+                        continue
                     
-                    # Dividir por secciones ## o ###
-                    sections = re.split(r'\n(?=##?\s)', text)
-                    for idx, sec in enumerate(sections):
-                        sec_str = sec.strip()
-                        if len(sec_str) < 30:
-                            continue
-                        
-                        lines = sec_str.split('\n')
-                        header = lines[0].replace('#', '').strip() if lines else fname
-                        
-                        self.chunks.append({
-                            'id': f"{fname}_{idx}",
-                            'source': fname,
-                            'title': header,
-                            'content': sec_str,
-                            'entity_key': ''
-                        })
-                except Exception as e:
-                    print(f"Aviso cargando {fname}: {e}")
+                    lines = sec_str.split('\n')
+                    header = lines[0].replace('#', '').strip() if lines else fname
+                    
+                    self.chunks.append({
+                        'id': f"{fname}_{idx}",
+                        'source': fname,
+                        'title': header,
+                        'content': sec_str,
+                        'entity_key': ''
+                    })
+            except Exception as e:
+                print(f"Aviso cargando {fname}: {e}")
 
-        # 3. Construir índice TF-IDF para búsqueda léxica rápida
+        # 3. Construir índice BM25 (reemplaza a TF-IDF)
         self._build_tfidf_index()
 
     def _build_tfidf_index(self):
@@ -107,61 +144,91 @@ class RAGEngine:
         if total_docs == 0:
             return
 
+        self.doc_lengths = []
+        total_len = 0
+
         for chunk in self.chunks:
-            tokens = set(self._tokenize(chunk['content'] + " " + chunk['title']))
-            for t in tokens:
+            tokens = self._tokenize(chunk['content'] + " " + chunk['title'])
+            self.doc_lengths.append(len(tokens))
+            total_len += len(tokens)
+            
+            for t in set(tokens):
                 doc_freq[t] = doc_freq.get(t, 0) + 1
 
+        # Calcular longitud promedio de los documentos
+        self.avg_dl = total_len / total_docs if total_docs > 0 else 0
+
+        # Calcular IDF
         self.idf = {t: math.log((total_docs + 1) / (df + 1)) + 1.0 for t, df in doc_freq.items()}
         self.doc_vectors = []
 
+        # Guardar las frecuencias de los términos por documento para cálculo dinámico BM25
         for chunk in self.chunks:
             tokens = self._tokenize(chunk['content'] + " " + chunk['title'])
             tf = {}
             for t in tokens:
                 tf[t] = tf.get(t, 0) + 1
             
-            vec = {}
-            if tokens:
-                for t, count in tf.items():
-                    if t in self.idf:
-                        vec[t] = (count / len(tokens)) * self.idf[t]
-            self.doc_vectors.append(vec)
+            self.doc_vectors.append(tf)
 
     def search(self, query: str, top_k: int = 3) -> Tuple[str, List[str], bool]:
         if not self.chunks:
             return "", [], False
 
-        q_lower = query.lower()
+        q_norm = self._normalize(query)
         q_tokens = self._tokenize(query, remove_stopwords=True)
         
+        # Verificar si la consulta tiene un medicamento utilizando alias
+        has_med = False
+        for m in self.medications:
+            med_name = self._normalize(m.get('nombre', ''))
+            aliases = MED_ALIASES.get(med_name, [med_name])
+            if any(self._normalize(alias) in q_norm for alias in aliases):
+                has_med = True
+                break
+
         # Si la consulta no tiene términos significativos
-        if not q_tokens and not any(m['nombre'].lower() in q_lower for m in self.medications):
+        if not q_tokens and not has_med:
             return "", [], False
 
         scores = [0.0] * len(self.chunks)
         matched_any_entity = False
 
-        # 1. Boost directo por entidad / fármaco
+        # 1. Boost directo por entidad / fármaco con aliases
         for i, chunk in enumerate(self.chunks):
-            if chunk.get('entity_key') and chunk['entity_key'] in q_lower:
-                scores[i] += 20.0
-                matched_any_entity = True
+            ek = chunk.get('entity_key')
+            if ek:
+                ek_norm = self._normalize(ek)
+                aliases = MED_ALIASES.get(ek_norm, [ek_norm])
+                # Revisar si ALGUNO de los alias está en la query normalizada
+                if any(self._normalize(alias) in q_norm for alias in aliases):
+                    scores[i] += 20.0
+                    matched_any_entity = True
             
             # Coincidencia con título de sección
             if any(t in chunk['title'].lower() for t in q_tokens if len(t) > 3):
                 scores[i] += 8.0
 
-        # 2. Puntuación TF-IDF de tokens de la pregunta
+        # 2. Puntuación BM25Okapi de tokens de la pregunta
+        k1 = 1.5
+        b = 0.75
+        
         for t in q_tokens:
             if t in self.idf:
                 idf_val = self.idf[t]
                 for i, doc_vec in enumerate(self.doc_vectors):
                     if t in doc_vec:
-                        scores[i] += doc_vec[t] * idf_val * 3.0
+                        freq = doc_vec[t]
+                        doc_len = self.doc_lengths[i]
+                        
+                        # Fórmula BM25
+                        tf_norm = (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * doc_len / self.avg_dl))
+                        score = tf_norm * idf_val
+                        
+                        scores[i] += score * 3.0
 
         # 3. Ordenar por relevancia
-        # Umbral mínimo de relevancia: score >= 0.8 si no es entidad exacta
+        # Umbral mínimo de relevancia: score >= 0.5 si no es entidad exacta
         min_threshold = 0.5
         ranked_indices = sorted(range(len(scores)), key=lambda k: scores[k], reverse=True)
         top_indices = [idx for idx in ranked_indices[:top_k] if scores[idx] >= min_threshold]

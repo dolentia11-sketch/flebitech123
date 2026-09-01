@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    // Flebitech Widget v1.1 — Embebible en Genially / Moodle / LMS / Web
+    // Flebitech Widget v1.2 — Embebible en Genially / Moodle / LMS / Web (laCardio & Unisabana)
     var scriptTag = document.currentScript;
     var origin = scriptTag ? new URL(scriptTag.src).origin : window.location.origin;
 
@@ -12,16 +12,16 @@
     // Iframe
     var iframe = document.createElement('iframe');
     iframe.src = origin + '/';
-    iframe.title = 'Flebitech - Asistente de Flebitis';
-    iframe.style.cssText = 'width:420px;max-width:92vw;height:650px;max-height:85vh;border-radius:20px;border:1px solid #CBD5E1;box-shadow:0 20px 60px rgba(0,0,0,0.2),0 4px 12px rgba(0,0,0,0.08);display:none;margin-bottom:12px;background:#fff;transition:opacity 0.25s ease,transform 0.25s ease;opacity:0;transform:translateY(10px) scale(0.98);';
+    iframe.title = 'Flebitech - Asistente de Flebitis Química';
+    iframe.style.cssText = 'width:430px;max-width:92vw;height:670px;max-height:86vh;border-radius:20px;border:1px solid #CBD5E1;box-shadow:0 20px 60px rgba(0,43,102,0.25),0 4px 16px rgba(0,0,0,0.08);display:none;margin-bottom:12px;background:#fff;transition:opacity 0.25s ease,transform 0.25s ease;opacity:0;transform:translateY(10px) scale(0.98);';
 
-    // Button
+    // Button with laCardio heart pulse & branding
     var button = document.createElement('button');
     button.setAttribute('aria-label', 'Abrir Flebitech');
-    button.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span style="font-size:14px;font-weight:700;">Flebitech</span>';
-    button.style.cssText = 'height:52px;padding:0 22px;border-radius:26px;background:linear-gradient(135deg,#1D5FC6 0%,#0A3882 100%);color:#fff;border:none;box-shadow:0 4px 20px rgba(10,56,130,0.35);cursor:pointer;display:flex;align-items:center;font-size:16px;transition:all 0.25s ease;';
-    button.onmouseover = function() { button.style.transform = 'scale(1.05)'; button.style.boxShadow = '0 6px 25px rgba(10,56,130,0.45)'; };
-    button.onmouseout = function() { button.style.transform = 'scale(1)'; button.style.boxShadow = '0 4px 20px rgba(10,56,130,0.35)'; };
+    button.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4003B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 9v4"/><path d="M10 11h4"/></svg><span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;">Flebitech</span>';
+    button.style.cssText = 'height:50px;padding:0 20px;border-radius:25px;background:linear-gradient(135deg,#002B66 0%,#0A3882 100%);color:#fff;border:1px solid rgba(255,255,255,0.15);box-shadow:0 4px 20px rgba(0,43,102,0.35);cursor:pointer;display:flex;align-items:center;font-size:15px;transition:all 0.25s ease;';
+    button.onmouseover = function() { button.style.transform = 'translateY(-2px) scale(1.03)'; button.style.boxShadow = '0 6px 25px rgba(0,43,102,0.45)'; };
+    button.onmouseout = function() { button.style.transform = 'none'; button.style.boxShadow = '0 4px 20px rgba(0,43,102,0.35)'; };
 
     var isOpen = false;
     button.onclick = function() {
@@ -37,7 +37,7 @@
             iframe.style.opacity = '0';
             iframe.style.transform = 'translateY(10px) scale(0.98)';
             setTimeout(function() { iframe.style.display = 'none'; }, 250);
-            button.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span style="font-size:14px;font-weight:700;">Flebitech</span>';
+            button.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E4003B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 9v4"/><path d="M10 11h4"/></svg><span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;">Flebitech</span>';
         }
     };
 

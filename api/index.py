@@ -24,6 +24,7 @@ from backend.metrics import (
     log_question, get_session_stats, get_recent_interactions,
     get_knowledge_gaps, detect_topic
 )
+from backend.prompt_system import is_knowledge_gap
 
 # Inicializar FastAPI
 app = FastAPI(
@@ -51,6 +52,7 @@ groq = GroqClient()
 class ChatRequest(BaseModel):
     query: str
     session_id: Optional[str] = "web_session"
+    history: Optional[List[Dict[str, str]]] = None
 
 
 class ChatResponse(BaseModel):
@@ -98,9 +100,13 @@ def chat_endpoint(req: ChatRequest):
     context, sources, has_match = rag.search(query, top_k=3)
 
     # 2. Consulta a Groq / Motor de Respaldo
-    response_text, latency = groq.ask(query, context, has_relevant_content=has_match)
+    if hasattr(req, 'history') and req.history is not None:
+        response_text, latency = groq.ask(query, context, has_relevant_content=has_match, history=req.history)
+    else:
+        # Compatibility just in case
+        response_text, latency = groq.ask(query, context, has_relevant_content=has_match)
 
-    is_gap = "Esa información no está disponible en el material de Flebitech" in response_text or not has_match
+    is_gap = is_knowledge_gap(response_text) or not has_match
     had_answer = not is_gap
 
     # 3. Clasificación temática

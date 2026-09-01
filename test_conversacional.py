@@ -61,7 +61,26 @@ check("Elegibilidad contextual", "¿Cuál es elegible?", ("catéter periférico 
 check("Midline puntual", "¿Cuándo uso Midline?", ("7 a 29 días", "osmolaridad", "ultrasonido"))
 
 check("Catálogo farmacológico", "Dame los medicamentos", ("vancomicina", "amiodarona", "metronidazol", "nutrición parenteral"))
+check("Catálogo farmacológico en forma de pregunta", "¿Cuáles son los medicamentos?", ("medicamentos documentados (15)", "claritromicina iv", "dad 50%"))
+
+# Cada medicamento de la fuente debe funcionar sin depender de una lista manual
+# del router ni de la disponibilidad del proveedor LLM.
+for medication in rag.medications:
+    medication_name = medication["nombre"]
+    check(
+        f"Ficha farmacológica: {medication_name}",
+        medication_name,
+        (medication_name.split(" (")[0], "vía recomendada", "riesgo de flebitis"),
+    )
+
 vancomycin = check("pH de vancomicina", "¿Cuál es el pH de la vancomicina?", ("2.5 - 4.5",), forbidden=("osmolaridad", "tiempo de infusión"))
+check(
+    "Cambio explícito de medicamento",
+    "¿Y amiodarona?",
+    ("amiodarona", "exclusivamente dad 5%"),
+    turn("¿Cuál es el pH de la vancomicina?", vancomycin),
+    forbidden=("síndrome del hombre rojo",),
+)
 check("Dilución contextual", "¿Y la dilución?", ("5 mg/ml", "1000 mg en 200-250 ml"), turn("¿Cuál es el pH de la vancomicina?", vancomycin))
 check(
     "Dilución contextual con turno actual duplicado por cliente web",
@@ -72,6 +91,33 @@ check(
     forbidden=("Exclusivamente DAD 5%", "Bolsa premezclada", "2 mg/ml"),
 )
 check("Conducta KCl", "Tengo un paciente con flebitis química por potasio, ¿qué hago?", ("nunca administrar directo", "10 meq/hora", "dolor intenso"))
+check(
+    "Filtro farmacológico de vía central",
+    "¿Qué medicamentos requieren vía central obligatoria?",
+    ("nutrición parenteral total", "cloruro de potasio", "condición exacta"),
+)
+check(
+    "Comparación de medicamentos",
+    "Compara vancomicina y amiodarona",
+    ("comparación farmacológica", "2.5 - 4.5", "exclusivamente dad 5%"),
+)
+
+furosemide = check(
+    "Dilución de furosemida",
+    "¿Cuál es la dilución de la furosemida?",
+    ("ssn 0.9%", "50-100 ml"),
+    forbidden=("vancomicina", "amiodarona"),
+)
+check(
+    "Continuación farmacológica puntual",
+    "¿Y el tiempo de infusión?",
+    ("4 mg/min",),
+    turn("¿Cuál es la dilución de la furosemida?", furosemide),
+    forbidden=("osmolaridad", "vía recomendada"),
+)
+
+check("Agradecimiento natural", "Gracias", ("con gusto", "mantengo el contexto"))
+check("Explicación de capacidades", "¿En qué me puedes ayudar?", ("medicamentos", "diva", "selección de catéteres"))
 
 diva_history = turn("¿Qué es DIVA?", "DIVA estratifica el acceso venoso difícil.")
 check("Interpretación DIVA", "¿Y cómo se interpreta?", ("bajo riesgo", "riesgo moderado", "alto riesgo"), diva_history)

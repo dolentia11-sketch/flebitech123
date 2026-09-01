@@ -24,13 +24,13 @@ MED_ALIASES = {
     'cloruro de potasio (kcl)': ['cloruro de potasio', 'kcl', 'potasio'],
     'amiodarona': ['amiodarona'],
     'ciprofloxacina': ['ciprofloxacina', 'cipro'],
-    'fenitoina sodica': ['fenitoina', 'fenitoína', 'difenilhidantoina', 'difenilhidantoína'],
+    'fenitoina (difenilhidantoina)': ['fenitoina', 'fenitoina sodica', 'difenilhidantoina'],
     'ampicilina': ['ampicilina'],
-    'ampicilina sulbactam': ['ampicilina sulbactam', 'ampicilina', 'sulbactam'],
+    'ampicilina sulbactam': ['ampicilina sulbactam', 'ampicilina/sulbactam', 'unasyn'],
     'ceftriaxona': ['ceftriaxona'],
     'gluconato de calcio al 10%': ['gluconato de calcio', 'calcio', 'gluconato calcio'],
-    'dad 10%': ['dad 10', 'dextrosa 10', 'dad10'],
-    'dad 50%': ['dad 50', 'dextrosa 50', 'dad50'],
+    'dextrosa en agua destilada al 10% (dad 10%)': ['dad 10', 'dextrosa 10', 'dad10'],
+    'dextrosa en agua destilada al 50% (dad 50%)': ['dad 50', 'dextrosa 50', 'dad50'],
     'nutricion parenteral total (npt)': ['nutricion parenteral', 'npt', 'nutrición parenteral'],
     'furosemida': ['furosemida', 'lasix'],
     'omeprazol iv': ['omeprazol'],
@@ -75,6 +75,77 @@ class RAGEngine:
         if remove_stopwords:
             tokens = [t for t in tokens if t not in SPANISH_STOPWORDS]
         return tokens
+
+    @classmethod
+    def _medication_aliases(cls, medication_name: str) -> List[str]:
+        """Construye alias buscables a partir del catálogo, sin mantener otra lista paralela.
+
+        Los alias explícitos cubren marcas o abreviaturas clínicas. Las variantes
+        derivadas permiten reconocer automáticamente medicamentos nuevos, nombres
+        con paréntesis y sufijos como ``IV``.
+        """
+        normalized_name = cls._normalize(medication_name).strip()
+        aliases = set(MED_ALIASES.get(normalized_name, []))
+        aliases.add(normalized_name)
+
+        without_parentheses = re.sub(r"\s*\([^)]*\)\s*", " ", normalized_name).strip()
+        if without_parentheses:
+            aliases.add(without_parentheses)
+
+        for parenthetical in re.findall(r"\(([^)]*)\)", normalized_name):
+            value = parenthetical.strip()
+            if value:
+                aliases.add(value)
+
+        without_iv = re.sub(r"\s+iv$", "", normalized_name).strip()
+        if without_iv:
+            aliases.add(without_iv)
+
+        return sorted(
+            {cls._normalize(alias).strip() for alias in aliases if alias and len(alias.strip()) >= 3},
+            key=len,
+            reverse=True,
+        )
+
+    @staticmethod
+    def _contains_alias(normalized_query: str, alias: str) -> bool:
+        """Busca el alias como término completo para evitar coincidencias parciales."""
+        return bool(re.search(rf"(?<!\w){re.escape(alias)}(?!\w)", normalized_query))
+
+    def match_medications(self, query: str) -> List[Dict[str, Any]]:
+        """Devuelve, en orden de mención, los medicamentos nombrados en la consulta."""
+        normalized_query = self._normalize(query or "")
+        matches = []
+        for medication in self.medications:
+            aliases = self._medication_aliases(medication.get("nombre", ""))
+            positions = [
+                normalized_query.find(alias)
+                for alias in aliases
+                if self._contains_alias(normalized_query, alias)
+            ]
+            if positions:
+                matches.append((min(positions), medication))
+        return [medication for _, medication in sorted(matches, key=lambda item: item[0])]
+
+    def medication_context(self, query: str) -> Tuple[str, List[str], bool]:
+        """Recupera únicamente las fichas farmacológicas mencionadas en la consulta."""
+        matched = self.match_medications(query)
+        if not matched:
+            return "", [], False
+
+        matched_names = {self._normalize(med.get("nombre", "")) for med in matched}
+        medication_chunks = [
+            chunk for chunk in self.chunks
+            if self._normalize(chunk.get("entity_key", "")) in matched_names
+        ]
+        if not medication_chunks:
+            return "", [], False
+
+        context = "\n\n".join(
+            f"### [Fuente: {chunk['source']} | {chunk['title']}]\n{chunk['content']}"
+            for chunk in medication_chunks
+        )
+        return context, ["medicamentos.json"], True
 
     def index_documents(self):
         self.chunks = []
@@ -196,14 +267,13 @@ class RAGEngine:
         q_norm = self._normalize(query)
         q_tokens = self._tokenize(query, remove_stopwords=True)
         
-        # Verificar si la consulta tiene un medicamento utilizando alias
-        has_med = False
-        for m in self.medications:
-            med_name = self._normalize(m.get('nombre', ''))
-            aliases = MED_ALIASES.get(med_name, [med_name])
-            if any(self._normalize(alias) in q_norm for alias in aliases):
-                has_med = True
-                break
+        # La entidad farmacológica se resuelve desde el catálogo completo. Así un
+        # medicamento nuevo funciona sin agregarlo manualmente al enrutador.
+        matched_medications = self.match_medications(query)
+        matched_medication_names = {
+            self._normalize(medication.get('nombre', '')) for medication in matched_medications
+        }
+        has_med = bool(matched_medications)
 
         # Si la consulta no tiene términos significativos
         if not q_tokens and not has_med:
@@ -219,9 +289,7 @@ class RAGEngine:
 
             if ek:
                 ek_norm = self._normalize(ek)
-                aliases = MED_ALIASES.get(ek_norm, [ek_norm])
-                # Revisar si ALGUNO de los alias está en la query normalizada
-                if any(self._normalize(alias) in q_norm for alias in aliases):
+                if ek_norm in matched_medication_names:
                     scores[i] += 20.0
                     matched_any_entity = True
             

@@ -151,6 +151,120 @@ def _medication_names(blocks: List[str]) -> List[str]:
     return list(dict.fromkeys(names))
 
 
+def _medication_record(block: str) -> dict:
+    """Convierte una ficha recuperada a campos presentables sin alterar sus valores."""
+    title = _first_heading(block)
+    if not _plain(title).startswith("ficha farmacologica:"):
+        return {}
+
+    record = {"nombre": title.split(":", 1)[1].strip()}
+    field_map = {
+        "ph": "pH",
+        "osmolaridad": "Osmolaridad",
+        "tonicidad": "Tonicidad",
+        "via recomendada": "Vía recomendada",
+        "riesgo de flebitis": "Riesgo de flebitis",
+        "diluyente": "Diluyente",
+        "volumen de dilucion": "Volumen de dilución",
+        "tiempo de infusion": "Tiempo de infusión",
+        "observaciones de enfermeria": "Observaciones de enfermería",
+    }
+    for line in _clean_lines(block):
+        cleaned = re.sub(r"^[\-*•\s]+", "", line).strip()
+        if ":" not in cleaned:
+            continue
+        label, value = cleaned.split(":", 1)
+        canonical = field_map.get(_plain(label).strip())
+        if canonical and value.strip():
+            record[canonical] = value.strip()
+    return record
+
+
+def _medication_records(blocks: List[str]) -> List[dict]:
+    return [record for record in (_medication_record(block) for block in blocks) if record]
+
+
+def _is_plain_medication_catalog_request(text: str) -> bool:
+    if not any(word in text for word in ("medicamento", "farmaco")):
+        return False
+    has_list_language = any(
+        phrase in text
+        for phrase in (
+            "dame", "lista", "listado", "catalogo", "cuales hay", "cuales son",
+            "que medicamentos", "que farmacos", "que hay", "cuantos medicamentos",
+            "documentados", "incluidos", "disponibles", "todos los medicamentos",
+        )
+    )
+    has_filter = any(
+        term in text
+        for term in (
+            "requieren", "via central", "via periferica", "riesgo", "ph", "osmolar",
+            "dilucion", "infusion", "vesicante", "irritante",
+        )
+    )
+    return has_list_language and not has_filter
+
+
+def _medication_collection_response(text: str, blocks: List[str], sources: List[str]) -> str:
+    """Responde filtros sobre todo el catálogo conservando el texto documental exacto."""
+    records = _medication_records(blocks)
+    if not records:
+        return ""
+
+    if "via central" in text or "central obligatoria" in text or "central obligatorio" in text:
+        selected = [record for record in records if "central" in _plain(record.get("Vía recomendada", ""))]
+        if selected:
+            rows = "\n".join(
+                f"| {record['nombre']} | {record.get('Vía recomendada', '')} |"
+                for record in selected
+            )
+            return (
+                "## Medicamentos cuya ficha contempla vía central\n\n"
+                "La indicación puede ser exclusiva o depender de la concentración y duración; la condición exacta está en cada fila.\n\n"
+                "| Medicamento | Criterio de vía documentado |\n|---|---|\n"
+                f"{rows}{_source_line(sources)}"
+            )
+
+    if any(term in text for term in ("riesgo", "vesicante", "irritante")):
+        selected = records
+        if "alto" in text or "mayor" in text or "extremo" in text:
+            selected = [
+                record for record in records
+                if any(level in _plain(record.get("Riesgo de flebitis", "")) for level in ("alto", "extremo", "vesicante"))
+            ]
+        if selected:
+            rows = "\n".join(
+                f"| {record['nombre']} | {record.get('Riesgo de flebitis', '')} |"
+                for record in selected
+            )
+            return "## Riesgo de flebitis documentado\n\n| Medicamento | Riesgo |\n|---|---|\n" + rows + _source_line(sources)
+
+    field = next((
+        label for marker, label in (
+            ("ph", "pH"), ("osmolar", "Osmolaridad"), ("diluc", "Volumen de dilución"),
+            ("infus", "Tiempo de infusión"), ("via", "Vía recomendada"),
+        ) if marker in text
+    ), "")
+    if field:
+        rows = "\n".join(f"| {record['nombre']} | {record.get(field, '')} |" for record in records)
+        return f"## {field} por medicamento\n\n| Medicamento | {field} |\n|---|---|\n{rows}{_source_line(sources)}"
+    return ""
+
+
+def _medication_comparison(blocks: List[str], sources: List[str]) -> str:
+    records = _medication_records(blocks)
+    if len(records) < 2:
+        return ""
+    fields = ("pH", "Osmolaridad", "Vía recomendada", "Riesgo de flebitis", "Diluyente", "Tiempo de infusión")
+    header = "| Aspecto | " + " | ".join(record["nombre"] for record in records) + " |"
+    separator = "|---|" + "---|" * len(records)
+    rows = "\n".join(
+        "| " + field + " | " + " | ".join(record.get(field, "No especificado") for record in records) + " |"
+        for field in fields
+    )
+    return f"## Comparación farmacológica\n\n{header}\n{separator}\n{rows}{_source_line(sources)}"
+
+
 def build_local_response(query: str, context: str, sources: List[str], intent: str = "clinical_query", search_query: str = "") -> str:
     """Construye una respuesta útil, breve y rastreable desde el contexto RAG."""
     text = _plain(query)
@@ -227,10 +341,25 @@ def build_local_response(query: str, context: str, sources: List[str], intent: s
         if excerpt:
             return "## Elegibilidad del acceso vascular\n\n" + excerpt + _source_line(sources)
 
-    if "medicamentos" in text and any(x in text for x in ("dame", "lista", "cuales", "todos")):
+    if _is_plain_medication_catalog_request(text):
         names = _medication_names(blocks)
         if names:
-            return "## Medicamentos documentados\n\n" + "\n".join(f"- {name}" for name in names) + _source_line(sources)
+            return (
+                f"## Medicamentos documentados ({len(names)})\n\n"
+                + "\n".join(f"- {name}" for name in names)
+                + "\n\nPuedes consultar cualquiera por nombre y pedir un dato concreto, como pH, dilución, vía, tiempo de infusión o cuidados."
+                + _source_line(sources)
+            )
+
+    if any(word in text for word in ("medicamento", "farmaco")):
+        collection_response = _medication_collection_response(text, blocks, sources)
+        if collection_response:
+            return collection_response
+
+    if intent == "comparacion":
+        comparison = _medication_comparison(_most_relevant_medication_blocks(search_query or query, blocks), sources)
+        if comparison:
+            return comparison
 
     if intent == "comparacion" and len(_medication_names(_most_relevant_medication_blocks(search_query or query, blocks))) < 2:
         return "La consulta identifica un medicamento, pero no especifica el segundo elemento de comparación. Indica el medicamento o acceso que quieres contrastar." + _source_line(sources)
@@ -261,6 +390,20 @@ def build_local_response(query: str, context: str, sources: List[str], intent: s
         lines = _field_lines(_most_relevant_medication_blocks(search_query or query, blocks), tuple(field_terms) or medication_terms, limit=8, strict=True)
         if lines:
             return "## Información puntual\n\n" + _as_bullets(lines) + _source_line(sources)
+
+    if intent == "medicamento":
+        med_blocks = _most_relevant_medication_blocks(search_query or query, blocks)
+        records = _medication_records(med_blocks)
+        if records:
+            record = records[0]
+            labels = (
+                "pH", "Osmolaridad", "Tonicidad", "Vía recomendada", "Riesgo de flebitis",
+                "Diluyente", "Volumen de dilución", "Tiempo de infusión", "Observaciones de enfermería",
+            )
+            details = "\n".join(
+                f"- **{label}:** {record[label]}" for label in labels if record.get(label)
+            )
+            return f"## {record['nombre']}\n\n{details}{_source_line(sources)}"
 
     # Para una guía completa se conserva la tabla y el texto recuperado, sin que el
     # fallback recorte una escala justo cuando el usuario pidió todas sus filas.

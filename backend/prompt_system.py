@@ -9,7 +9,7 @@ FALLBACK_MESSAGE = "La documentación de Flebitech permite establecer algunos pa
 VALID_INTENTS = {
     "greeting", "dato_puntual", "explicacion", "guia_completa", "profundizacion",
     "comparacion", "criterios", "conducta", "algoritmo", "medicamento", "cateter",
-    "tematica_general", "clinical_query", "out_of_domain"
+    "tematica_general", "clinical_query", "capabilities", "gratitude", "out_of_domain"
 }
 VALID_DEPTHS = {"nivel_1", "nivel_2", "nivel_3", "nivel_4", "nivel_5"}
 
@@ -18,7 +18,7 @@ def _plain(text: str) -> str:
     return unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
 
 
-def deterministic_route(query: str, history: list = None) -> dict:
+def deterministic_route(query: str, history: list = None, known_medication: bool = False) -> dict:
     """Clasificación de respaldo rápida y sin red.
 
     Es deliberadamente conservadora: el LLM puede mejorar la clasificación cuando está
@@ -37,8 +37,14 @@ def deterministic_route(query: str, history: list = None) -> dict:
         "cordon", "palpable", "eritema", "edema", "dolor", "drenaje", "purulent",
         "punto", "adult", "pediatr", "neonat", "elegib", "conducta", "cuidad"
     )
-    is_clinical = any(term in text for term in clinical_terms)
+    is_clinical = known_medication or any(term in text for term in clinical_terms)
     is_greeting = bool(re.fullmatch(r"(?:hola|buenas?|buenos dias|buenas tardes|buenas noches|hey)[!. ]*", text))
+    is_gratitude = bool(re.fullmatch(r"(?:gracias|muchas gracias|perfecto|listo|entendido|muy bien)[!. ]*", text))
+    asks_capabilities = bool(re.search(
+        r"\b(?:que|cuales)\s+(?:puedes|sabes)\s+(?:hacer|responder)|"
+        r"\b(?:en que|sobre que)\s+(?:me )?puedes ayudar\b",
+        text,
+    ))
 
     previous = " ".join(
         str(m.get("content", "")) for m in (history or [])[-2:] if m.get("role") in {"user", "assistant"}
@@ -55,10 +61,12 @@ def deterministic_route(query: str, history: list = None) -> dict:
 
     if is_greeting:
         intent, depth = "greeting", "nivel_1"
+    elif is_gratitude:
+        intent, depth = "gratitude", "nivel_1"
+    elif asks_capabilities:
+        intent, depth = "capabilities", "nivel_1"
     elif (not is_clinical and not previous) or explicit_out_of_domain:
         intent, depth = "out_of_domain", "nivel_1"
-    elif len(words) == 1 and is_clinical:
-        intent, depth = "tematica_general", "nivel_2"
     elif any(x in text for x in ("completa", "completo", "toda la", "todo sobre", "tabla completa", "todos los", "todas las")):
         intent, depth = "guia_completa", "nivel_3"
     elif any(x in text for x in ("amplia", "amplia", "profundiza", "detalle", "mas informacion", "más información")):
@@ -71,10 +79,16 @@ def deterministic_route(query: str, history: list = None) -> dict:
         intent, depth = "conducta", "nivel_5"
     elif "algoritmo" in text or "paso a paso" in text:
         intent, depth = "algoritmo", "nivel_3"
-    elif any(x in text for x in ("ph de", "osmolaridad de", "dilucion", "dilución", "cuanto tiempo", "cuánto tiempo", "via recomendada")):
+    elif any(x in text for x in (
+        "ph de", "osmolaridad de", "dilucion", "dilución", "diluyente",
+        "cuanto tiempo", "cuánto tiempo", "tiempo de infusion", "via recomendada",
+        "riesgo de flebitis", "cuidados de enfermeria",
+    )):
         intent, depth = "dato_puntual", "nivel_1"
-    elif any(x in text for x in ("medicamento", "farmaco", "fármaco", "vancomicina", "amiodarona", "ceftriaxona", "potasio", "kcl")):
+    elif known_medication or any(x in text for x in ("medicamento", "farmaco", "fármaco", "vancomicina", "amiodarona", "ceftriaxona", "potasio", "kcl")):
         intent, depth = "medicamento", "nivel_2"
+    elif len(words) == 1 and is_clinical:
+        intent, depth = "tematica_general", "nivel_2"
     elif "cateter" in text or "catéter" in raw.lower() or any(x in text for x in ("midline", "picc", "cvc", "acceso vascular")):
         intent, depth = "cateter", "nivel_2"
     elif any(x in text for x in ("que es", "qué es", "explica", "explícame", "definicion", "definición", "como se", "cómo se")):
@@ -130,6 +144,8 @@ REGLAS:
    - "cateter": Solicita información sobre un catéter o acceso vascular.
    - "tematica_general": Escribe una sola palabra (ej. "catéter", "flebitis").
    - "clinical_query": Cualquier otra consulta clínica genérica.
+   - "capabilities": Pregunta qué puede hacer o qué temas maneja Flebitech.
+   - "gratitude": Agradecimiento o confirmación breve sin una nueva pregunta clínica.
    - "out_of_domain": El usuario pregunta algo que no tiene nada que ver con accesos venosos o medicamentos.
 
 2. "is_continuation": true si la pregunta requiere el historial para entenderse (ej. "¿y en adulto?", "amplía", "¿cuál elegiría?"). false si es una pregunta autocontenida.
@@ -174,14 +190,16 @@ def build_router_prompt(query: str, history: list = None) -> str:
 GENERATION_SYSTEM_PROMPT = """Eres Flebitech, un asistente clínico-educativo experto fundamentado EXCLUSIVAMENTE en su base de conocimiento documental provista.
 
 PRINCIPIOS FUNDAMENTALES:
-1. INTENCIÓN ANTES QUE RESPUESTA: Responde ÚNICAMENTE lo solicitado. Si preguntan "¿Qué es DIVA?", no expliques algoritmos ni calibres. Permite el descubrimiento progresivo.
+1. RESPUESTA PRIMERO: Empieza con la contestación concreta, sin preámbulos sobre tu rol ni repetir la pregunta. Responde ÚNICAMENTE lo solicitado. Si preguntan "¿Qué es DIVA?", no expliques algoritmos ni calibres.
 2. CONTINUIDAD: Si la pregunta es una continuación (ej. "¿Y en adulto?"), responde directamente asumiendo el contexto sin pedir explicaciones, salvo ambigüedad real.
 3. AMPLIACIÓN: Si el usuario pide "amplía" o "completa", entrega la información solicitada profundizando sin repetir innecesariamente lo que ya se dijo. "Completa" significa entregar todos los elementos relevantes recuperados (ej. todas las filas de la tabla de la Escala INS).
 4. PALABRA ÚNICA / TEMA AMPLIO: Si el usuario escribe una sola palabra (ej. "catéter"), presenta una orientación contextual breve y ofrece un panorama útil (qué abarca el tema) para que el usuario profundice.
 5. NO REPETIR: Si ya explicaste una definición en el turno anterior, no la vuelvas a repetir salvo que sea crucial para la nueva respuesta.
 6. NO INVENTAR: Distingue "Razonamiento" de "Invención". Puedes conectar datos documentados, pero NUNCA inventar hechos clínicos. Si falta información, indícalo claramente: "La documentación de Flebitech permite establecer X. No especifica Y."
-7. NO FRASES ARTIFICIALES: Evita expresiones de relleno como "¿Te gustaría conocer más?", "Espero que esta información sea útil", "Como asistente clínico...". Responde de forma natural, profesional, humana y académica.
-8. REGLAS CLÍNICAS: Utiliza las reglas clínicas contenidas en el contexto documental recuperado.
+7. TONO HUMANO: Usa español claro, cálido y profesional. Puedes reconocer brevemente el escenario del usuario (por ejemplo, "En ese caso...") cuando aporte continuidad. Evita expresiones de relleno como "¿Te gustaría conocer más?", "Espero que esta información sea útil" o "Como asistente clínico...".
+8. MEDICAMENTOS: Si el contexto contiene una ficha farmacológica, identifica claramente el medicamento y responde con sus datos exactos. No mezcles valores de fichas diferentes. En comparaciones, separa cada medicamento por nombre.
+9. AMBIGÜEDAD ÚTIL: Si falta un dato imprescindible, formula una sola pregunta breve y específica. No uses preguntas genéricas de cierre.
+10. REGLAS CLÍNICAS: Utiliza las reglas clínicas contenidas en el contexto documental recuperado.
 
 FORMATOS SUGERIDOS:
 - Para datos puntuales: Directo y breve.

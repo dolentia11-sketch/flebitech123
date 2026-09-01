@@ -11,6 +11,7 @@ from backend.prompt_system import (
     build_generation_prompt,
     build_router_prompt,
     deterministic_route,
+    is_knowledge_gap,
     normalize_route,
 )
 from backend.rag_engine import RAGEngine
@@ -43,7 +44,12 @@ class ConversationalOrchestrator:
                 and str(last.get("content", "")).strip() == query
             ):
                 history = history[:-1]
-        fallback_route = deterministic_route(query, history)
+        current_medications = self._match_medications(query)
+        fallback_route = deterministic_route(
+            query,
+            history,
+            known_medication=bool(current_medications),
+        )
 
         router_result = {}
         try:
@@ -65,20 +71,57 @@ class ConversationalOrchestrator:
         depth = route["expected_depth"]
         rewritten_query = route["rewritten_query"] or query
 
+        # Una coincidencia contra medicamentos.json tiene prioridad sobre una
+        # clasificación incierta del proveedor externo. Esto evita que fármacos
+        # documentados terminen marcados como fuera de dominio.
+        if current_medications and intent in {"out_of_domain", "clinical_query", "tematica_general"}:
+            intent = fallback_route["intent"]
+            depth = fallback_route["expected_depth"]
+            rewritten_query = query
+
+        # Si el usuario nombra un fármaco nuevo, ese nombre reemplaza la entidad
+        # activa anterior. Solo una comparación explícita necesita conservar ambos.
+        if current_medications and intent != "comparacion":
+            rewritten_query = query
+
+        # Resuelve pronombres y preguntas elípticas ("¿y la dilución?") usando
+        # la última entidad farmacológica del historial, sin volcar respuestas
+        # completas dentro de la búsqueda.
+        active_medications = current_medications
+        if route.get("is_continuation") and not active_medications:
+            active_medications = self._last_medications_in_history(history)
+            if active_medications:
+                medication_names = " ".join(med.get("nombre", "") for med in active_medications)
+                rewritten_query = f"{medication_names} {query}".strip()
+                if intent == "out_of_domain":
+                    continuation_route = deterministic_route(query, history, known_medication=True)
+                    intent = continuation_route["intent"]
+                    depth = continuation_route["expected_depth"]
+
         if intent == "greeting":
-            response = build_local_response(query, "### [Fuente: protocolo_basico.md | Bienvenida]\nFlebitech", ["protocolo_basico.md"], intent)
-            return response, ["protocolo_basico.md"], True, self._latency(started)
+            response = "Hola. Soy Flebitech. Puedo orientarte sobre medicamentos documentados, flebitis química, terapia intravenosa, escalas clínicas y selección de accesos vasculares."
+            return response, [], True, self._latency(started)
+
+        if intent == "gratitude":
+            return "Con gusto. Mantengo el contexto clínico de esta conversación para que puedas continuar desde el punto anterior.", [], True, self._latency(started)
+
+        if intent == "capabilities":
+            response = (
+                "Puedo ayudarte a consultar los medicamentos incluidos en Flebitech —pH, osmolaridad, "
+                "dilución, tiempo de infusión, vía y cuidados de enfermería—, además de escalas DIVA, "
+                "INS y VHP, prevención de flebitis y selección de catéteres."
+            )
+            return response, [], True, self._latency(started)
 
         if intent == "out_of_domain":
             response = "La documentación de Flebitech no especifica esa información. Puedo ayudarte únicamente con flebitis química, terapia intravenosa, medicamentos y accesos vasculares documentados."
             return response, [], False, self._latency(started)
 
         try:
-            asks_medication_list = "medicamentos" in query.lower() and any(
-                word in query.lower() for word in ("dame", "lista", "cuáles", "cuales", "todos")
-            )
-            if asks_medication_list and hasattr(self.rag, "medication_catalog_context"):
+            if self._needs_medication_catalog(query) and hasattr(self.rag, "medication_catalog_context"):
                 context, sources, has_match = self.rag.medication_catalog_context()
+            elif active_medications and hasattr(self.rag, "medication_context"):
+                context, sources, has_match = self.rag.medication_context(rewritten_query)
             else:
                 top_k = 8 if depth in {"nivel_3", "nivel_4", "nivel_5"} else 5
                 context, sources, has_match = self.rag.search(rewritten_query, top_k=top_k)
@@ -99,7 +142,7 @@ class ConversationalOrchestrator:
         except Exception:
             response = ""
 
-        if response and response.strip():
+        if response and response.strip() and not is_knowledge_gap(response):
             final_response = clean_generated_response(response, sources)
         else:
             final_response = build_local_response(query, context, sources, intent, search_query=rewritten_query)
@@ -114,3 +157,45 @@ class ConversationalOrchestrator:
     @staticmethod
     def _latency(started: float) -> float:
         return max(0.1, (time.perf_counter() - started) * 1000)
+
+    def _match_medications(self, text: str) -> list:
+        matcher = getattr(self.rag, "match_medications", None)
+        if not callable(matcher):
+            return []
+        try:
+            return matcher(text)
+        except Exception:
+            return []
+
+    def _last_medications_in_history(self, history: list) -> list:
+        for message in reversed((history or [])[-8:]):
+            medications = self._match_medications(str(message.get("content", "")))
+            if medications:
+                return medications
+        return []
+
+    @staticmethod
+    def _needs_medication_catalog(query: str) -> bool:
+        """Detecta preguntas que necesitan revisar el conjunto farmacológico."""
+        import re
+        import unicodedata
+
+        text = unicodedata.normalize("NFKD", query or "").encode("ascii", "ignore").decode().lower()
+        mentions_catalog = bool(re.search(r"\b(?:medicamentos?|farmacos?)\b", text))
+        if not mentions_catalog:
+            return False
+
+        list_request = bool(re.search(
+            r"\b(?:lista|listado|catalogo|dame|muestra|mostrar|cuales hay|cuales son|"
+            r"que medicamentos|que farmacos|que hay|cuantos medicamentos|cuantos farmacos|"
+            r"tienen documentados|estan documentados|estan incluidos|disponibles)\b",
+            text,
+        ))
+        collection_question = any(
+            term in text
+            for term in (
+                "requieren", "via central", "via periferica", "mayor riesgo", "alto riesgo",
+                "ph", "osmolar", "dilucion", "infusion", "vesicante", "irritante",
+            )
+        )
+        return list_request or collection_question

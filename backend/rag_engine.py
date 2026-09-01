@@ -108,9 +108,49 @@ class RAGEngine:
         )
 
     @staticmethod
-    def _contains_alias(normalized_query: str, alias: str) -> bool:
-        """Busca el alias como término completo para evitar coincidencias parciales."""
-        return bool(re.search(rf"(?<!\w){re.escape(alias)}(?!\w)", normalized_query))
+    def _find_fuzzy_alias(query: str, alias: str) -> int:
+        """Busca el alias con tolerancia a errores tipográficos (fuzzy matching).
+        Devuelve el índice aproximado de la coincidencia, o -1 si no coincide.
+        """
+        import difflib
+        import re
+        
+        query_clean = re.sub(r'[^\w\s]', '', query)
+        alias_clean = re.sub(r'[^\w\s]', '', alias)
+        
+        query_words = query_clean.split()
+        alias_words = alias_clean.split()
+        
+        if not alias_words or len(alias_words) > len(query_words):
+            return -1
+            
+        for i in range(len(query_words) - len(alias_words) + 1):
+            window = " ".join(query_words[i:i+len(alias_words)])
+            match = False
+            
+            if window == alias_clean:
+                match = True
+            else:
+                # Si hay números en el alias, deben coincidir exactamente en la ventana
+                nums_alias = re.findall(r'\d+', alias_clean)
+                nums_window = re.findall(r'\d+', window)
+                if nums_alias != nums_window:
+                    continue
+                    
+                if len(alias_clean) <= 4 and len(window) == len(alias_clean):
+                    if sum(1 for a, b in zip(window, alias_clean) if a != b) <= 1:
+                        match = True
+                elif difflib.SequenceMatcher(None, window, alias_clean).ratio() >= 0.85:
+                    match = True
+                
+            if match:
+                first_word = query_words[i]
+                # Buscar la posición de la palabra en la cadena original
+                # Se usa una búsqueda básica para tener un orden relativo
+                match_obj = re.search(rf"\b{re.escape(first_word)}", query, re.IGNORECASE)
+                return match_obj.start() if match_obj else query.find(first_word)
+                
+        return -1
 
     def match_medications(self, query: str) -> List[Dict[str, Any]]:
         """Devuelve, en orden de mención, los medicamentos nombrados en la consulta."""
@@ -118,11 +158,11 @@ class RAGEngine:
         matches = []
         for medication in self.medications:
             aliases = self._medication_aliases(medication.get("nombre", ""))
-            positions = [
-                normalized_query.find(alias)
-                for alias in aliases
-                if self._contains_alias(normalized_query, alias)
-            ]
+            positions = []
+            for alias in aliases:
+                idx = self._find_fuzzy_alias(normalized_query, alias)
+                if idx != -1:
+                    positions.append(idx)
             if positions:
                 matches.append((min(positions), medication))
         return [medication for _, medication in sorted(matches, key=lambda item: item[0])]

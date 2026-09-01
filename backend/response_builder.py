@@ -100,8 +100,6 @@ def _section_excerpt(blocks: List[str], marker: str, limit: int = 10) -> str:
                     if selected and candidate.startswith("###") and marker not in _plain(candidate):
                         break
                     selected.append(candidate)
-                    if len(selected) >= limit:
-                        break
                 if selected:
                     return "\n".join(selected)
     return ""
@@ -416,16 +414,15 @@ def build_local_response(query: str, context: str, sources: List[str], intent: s
         if lines:
             return "## Respuesta\n\n" + _as_bullets(lines) + _source_line(sources)
 
-    # Explicaciones generales: toma el inicio de la sección más relevante, no un
-    # volcado de todos los documentos recuperados.
+    # Explicaciones generales: toma la sección más relevante completa, sin
+    # truncar a 4 líneas para no destruir tablas ni escalas.
     lines = _clean_lines(blocks[0])
     excerpt_lines = []
     for line in lines:
         if excerpt_lines and line.startswith("###"):
             break
         excerpt_lines.append(line)
-        if len(excerpt_lines) >= 4:
-            break
+    
     excerpt = "\n".join(excerpt_lines)
     return f"## Respuesta\n\n{excerpt}{_source_line(sources)}"
 

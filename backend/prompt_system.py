@@ -1,10 +1,113 @@
 # -*- coding: utf-8 -*-
-"""
-System Prompts y Orquestación del Motor Conversacional de Flebitech.
-Reingeniería Profunda del Motor Conversacional.
-"""
+"""Prompts, routing y reglas de estilo del motor conversacional."""
+
+import re
+import unicodedata
 
 FALLBACK_MESSAGE = "La documentación de Flebitech permite establecer algunos parámetros clínicos, pero no especifica la información exacta solicitada."
+
+VALID_INTENTS = {
+    "greeting", "dato_puntual", "explicacion", "guia_completa", "profundizacion",
+    "comparacion", "criterios", "conducta", "algoritmo", "medicamento", "cateter",
+    "tematica_general", "clinical_query", "out_of_domain"
+}
+VALID_DEPTHS = {"nivel_1", "nivel_2", "nivel_3", "nivel_4", "nivel_5"}
+
+
+def _plain(text: str) -> str:
+    return unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
+
+
+def deterministic_route(query: str, history: list = None) -> dict:
+    """Clasificación de respaldo rápida y sin red.
+
+    Es deliberadamente conservadora: el LLM puede mejorar la clasificación cuando está
+    disponible, pero el producto sigue siendo útil con la API caída, sin clave o con
+    límites de cuota agotados.
+    """
+    raw = (query or "").strip()
+    text = _plain(raw)
+    words = re.findall(r"[a-z0-9]+", text)
+    clinical_terms = (
+        "flebit", "cateter", "venos", "vena", "diva", "ins", "vhp", "vip", "puncion",
+        "calibre", "gauge", "osmolar", "tonic", "ph", "diluc", "infus", "medicament",
+        "farmac", "vancomicina", "amiodarona", "kcl", "potasio", "ceftriaxona", "npt",
+        "nutricion parenteral", "clorhexidina", "antiseps", "midline", "picc", "cvc",
+        "protocolo", "endotel", "extravas", "tromb", "paciente", "enfermer", "grado",
+        "cordon", "palpable", "eritema", "edema", "dolor", "drenaje", "purulent",
+        "punto", "adult", "pediatr", "neonat", "elegib", "conducta", "cuidad"
+    )
+    is_clinical = any(term in text for term in clinical_terms)
+    is_greeting = bool(re.fullmatch(r"(?:hola|buenas?|buenos dias|buenas tardes|buenas noches|hey)[!. ]*", text))
+
+    previous = " ".join(
+        str(m.get("content", "")) for m in (history or [])[-2:] if m.get("role") in {"user", "assistant"}
+    )
+    explicit_out_of_domain = any(x in text for x in ("capital de", "precio", "pasaje", "restaurante", "futbol", "fútbol", "clima", "acciones de bolsa"))
+    continuation = bool(history) and (
+        text.startswith(("y ", "y?", "y en", "y la", "y el", "y si", "e "))
+        or any(x in text for x in ("amplia", "amplia", "profundiza", "como se interpreta", "cual elegir", "qué grado", "que grado"))
+        or bool(re.search(r"\b(su|sus|eso|esa|ese|aquello)\b", text))
+        or ("grado" in text and not any(scale in text for scale in ("ins", "vhp", "vip")))
+        or ("elegib" in text and not any(device in text for device in ("cateter", "midline", "picc", "cvc")))
+        or (not is_clinical and not explicit_out_of_domain)
+    )
+
+    if is_greeting:
+        intent, depth = "greeting", "nivel_1"
+    elif (not is_clinical and not previous) or explicit_out_of_domain:
+        intent, depth = "out_of_domain", "nivel_1"
+    elif len(words) == 1 and is_clinical:
+        intent, depth = "tematica_general", "nivel_2"
+    elif any(x in text for x in ("completa", "completo", "toda la", "todo sobre", "tabla completa", "todos los", "todas las")):
+        intent, depth = "guia_completa", "nivel_3"
+    elif any(x in text for x in ("amplia", "amplia", "profundiza", "detalle", "mas informacion", "más información")):
+        intent, depth = "profundizacion", "nivel_4"
+    elif any(x in text for x in ("compara", "comparar", "diferencia", "versus", " vs ")):
+        intent, depth = "comparacion", "nivel_5"
+    elif any(x in text for x in ("criterio", "criterios", "elegib", "cuando usar", "cuándo usar", "indicacion", "indicación")):
+        intent, depth = "criterios", "nivel_3"
+    elif any(x in text for x in ("que hago", "qué hago", "conducta", "accion", "acción", "manejo", "actuar")):
+        intent, depth = "conducta", "nivel_5"
+    elif "algoritmo" in text or "paso a paso" in text:
+        intent, depth = "algoritmo", "nivel_3"
+    elif any(x in text for x in ("ph de", "osmolaridad de", "dilucion", "dilución", "cuanto tiempo", "cuánto tiempo", "via recomendada")):
+        intent, depth = "dato_puntual", "nivel_1"
+    elif any(x in text for x in ("medicamento", "farmaco", "fármaco", "vancomicina", "amiodarona", "ceftriaxona", "potasio", "kcl")):
+        intent, depth = "medicamento", "nivel_2"
+    elif "cateter" in text or "catéter" in raw.lower() or any(x in text for x in ("midline", "picc", "cvc", "acceso vascular")):
+        intent, depth = "cateter", "nivel_2"
+    elif any(x in text for x in ("que es", "qué es", "explica", "explícame", "definicion", "definición", "como se", "cómo se")):
+        intent, depth = "explicacion", "nivel_2"
+    else:
+        intent, depth = "clinical_query", "nivel_2"
+
+    rewritten = raw
+    if continuation and previous:
+        rewritten = f"{previous} {raw}"[-900:]
+
+    return {
+        "intent": intent,
+        "is_continuation": continuation,
+        "rewritten_query": rewritten,
+        "expected_depth": depth,
+    }
+
+
+def normalize_route(candidate: dict, fallback: dict) -> dict:
+    """Valida la salida del router para que un JSON defectuoso no rompa el turno."""
+    if not isinstance(candidate, dict):
+        return fallback
+    route = dict(fallback)
+    if candidate.get("intent") in VALID_INTENTS:
+        route["intent"] = candidate["intent"]
+    if candidate.get("expected_depth") in VALID_DEPTHS:
+        route["expected_depth"] = candidate["expected_depth"]
+    if isinstance(candidate.get("is_continuation"), bool):
+        route["is_continuation"] = candidate["is_continuation"]
+    if isinstance(candidate.get("rewritten_query"), str) and candidate["rewritten_query"].strip():
+        route["rewritten_query"] = candidate["rewritten_query"].strip()[:1000]
+    return route
 
 # =======================================================================
 # 1. ROUTER & QUERY REWRITER PROMPT

@@ -19,6 +19,7 @@ from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
 from backend.prompt_system import is_knowledge_gap
 from backend.metrics import log_question, get_session_stats, get_recent_interactions, get_knowledge_gaps
+from backend.orchestrator import ConversationalOrchestrator
 
 # 1. Configuración de página
 st.set_page_config(
@@ -53,6 +54,12 @@ def load_groq():
 
 rag = load_rag()
 groq = load_groq()
+
+@st.cache_resource
+def load_orchestrator(_rag, _groq):
+    return ConversationalOrchestrator(_rag, _groq)
+
+orchestrator = load_orchestrator(rag, groq)
 
 # 4. Estilos CSS personalizados
 st.markdown("""
@@ -131,10 +138,13 @@ with st.sidebar:
     
     st.markdown("---")
     st.subheader("⚙️ Estado del Motor")
-    if groq.client is not None:
-        st.success(f"🟢 Groq LLM Activo ({groq.model})")
+    llm_status = groq.status()
+    if llm_status["configured"] and not llm_status["cooldown"]:
+        st.success(f"🟢 LLM disponible ({groq.model})")
+    elif llm_status["configured"]:
+        st.warning("🟡 LLM temporalmente limitado · Respuestas documentales locales activas")
     else:
-        st.info("🟡 Modo Determinista RAG (Agrega GROQ_API_KEY en .env para LLM en tiempo real)")
+        st.info("🟡 Modo RAG local (agrega GROQ_API_KEY en .env para generación LLM)")
     
     st.caption(f"📚 {len(rag.chunks)} fragmentos clínicos indexados")
     st.caption(f"💊 {len(rag.medications)} fármacos críticos en base")
@@ -189,16 +199,11 @@ with tab_chat:
         with st.chat_message("user"):
             st.markdown(user_query)
 
-        # 2. Recuperar del RAG
-        context, sources, has_match = rag.search(user_query, top_k=3)
-
-        # 3. Consultar Groq / Fallback
+        # 3. Consultar Orquestador
         with st.chat_message("assistant"):
             with st.spinner("Consultando base de conocimiento de Flebitech..."):
-                response_text, latency = groq.ask(
+                response_text, sources, has_match, latency = orchestrator.chat(
                     user_query,
-                    context,
-                    has_relevant_content=has_match,
                     history=st.session_state.messages[:-1]
                 )
                 

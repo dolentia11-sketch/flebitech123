@@ -27,11 +27,13 @@ GROQ_API_KEY=gsk_tu_clave_aqui
 python indexer.py
 `
 
-### 5. Ejecutar la Aplicación Web
-`ash
-streamlit run app.py
-`
-La aplicación se abrirá automáticamente en tu navegador en http://localhost:8501.
+### 5. Ejecutar la Aplicación Web Completa
+
+```bash
+uvicorn dev_server:app --reload --port 8000
+```
+
+Abre http://localhost:8000. Este servidor replica localmente las rutas estáticas y `/api/*` usadas en Vercel. La interfaz alternativa de Streamlit sigue disponible con `streamlit run app.py`.
 
 ---
 
@@ -49,7 +51,7 @@ FLEBITECH/
 │   ├── indexer.py / indexer.py     # Script de indexación
 │   ├── rag_engine.py               # Motor híbrido de búsqueda (TF-IDF + Entidades farmacológicas)
 │   ├── prompt_system.py            # Guardrails clínicos y system prompt estricto
-│   ├── groq_client.py              # Conector Groq API (Llama 3.3 70B) + Fallback didáctico
+│   ├── groq_client.py              # Conector Groq + circuito de recuperación RAG local
 │   └── metrics.py                  # Analítica SQLite para detección de brechas
 │
 ├── app.py                          # 🎯 Aplicación Streamlit completa
@@ -63,3 +65,7 @@ FLEBITECH/
 ## 🛡️ Principio Clínico de Seguridad (Guardrail)
 Flebitech opera bajo un **RAG estricto**: nunca inventa dosis ni datos clínicos. Si una consulta no está en los documentos indexados, responde obligatoriamente:
 > *"ℹ️ Esa información no está disponible en el material de Flebitech. Te recomendamos consultar el protocolo institucional o a tu supervisor clínico."*
+
+### Diagnóstico del motor
+
+El chat mantiene respuestas documentales aun cuando Groq no esté configurado, devuelva una respuesta vacía o alcance su cuota. En ese caso `/api/health` muestra el estado del LLM y el orquestador presenta el fragmento recuperado con formato legible y sus fuentes. Para activar la generación LLM, configura `GROQ_API_KEY` únicamente como variable de entorno o secreto de Vercel; no la guardes en Git.

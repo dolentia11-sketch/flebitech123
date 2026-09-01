@@ -23,17 +23,17 @@ from typing import Optional, List, Dict, Any
 
 from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
+from backend.orchestrator import ConversationalOrchestrator
 from backend.metrics import (
     log_question, get_session_stats, get_recent_interactions,
     get_knowledge_gaps, detect_topic
 )
-from backend.prompt_system import is_knowledge_gap
 
 # Inicializar FastAPI
 app = FastAPI(
     title="Flebitech API",
     description="API Educativa sobre Flebitis Química para Enfermería (laCardio & Universidad de La Sabana)",
-    version="1.1.0"
+    version="1.3.0"
 )
 
 # Habilitar CORS para integración web y widget embebible
@@ -49,6 +49,7 @@ app.add_middleware(
 kb_path = os.path.join(root_dir, "knowledge_base")
 rag = RAGEngine(knowledge_base_path=kb_path)
 groq = GroqClient()
+orchestrator = ConversationalOrchestrator(rag_engine=rag, groq_client=groq)
 
 
 # Modelos Pydantic
@@ -72,7 +73,7 @@ class ChatResponse(BaseModel):
 def read_root():
     return {
         "status": "online",
-        "service": "Flebitech API v1.1",
+        "service": "Flebitech API v1.3",
         "institution": "laCardio & Universidad de La Sabana",
         "indexed_chunks": len(rag.chunks),
         "medications_count": len(rag.medications)
@@ -86,7 +87,8 @@ def health_check():
         "status": "healthy",
         "rag_chunks": len(rag.chunks),
         "medications": len(rag.medications),
-        "groq_configured": groq.client is not None
+        "groq_configured": groq.client is not None,
+        "llm": groq.status()
     }
 
 
@@ -99,23 +101,14 @@ def chat_endpoint(req: ChatRequest):
     if len(query) > 500:
         raise HTTPException(status_code=400, detail="La consulta es demasiado larga (máx. 500 caracteres).")
 
-    # 1. Búsqueda RAG
-    context, sources, has_match = rag.search(query, top_k=3)
+    # Utilizar el Orquestador Conversacional Pipeline
+    history = req.history if hasattr(req, 'history') else None
+    response_text, sources, had_answer, latency = orchestrator.chat(original_query=query, history=history)
 
-    # 2. Consulta a Groq / Motor de Respaldo
-    if hasattr(req, 'history') and req.history is not None:
-        response_text, latency = groq.ask(query, context, has_relevant_content=has_match, history=req.history)
-    else:
-        # Compatibility just in case
-        response_text, latency = groq.ask(query, context, has_relevant_content=has_match)
-
-    is_gap = is_knowledge_gap(response_text) or not has_match
-    had_answer = not is_gap
-
-    # 3. Clasificación temática
+    # Clasificación temática
     topic = detect_topic(query)
 
-    # 4. Registro en métricas
+    # Registro en métricas
     try:
         log_question(
             query=query,
@@ -160,6 +153,7 @@ def get_suggested():
 def get_metrics(session_id: Optional[str] = None):
     stats = get_session_stats(session_id)
     recent = get_recent_interactions(limit=10)
+    from backend.metrics import get_knowledge_gaps
     gaps = get_knowledge_gaps(limit=10)
     return {
         "stats": stats,

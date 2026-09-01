@@ -68,7 +68,9 @@ class RAGEngine:
         return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii').lower()
 
     def _tokenize(self, text: str, remove_stopwords: bool = True) -> List[str]:
-        cleaned = re.sub(r'[^\w\s\.\,\-\%]', ' ', text.lower())
+        # Indexar y consultar con la misma normalización evita que "fenitoína"
+        # y "fenitoina" terminen en vocabularios distintos.
+        cleaned = re.sub(r'[^\w\s\.\,\-\%]', ' ', self._normalize(text))
         tokens = [t.strip('.,;:') for t in cleaned.split() if len(t.strip('.,;:')) > 1]
         if remove_stopwords:
             tokens = [t for t in tokens if t not in SPANISH_STOPWORDS]
@@ -285,3 +287,14 @@ class RAGEngine:
 
         full_context = "\n\n".join(formatted_context_parts)
         return full_context, sources, True
+
+    def medication_catalog_context(self) -> Tuple[str, List[str], bool]:
+        """Devuelve las fichas farmacológicas completas para consultas de catálogo."""
+        medication_chunks = [chunk for chunk in self.chunks if chunk.get('entity_key')]
+        if not medication_chunks:
+            return "", [], False
+        context = "\n\n".join(
+            f"### [Fuente: {chunk['source']} | {chunk['title']}]\n{chunk['content']}"
+            for chunk in medication_chunks
+        )
+        return context, ["medicamentos.json"], True

@@ -80,6 +80,9 @@
             color: #1E293B;
             border-radius: 20px 20px 20px 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            min-width: 0;
+            max-width: 100%;
+            overflow-wrap: anywhere;
         }
         .bubble-ai p { margin: 0.35em 0; }
         .bubble-ai ul, .bubble-ai ol { margin: 0.5em 0; padding-left: 1.25em; }
@@ -97,6 +100,23 @@
             height: 3px;
             background: linear-gradient(90deg, #002B66, #E4003B);
             border-radius: 3px 3px 0 0;
+        }
+        @media (max-width: 640px) {
+            #nav-tabs {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 0;
+                overflow: visible;
+            }
+            #nav-tabs .tab-btn {
+                min-width: 0;
+                justify-content: center;
+                flex-direction: column;
+                gap: 0.1rem;
+                padding: 0.45rem 0.1rem;
+                font-size: 0.62rem;
+                letter-spacing: -0.01em;
+            }
         }
 
         /* Risk colors */
@@ -143,7 +163,7 @@
                     <div>
                         <div class="flex items-center gap-2">
                             <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Flebitech</h1>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-brand-100 text-brand-700 hidden sm:inline">v1.2</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-brand-100 text-brand-700 hidden sm:inline">v1.3</span>
                             <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-cardio-50 text-cardio-600 border border-cardio-100 hidden md:inline">BM25 + RAG</span>
                         </div>
                         <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Prevención de Flebitis Química · Terapia Intravenosa</p>
@@ -507,7 +527,7 @@
 
     <!-- Footer -->
     <footer class="py-3 text-center text-[11px] text-slate-400 border-t border-slate-200 bg-white">
-        Flebitech v1.2 · Alianza <span class="font-bold text-brand-700">laCardio</span> (Fundación Cardioinfantil) & <span class="font-bold text-slate-600">Universidad de La Sabana</span> · RAG Estricto con BM25
+        Flebitech v1.3 · Alianza <span class="font-bold text-brand-700">laCardio</span> (Fundación Cardioinfantil) & <span class="font-bold text-slate-600">Universidad de La Sabana</span> · RAG Estricto con BM25
     </footer>
 
     <!-- ═══════════════════════════ JAVASCRIPT ═══════════════════════════ -->
@@ -589,7 +609,10 @@
                     body: JSON.stringify({
                         query: query,
                         session_id: sessionId,
-                        history: chatHistory.slice(-6)
+                        // El turno actual viaja en `query`; el historial contiene
+                        // únicamente los turnos anteriores para conservar bien
+                        // la entidad activa en preguntas de continuación.
+                        history: chatHistory.slice(0, -1).slice(-6)
                     })
                 });
 
@@ -597,10 +620,13 @@
 
                 const data = await res.json();
                 removeLoading(loadingId);
-                appendMessage('ai', data.response, data.sources, data.had_answer, data.latency_ms);
+                const answer = typeof data.response === 'string' && data.response.trim()
+                    ? data.response
+                    : 'La documentación de Flebitech no devolvió una respuesta utilizable. Intenta de nuevo.';
+                appendMessage('ai', answer, data.sources || [], data.had_answer === true, data.latency_ms || 0);
 
                 // Add assistant response to history
-                chatHistory.push({ role: 'assistant', content: data.response });
+                chatHistory.push({ role: 'assistant', content: answer });
 
                 // Update session counters
                 sessionQuestions++;
@@ -639,13 +665,13 @@
         function appendMessage(role, text, sources = [], hadAnswer = true, latency = 0) {
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
-            div.className = 'flex items-start gap-3 animate-slide-up';
+            div.className = 'flex w-full min-w-0 items-start gap-3 animate-slide-up';
 
             const htmlContent = typeof marked !== 'undefined' ? marked.parse(text) : text.replace(/\n/g, '<br>');
 
             if (role === 'user') {
                 div.innerHTML = `
-                    <div class="ml-auto bubble-user p-3.5 max-w-xl text-sm shadow-md leading-relaxed">
+                    <div class="ml-auto bubble-user p-3.5 max-w-xl min-w-0 break-words text-sm shadow-md leading-relaxed">
                         ${escapeHtml(text)}
                     </div>`;
             } else {
@@ -653,7 +679,7 @@
                 if (sources && sources.length > 0 && hadAnswer) {
                     const srcNames = sources.map(s => '<span class="font-semibold text-slate-700">' + escapeHtml(s) + '</span>').join(' · ');
                     sourceBadge = `<div class="mt-3 pt-2.5 border-t border-slate-100 text-[11px] text-slate-400 flex flex-wrap items-center justify-between gap-2">
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex min-w-0 flex-wrap items-center gap-1.5 break-words">
                             <i class="fa-solid fa-book-bookmark text-brand-600"></i> Fuentes: ${srcNames} · ${Math.round(latency)} ms
                         </div>
                         <button onclick="copyBubbleText(this)" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
@@ -674,7 +700,7 @@
                     <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-900/20">
                         <i class="fa-solid fa-user-nurse"></i>
                     </div>
-                    <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 ${hadAnswer ? 'border-l-brand-600' : 'border-l-amber-400'}">
+                    <div class="bubble-ai min-w-0 flex-1 p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 ${hadAnswer ? 'border-l-brand-600' : 'border-l-amber-400'}">
                         ${htmlContent}
                         ${sourceBadge}
                     </div>`;

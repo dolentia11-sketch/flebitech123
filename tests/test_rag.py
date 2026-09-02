@@ -1,10 +1,11 @@
 import json
 import os
+
 import pytest
 
-from backend.rag_engine import RAGEngine
-from backend.orchestrator import ConversationalOrchestrator
 from backend.groq_client import GroqClient
+from backend.orchestrator import ConversationalOrchestrator
+from backend.rag_engine import RAGEngine
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
@@ -23,7 +24,7 @@ def test_golden_queries(orchestrator):
         
     for q in queries:
         query_text = q["query"]
-        response, sources, had_answer, latency = orchestrator.chat(query_text)
+        response, sources, had_answer, _latency = orchestrator.chat(query_text)
         
         normalized = response.lower()
         

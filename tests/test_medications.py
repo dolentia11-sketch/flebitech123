@@ -1,6 +1,7 @@
+import json
 import os
-import pytest
-from backend.rag_engine import _validate_medication_record, RAGEngine
+
+from backend.rag_engine import RAGEngine, _validate_medication_record
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,7 +27,6 @@ def test_all_medications_valid():
     assert len(rag.medications) > 0, "No medications loaded"
     # The rag engine already filters and logs invalid medications.
     # To test strictly, we could reload the JSON ourselves and check.
-    import json
     with open(os.path.join(ROOT, "knowledge_base", "medicamentos.json"), "r", encoding="utf-8") as f:
         data = json.load(f)
     for med in data:

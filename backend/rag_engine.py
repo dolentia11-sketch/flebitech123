@@ -246,9 +246,10 @@ class RAGEngine:
                             'title': f"Ficha Farmacológica: {med.get('nombre')}",
                             'content': content,
                             'entity_key': med.get('nombre', '').lower(),
-                            'evidence_status': med.get('evidencia', {}).get('estado', 'pendiente_revision'),
-                            'source_version': med.get('evidencia', {}).get('version_edicion', '')
+                            'evidence_status': (med.get('evidencia') or {}).get('estado', 'pendiente_revision'),
+                            'source_version': (med.get('evidencia') or {}).get('version_edicion', '')
                         })
+
             except Exception as e:
                 print(f"Aviso cargando {fname}: {e}")
 

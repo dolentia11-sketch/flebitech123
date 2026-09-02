@@ -15,17 +15,7 @@
     "observaciones_enfermeria": "Altamente irritante por su pH muy ácido (< 5). Rotar sitio si se usa vía periférica, evaluar permeabilidad antes de iniciar. Preferir catéter de calibre pequeño (20G o 22G) en vena de gran flujo para maximizar hemodilución.",
     "tipo_via_central": "condicionada",
     "criterio_via_central": "Requiere vía central o midline para tratamientos prolongados",
-    "fuente_via_central": "PENDIENTE: referencia institucional validada",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Cloruro de Potasio (KCl)",
@@ -43,17 +33,7 @@
     "observaciones_enfermeria": "Causa dolor intenso y quemazón endotelial. Si el paciente refiere dolor, disminuir velocidad y aumentar dilución, nunca forzar infusión.",
     "tipo_via_central": "condicionada",
     "criterio_via_central": "Requiere vía central cuando supera la concentración periférica permitida por el protocolo institucional",
-    "fuente_via_central": "PENDIENTE: referencia institucional validada",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Amiodarona",
@@ -71,17 +51,7 @@
     "observaciones_enfermeria": "Utilizar filtro de infusión en línea (0.22 micras). Evitar venas del dorso de la mano o antebrazo distal. Si requiere infusión > 2 horas, gestionar acceso central o línea media.",
     "tipo_via_central": "condicionada",
     "criterio_via_central": "Depende de la concentración y duración del tratamiento",
-    "fuente_via_central": "PENDIENTE: referencia institucional validada",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Ciprofloxacina",
@@ -99,17 +69,7 @@
     "observaciones_enfermeria": "Administrar despacio en vena de gran calibre. Proteger de la luz durante almacenamiento. Si hay dolor o eritema local, reducir velocidad o cambiar sitio.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Fenitoína (Difenilhidantoína)",
@@ -127,17 +87,7 @@
     "observaciones_enfermeria": "Lavar la vía con 20 ml de SSN 0.9% antes y después de la administración. Verificar retorno venoso antes de infundir. Suspender de inmediato si hay sospecha de extravasación.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Ampicilina",
@@ -155,17 +105,7 @@
     "observaciones_enfermeria": "Administrar en los primeros 60 minutos de reconstituido para evitar pérdida de estabilidad. Vía oral: administrar al menos 30 min antes o 2h después de comidas.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Ceftriaxona",
@@ -183,17 +123,7 @@
     "observaciones_enfermeria": "¡INCOMPATIBLE con soluciones que contengan Calcio (ej. Ringer Lactato)! Produce precipitados insolubles de ceftriaxona-calcio letales.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Gluconato de Calcio al 10%",
@@ -211,17 +141,7 @@
     "observaciones_enfermeria": "La extravasación produce necrosis cutánea grave y calcinosis. Nunca administrar por vía intramuscular o subcutánea.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Dextrosa en Agua Destilada al 10% (DAD 10%)",
@@ -239,17 +159,7 @@
     "observaciones_enfermeria": "Tonicidad superior a 340 mOsm/L. Extrae agua de las células vasculares produciendo contracción y daño endotelial. Si se agrega electrolitos (KCl), la osmolaridad sube > 600 mOsm/L requiriendo extremar vigilancia o acceso central.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Dextrosa en Agua Destilada al 50% (DAD 50%)",
@@ -267,17 +177,7 @@
     "observaciones_enfermeria": "Osmolaridad > 2500 mOsm/L. Altísimo poder irritativo y destructor de la íntima vascular periférica.",
     "tipo_via_central": "condicionada",
     "criterio_via_central": "Condicionada u opcional, según revisión institucional",
-    "fuente_via_central": "PENDIENTE: referencia institucional validada",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Nutrición Parenteral Total (NPT)",
@@ -295,17 +195,7 @@
     "observaciones_enfermeria": "Lumen exclusivo. Nunca administrar otros medicamentos o hemoderivados por la misma vía de la NPT. Cambiar equipo de infusión cada 24 horas.",
     "tipo_via_central": "exclusiva",
     "criterio_via_central": "EXCLUSIVAMENTE vía central (CVC o PICC con punta central)",
-    "fuente_via_central": "PENDIENTE: referencia institucional validada",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Furosemida",
@@ -323,17 +213,7 @@
     "observaciones_enfermeria": "Proteger de la luz. Si la solución adquiere color amarillento no usar. No mezclar con fármacos ácidos (como dopamina, milrinona, ciprofloxacina).",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Omeprazol IV",
@@ -351,17 +231,7 @@
     "observaciones_enfermeria": "Administrar dentro de las 4 horas posteriores a la reconstitución. Desechar si hay cambio de coloración o turbidez.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Claritromicina IV",
@@ -379,17 +249,7 @@
     "observaciones_enfermeria": "Nunca administrar en bolo directo ni intramuscular. Causa dolor venoso frecuente; alternar extremidad o disminuir velocidad de infusión.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   },
   {
     "nombre": "Metronidazol IV",
@@ -407,16 +267,6 @@
     "observaciones_enfermeria": "Sensible a la luz. No refrigerar para evitar cristalización.",
     "tipo_via_central": "pendiente_revision",
     "criterio_via_central": "",
-    "fuente_via_central": "",
-    "evidencia": {
-      "titulo": "",
-      "organizacion_autor": "",
-      "version_edicion": "",
-      "fecha_publicacion": "",
-      "url_doi": "",
-      "fecha_revision": "",
-      "responsable_revision": "",
-      "estado": "pendiente_revision"
-    }
+    "fuente_via_central": ""
   }
 ]

@@ -166,6 +166,9 @@ def _medication_record(block: str) -> dict:
         "volumen de dilucion": "Volumen de dilución",
         "tiempo de infusion": "Tiempo de infusión",
         "observaciones de enfermeria": "Observaciones de enfermería",
+        "tipo de via central": "Tipo de vía central",
+        "criterio de via central": "Criterio de vía central",
+        "fuente de via central": "Fuente de vía central",
     }
     for line in _clean_lines(block):
         cleaned = re.sub(r"^[\-*•\s]+", "", line).strip()
@@ -209,17 +212,48 @@ def _medication_collection_response(text: str, blocks: List[str], sources: List[
     if not records:
         return ""
 
-    if "via central" in text or "central obligatoria" in text or "central obligatorio" in text:
-        selected = [record for record in records if "central" in _plain(record.get("Vía recomendada", ""))]
+    asks_exclusive = any(term in text for term in (
+        "central obligatoria", "central obligatorio", "exclusivamente central",
+        "via central exclusiva", "requieren via central",
+    ))
+    asks_conditional = any(term in text for term in (
+        "pueden requerir", "segun concentracion", "segun duración",
+        "segun duracion", "central condicionada",
+    ))
+
+    if "via central" in text or asks_exclusive or asks_conditional:
+        if asks_exclusive:
+            selected = [
+                record for record in records
+                if _plain(record.get("Tipo de vía central", "")) == "exclusiva"
+            ]
+            title = "## Medicamentos con vía central exclusiva"
+            note = "Se incluyen únicamente fichas validadas como de vía central exclusiva."
+        elif asks_conditional:
+            selected = [
+                record for record in records
+                if _plain(record.get("Tipo de vía central", "")) == "condicionada"
+            ]
+            title = "## Medicamentos con vía central condicionada"
+            note = "La indicación depende del criterio documentado de concentración, duración u otra condición clínica."
+        else:
+            selected = [
+                record for record in records
+                if _plain(record.get("Tipo de vía central", "")) in {"exclusiva", "condicionada", "opcional"}
+            ]
+            title = "## Uso documentado de vía central"
+            note = "La tabla diferencia el tipo de indicación; no todas las opciones son obligatorias."
+
         if selected:
             rows = "\n".join(
-                f"| {record['nombre']} | {record.get('Vía recomendada', '')} |"
+                f"| {record['nombre']} | {record.get('Tipo de vía central', '')} | "
+                f"{record.get('Criterio de vía central', record.get('Vía recomendada', ''))} |"
                 for record in selected
             )
             return (
-                "## Medicamentos cuya ficha contempla vía central\n\n"
-                "La indicación puede ser exclusiva o depender de la concentración y duración; la condición exacta está en cada fila.\n\n"
-                "| Medicamento | Criterio de vía documentado |\n|---|---|\n"
+                f"{title}\n\n{note}\n\n"
+                "| Medicamento | Clasificación | Criterio documentado |\n"
+                "|---|---|---|\n"
                 f"{rows}{_source_line(sources)}"
             )
 

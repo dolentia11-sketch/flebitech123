@@ -91,10 +91,23 @@ check(
     forbidden=("Exclusivamente DAD 5%", "Bolsa premezclada", "2 mg/ml"),
 )
 check("Conducta KCl", "Tengo un paciente con flebitis química por potasio, ¿qué hago?", ("nunca administrar directo", "10 meq/hora", "dolor intenso"))
-check(
-    "Filtro farmacológico de vía central",
+central_response = check(
+    "Vía central exclusivamente obligatoria",
     "¿Qué medicamentos requieren vía central obligatoria?",
-    ("nutrición parenteral total", "cloruro de potasio", "condición exacta"),
+    ("nutrición parenteral total", "exclusivamente vía central"),
+    forbidden=(
+        "| Vancomicina |",
+        "| Ciprofloxacina |",
+        "| Furosemida |",
+        "| Gluconato de Calcio",
+    ),
+)
+
+check(
+    "Vía central condicionada",
+    "¿Qué medicamentos pueden requerir vía central según concentración o duración?",
+    ("cloruro de potasio", "amiodarona", "condicionada"),
+    forbidden=("exclusivamente vía central (cvc o picc",),
 )
 check(
     "Comparación de medicamentos",

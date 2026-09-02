@@ -12,7 +12,10 @@
     "diluyente_recomendado": "SSN 0.9% o DAD 5%",
     "volumen_minimo_dilucion": "Concentración máxima periférica: 5 mg/ml (ej. 500 mg en 100 ml, 1000 mg en 200-250 ml)",
     "tiempo_infusion_minimo": "Mínimo 60 minutos por cada 1000 mg (10-15 mg/min) para evitar Síndrome del Hombre Rojo y flebitis química",
-    "observaciones_enfermeria": "Altamente irritante por su pH muy ácido (< 5). Rotar sitio si se usa vía periférica, evaluar permeabilidad antes de iniciar. Preferir catéter de calibre pequeño (20G o 22G) en vena de gran flujo para maximizar hemodilución."
+    "observaciones_enfermeria": "Altamente irritante por su pH muy ácido (< 5). Rotar sitio si se usa vía periférica, evaluar permeabilidad antes de iniciar. Preferir catéter de calibre pequeño (20G o 22G) en vena de gran flujo para maximizar hemodilución.",
+    "tipo_via_central": "condicionada",
+    "criterio_via_central": "Requiere vía central o midline para tratamientos prolongados",
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Cloruro de Potasio (KCl)",
@@ -27,7 +30,10 @@
     "diluyente_recomendado": "SSN 0.9% (evitar DAD de inicio porque estimula insulina y capta potasio)",
     "volumen_minimo_dilucion": "Nunca administrar directo en bolo IV (letal). Dilución estándar: 10 a 20 mEq en 500 ml o 40 mEq en 1000 ml por vía periférica",
     "tiempo_infusion_minimo": "Velocidad máxima periférica: 10 mEq/hora. Vía central monitorizada: hasta 20 mEq/hora",
-    "observaciones_enfermeria": "Causa dolor intenso y quemazón endotelial. Si el paciente refiere dolor, disminuir velocidad y aumentar dilución, nunca forzar infusión."
+    "observaciones_enfermeria": "Causa dolor intenso y quemazón endotelial. Si el paciente refiere dolor, disminuir velocidad y aumentar dilución, nunca forzar infusión.",
+    "tipo_via_central": "condicionada",
+    "criterio_via_central": "Requiere vía central cuando supera la concentración periférica permitida por el protocolo institucional",
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Amiodarona",
@@ -42,7 +48,10 @@
     "diluyente_recomendado": "Exclusivamente DAD 5% (Incompatible con SSN 0.9% por riesgo de precipitación)",
     "volumen_minimo_dilucion": "Concentración periférica máxima: 1.5 - 2 mg/ml en DAD 5% (ej. 300 mg en 250 ml)",
     "tiempo_infusion_minimo": "Dosis de carga en 20-60 min; mantenimiento en infusión continua de 24h",
-    "observaciones_enfermeria": "Utilizar filtro de infusión en línea (0.22 micras). Evitar venas del dorso de la mano o antebrazo distal. Si requiere infusión > 2 horas, gestionar acceso central o línea media."
+    "observaciones_enfermeria": "Utilizar filtro de infusión en línea (0.22 micras). Evitar venas del dorso de la mano o antebrazo distal. Si requiere infusión > 2 horas, gestionar acceso central o línea media.",
+    "tipo_via_central": "condicionada",
+    "criterio_via_central": "Depende de la concentración y duración del tratamiento",
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Ciprofloxacina",
@@ -57,7 +66,10 @@
     "diluyente_recomendado": "Viene premezclada o diluida en SSN 0.9% o DAD 5%",
     "volumen_minimo_dilucion": "Bolsa premezclada 200 mg / 100 ml o 400 mg / 200 ml (2 mg/ml)",
     "tiempo_infusion_minimo": "Mínimo 60 minutos para 400 mg (evita dolor en trayecto venoso)",
-    "observaciones_enfermeria": "Administrar despacio en vena de gran calibre. Proteger de la luz durante almacenamiento. Si hay dolor o eritema local, reducir velocidad o cambiar sitio."
+    "observaciones_enfermeria": "Administrar despacio en vena de gran calibre. Proteger de la luz durante almacenamiento. Si hay dolor o eritema local, reducir velocidad o cambiar sitio.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Fenitoína (Difenilhidantoína)",
@@ -72,7 +84,10 @@
     "diluyente_recomendado": "Exclusivamente SSN 0.9% (Precipita inmediatamente en DAD 5% o soluciones ácidas)",
     "volumen_minimo_dilucion": "Concentración máxima: 6.7 mg/ml (ej. 1000 mg en 250 ml SSN). Usar filtro de línea",
     "tiempo_infusion_minimo": "Velocidad máxima en adultos: 50 mg/minuto. En ancianos/cardiópatas: 20-25 mg/minuto",
-    "observaciones_enfermeria": "Lavar la vía con 20 ml de SSN 0.9% antes y después de la administración. Verificar retorno venoso antes de infundir. Suspender de inmediato si hay sospecha de extravasación."
+    "observaciones_enfermeria": "Lavar la vía con 20 ml de SSN 0.9% antes y después de la administración. Verificar retorno venoso antes de infundir. Suspender de inmediato si hay sospecha de extravasación.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Ampicilina",
@@ -87,7 +102,10 @@
     "diluyente_recomendado": "SSN 0.9% o Agua estéril para inyección (inestable en DAD 5% tras reconstitución)",
     "volumen_minimo_dilucion": "50 a 100 ml de SSN 0.9% por cada gramo",
     "tiempo_infusion_minimo": "Infusión intermitente en 30 a 60 minutos",
-    "observaciones_enfermeria": "Administrar en los primeros 60 minutos de reconstituido para evitar pérdida de estabilidad. Vía oral: administrar al menos 30 min antes o 2h después de comidas."
+    "observaciones_enfermeria": "Administrar en los primeros 60 minutos de reconstituido para evitar pérdida de estabilidad. Vía oral: administrar al menos 30 min antes o 2h después de comidas.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Ceftriaxona",
@@ -102,7 +120,10 @@
     "diluyente_recomendado": "SSN 0.9% o DAD 5%",
     "volumen_minimo_dilucion": "50 a 100 ml para 1 g o 2 g",
     "tiempo_infusion_minimo": "30 minutos",
-    "observaciones_enfermeria": "¡INCOMPATIBLE con soluciones que contengan Calcio (ej. Ringer Lactato)! Produce precipitados insolubles de ceftriaxona-calcio letales."
+    "observaciones_enfermeria": "¡INCOMPATIBLE con soluciones que contengan Calcio (ej. Ringer Lactato)! Produce precipitados insolubles de ceftriaxona-calcio letales.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Gluconato de Calcio al 10%",
@@ -117,7 +138,10 @@
     "diluyente_recomendado": "DAD 5% o SSN 0.9%",
     "volumen_minimo_dilucion": "1 ampolla (10 ml = 1 g) diluida en 100 ml",
     "tiempo_infusion_minimo": "Administración lenta en 30 a 60 minutos. En paro cardíaco/emergencia extrema se pasa en 5-10 min",
-    "observaciones_enfermeria": "La extravasación produce necrosis cutánea grave y calcinosis. Nunca administrar por vía intramuscular o subcutánea."
+    "observaciones_enfermeria": "La extravasación produce necrosis cutánea grave y calcinosis. Nunca administrar por vía intramuscular o subcutánea.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Dextrosa en Agua Destilada al 10% (DAD 10%)",
@@ -132,7 +156,10 @@
     "diluyente_recomendado": "Solución base pura",
     "volumen_minimo_dilucion": "N/A (infusión continua según requerimiento glucémico)",
     "tiempo_infusion_minimo": "Infusión continua controlada por bomba de infusión",
-    "observaciones_enfermeria": "Tonicidad superior a 340 mOsm/L. Extrae agua de las células vasculares produciendo contracción y daño endotelial. Si se agrega electrolitos (KCl), la osmolaridad sube > 600 mOsm/L requiriendo extremar vigilancia o acceso central."
+    "observaciones_enfermeria": "Tonicidad superior a 340 mOsm/L. Extrae agua de las células vasculares produciendo contracción y daño endotelial. Si se agrega electrolitos (KCl), la osmolaridad sube > 600 mOsm/L requiriendo extremar vigilancia o acceso central.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Dextrosa en Agua Destilada al 50% (DAD 50%)",
@@ -147,7 +174,10 @@
     "diluyente_recomendado": "Uso en bolo directo lento solo para hipoglucemia sintomática severa",
     "volumen_minimo_dilucion": "20 a 50 ml en bolo IV lento (mínimo 3-5 minutos)",
     "tiempo_infusion_minimo": "Lento (3 a 5 min), posterior bolo de 20 ml de SSN 0.9% para lavar la vena",
-    "observaciones_enfermeria": "Osmolaridad > 2500 mOsm/L. Altísimo poder irritativo y destructor de la íntima vascular periférica."
+    "observaciones_enfermeria": "Osmolaridad > 2500 mOsm/L. Altísimo poder irritativo y destructor de la íntima vascular periférica.",
+    "tipo_via_central": "condicionada",
+    "criterio_via_central": "Condicionada u opcional, según revisión institucional",
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Nutrición Parenteral Total (NPT)",
@@ -162,7 +192,10 @@
     "diluyente_recomendado": "Preparada en Central de Mezclas estéril",
     "volumen_minimo_dilucion": "Bolsa tricámara o magistral según cálculo metabólico",
     "tiempo_infusion_minimo": "Infusión continua en 24 horas por bomba de infusión con lumen exclusivo",
-    "observaciones_enfermeria": "Lumen exclusivo. Nunca administrar otros medicamentos o hemoderivados por la misma vía de la NPT. Cambiar equipo de infusión cada 24 horas."
+    "observaciones_enfermeria": "Lumen exclusivo. Nunca administrar otros medicamentos o hemoderivados por la misma vía de la NPT. Cambiar equipo de infusión cada 24 horas.",
+    "tipo_via_central": "exclusiva",
+    "criterio_via_central": "EXCLUSIVAMENTE vía central (CVC o PICC con punta central)",
+    "fuente_via_central": "PENDIENTE: referencia institucional validada"
   },
   {
     "nombre": "Furosemida",
@@ -177,7 +210,10 @@
     "diluyente_recomendado": "SSN 0.9% (no diluir en soluciones con pH < 5.5 porque precipita)",
     "volumen_minimo_dilucion": "Bolo directo lento (1-2 min) o infusión en 50-100 ml SSN 0.9%",
     "tiempo_infusion_minimo": "Velocidad máxima de infusión: 4 mg/min para evitar ototoxicidad",
-    "observaciones_enfermeria": "Proteger de la luz. Si la solución adquiere color amarillento no usar. No mezclar con fármacos ácidos (como dopamina, milrinona, ciprofloxacina)."
+    "observaciones_enfermeria": "Proteger de la luz. Si la solución adquiere color amarillento no usar. No mezclar con fármacos ácidos (como dopamina, milrinona, ciprofloxacina).",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Omeprazol IV",
@@ -192,7 +228,10 @@
     "diluyente_recomendado": "Solvente propio para inyección directa o 100 ml de SSN 0.9% / DAD 5%",
     "volumen_minimo_dilucion": "Reconstituir con 10 ml y llevar a 100 ml",
     "tiempo_infusion_minimo": "20 a 30 minutos",
-    "observaciones_enfermeria": "Administrar dentro de las 4 horas posteriores a la reconstitución. Desechar si hay cambio de coloración o turbidez."
+    "observaciones_enfermeria": "Administrar dentro de las 4 horas posteriores a la reconstitución. Desechar si hay cambio de coloración o turbidez.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Claritromicina IV",
@@ -207,7 +246,10 @@
     "diluyente_recomendado": "Reconstituir con 10 ml de Agua estéril y diluir en 250 ml de SSN 0.9% o DAD 5%",
     "volumen_minimo_dilucion": "500 mg en mínimo 250 ml (concentración máxima: 2 mg/ml)",
     "tiempo_infusion_minimo": "Mínimo 60 minutos",
-    "observaciones_enfermeria": "Nunca administrar en bolo directo ni intramuscular. Causa dolor venoso frecuente; alternar extremidad o disminuir velocidad de infusión."
+    "observaciones_enfermeria": "Nunca administrar en bolo directo ni intramuscular. Causa dolor venoso frecuente; alternar extremidad o disminuir velocidad de infusión.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   },
   {
     "nombre": "Metronidazol IV",
@@ -222,6 +264,9 @@
     "diluyente_recomendado": "Viene en solución lista para infusión (500 mg / 100 ml)",
     "volumen_minimo_dilucion": "100 ml listo para usar",
     "tiempo_infusion_minimo": "30 a 60 minutos",
-    "observaciones_enfermeria": "Sensible a la luz. No refrigerar para evitar cristalización."
+    "observaciones_enfermeria": "Sensible a la luz. No refrigerar para evitar cristalización.",
+    "tipo_via_central": "pendiente_revision",
+    "criterio_via_central": "",
+    "fuente_via_central": ""
   }
 ]

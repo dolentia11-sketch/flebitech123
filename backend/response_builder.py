@@ -466,11 +466,19 @@ def build_local_response(query: str, context: str, sources: list[str], intent: s
 
         if lines:
             med_blocks = _most_relevant_medication_blocks(search_query or query, blocks)
-            medication_name = ""
+            medication_names = []
             if med_blocks:
-                first_med = re.search(r"MEDICAMENTO:\s*([^\n]+)", med_blocks[0], flags=re.IGNORECASE)
-                if first_med:
-                    medication_name = f" para {first_med.group(1).strip()}"
+                for block in med_blocks:
+                    match = re.search(r"MEDICAMENTO:\s*([^\n]+)", block, flags=re.IGNORECASE)
+                    if match:
+                        name = match.group(1).strip()
+                        if name not in medication_names:
+                            medication_names.append(name)
+            
+            if medication_names:
+                medication_name = f" para {' y '.join(medication_names)}"
+            else:
+                medication_name = ""
             
             note = ""
             if missing_terms:

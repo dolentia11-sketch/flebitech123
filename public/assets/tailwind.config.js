@@ -1,4 +1,8 @@
-tailwind.config = {
+module.exports = {
+            content: [
+                './public/index.html',
+                './public/assets/app.js'
+            ],
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'] },

@@ -47,6 +47,14 @@ Abre `http://localhost:8000`. Este servidor replica localmente las rutas estáti
 streamlit run app.py
 ```
 
+### 6. Regenerar los estilos del frontend
+
+La interfaz usa CSS compilado y servido desde el mismo origen; no depende del runtime de Tailwind en el navegador. Si cambias clases o estilos, regenera el archivo versionado con:
+
+```bash
+npx --yes tailwindcss@3.4.17 -c public/assets/tailwind.config.js -i public/assets/tailwind.input.css -o public/assets/app.css --minify
+```
+
 ---
 
 ## Estructura del proyecto
@@ -68,6 +76,9 @@ FLEBITECH/
 │
 ├── api/index.py                    # API FastAPI para Vercel
 ├── public/index.html               # Interfaz web estatica
+├── public/assets/app.js            # Interacciones del frontend
+├── public/assets/app.css           # Estilos compilados para produccion
+├── public/assets/tailwind.input.css # Fuente de estilos y componentes visuales
 ├── app.py                          # Interfaz Streamlit
 ├── docs/LINEA_BASE.md              # Registro de auditoria y alcance
 └── requirements.txt

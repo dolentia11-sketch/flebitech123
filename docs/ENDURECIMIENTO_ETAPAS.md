@@ -88,7 +88,7 @@ Requisito de cierre:
 
 Estado: mitigación técnica parcial; pruebas de seguridad aún incompletas.
 
-La API rechaza roles no permitidos, limita `history` a 8 mensajes y el cuerpo de `/api/chat` a 18 KiB. El frontend sanitiza Markdown con DOMPurify, fija Marked 15.0.7 y aplica SRI/CSP. Los atributos de evento inline se sustituyeron por manejadores registrados desde el script autorizado por hash.
+La API rechaza roles no permitidos, limita `history` a 8 mensajes y el cuerpo de `/api/chat` a 18 KiB. El frontend sanitiza Markdown con DOMPurify, fija Marked 15.0.7 y aplica SRI/CSP. Los atributos de evento inline se sustituyeron por manejadores registrados desde un script externo del mismo origen. Los estilos se compilan en `public/assets/app.css`, evitando el runtime de Tailwind y la directiva `style-src 'unsafe-inline'` en producción.
 
 Evidencia local de DOM (2026-09-02): un payload con `<script>`, `onerror` y URL `javascript:` se renderizó sin ejecución, sin nodos `script`, sin atributos de evento y sin enlaces `javascript:`. La navegación a Medicamentos también confirmó que los manejadores registrados mantienen la interacción visible.
 

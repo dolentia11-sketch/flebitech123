@@ -13,12 +13,18 @@
         // ─── Tab Switching ───
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.setAttribute('aria-selected', 'false');
+            });
 
             const target = document.getElementById('tab-' + tabId);
             const btn = document.getElementById('tab-btn-' + tabId);
             if (target) target.classList.remove('hidden');
-            if (btn) btn.classList.add('active');
+            if (btn) {
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+            }
 
             if (tabId === 'meds' && allMedications.length === 0) loadMedications();
             if (tabId === 'analytics') loadMetrics();
@@ -42,7 +48,7 @@
                     <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 border-l-brand-700">
                         <div class="flex items-center justify-between mb-1.5">
                             <p class="font-bold text-brand-700">Conversación reiniciada 🏥</p>
-                            <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Tutor Clínico</span>
+                            <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider hidden sm:inline">Tutor Clínico</span>
                         </div>
                         <p class="text-slate-600">Historial limpiado. ¿En qué fármaco, protocolo o acceso vascular puedo orientarte ahora?</p>
                     </div>

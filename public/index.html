@@ -6,107 +6,20 @@
     <title>Flebitech — Tutor de Flebitis Química y Terapia IV</title>
     <meta name="description" content="Asistente educativo de prevención de flebitis química para enfermería. Alianza laCardio & Universidad de La Sabana.">
     <meta name="theme-color" content="#002B66">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; upgrade-insecure-requests">
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com/3.4.17" integrity="sha384-igm5BeiBt36UU4gqwWS7imYmelpTsZlQ45FZf+XBn9MuJbn4nQr7yx1yFydocC/K" crossorigin="anonymous"></script>
-    <script src="assets/tailwind.config.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://cdn.jsdelivr.net; upgrade-insecure-requests">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <!-- Marked for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js" integrity="sha384-H+hy9ULve6xfxRkWIh/YOtvDdpXgV2fmAGQkIDTxIgZwNoaoBal14Di2YTMR6MzR" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
-        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
-
-        /* Chat bubbles */
-        .bubble-user {
-            background: linear-gradient(135deg, #002B66 0%, #0A3882 100%);
-            color: white;
-            border-radius: 20px 20px 6px 20px;
-        }
-        .bubble-ai {
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            color: #1E293B;
-            border-radius: 20px 20px 20px 6px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-            min-width: 0;
-            max-width: 100%;
-            overflow-wrap: anywhere;
-        }
-        .bubble-ai p { margin: 0.35em 0; }
-        .bubble-ai ul, .bubble-ai ol { margin: 0.5em 0; padding-left: 1.25em; }
-        .bubble-ai li { margin: 0.15em 0; }
-        .bubble-ai strong { color: #002B66; }
-        .bubble-ai code { background: #F1F5F9; padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
-
-        /* Tabs */
-        .tab-btn { position: relative; transition: all 0.2s; }
-        .tab-btn.active { color: #002B66; font-weight: 700; }
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #002B66, #E4003B);
-            border-radius: 3px 3px 0 0;
-        }
-        @media (max-width: 640px) {
-            #nav-tabs {
-                display: grid;
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                gap: 0;
-                overflow: visible;
-            }
-            #nav-tabs .tab-btn {
-                min-width: 0;
-                justify-content: center;
-                flex-direction: column;
-                gap: 0.1rem;
-                padding: 0.45rem 0.1rem;
-                font-size: 0.62rem;
-                letter-spacing: -0.01em;
-            }
-        }
-
-        /* Risk colors */
-        .risk-extreme { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
-        .risk-high { background: #FFF7ED; border-color: #FED7AA; color: #9A3412; }
-        .risk-moderate { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
-        .risk-low { background: #F0FDF4; border-color: #BBF7D0; color: #166534; }
-
-        /* Pill buttons */
-        .pill-btn {
-            transition: all 0.2s;
-            border: 1px solid #E2E8F0;
-        }
-        .pill-btn:hover {
-            border-color: #002B66;
-            color: #002B66;
-            background: #F0F4FA;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,43,102,0.1);
-        }
-
-        /* Typing indicator */
-        .typing-dot { animation: typingBounce 1.4s infinite ease-in-out; }
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-6px); }
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/app.css">
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800">
 
     <!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
-    <header class="bg-white/95 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-50 shadow-xs">
+    <header class="brand-header bg-white/95 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-50 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <!-- Top row -->
             <div class="flex items-center justify-between h-16">
@@ -132,7 +45,7 @@
                     <div class="flex items-center justify-center h-10 sm:h-11 w-20 sm:w-24 px-1.5 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-brand-300 transition-colors" title="Universidad de La Sabana">
                         <img src="/assets/logo_unisabana.png" alt="Universidad de La Sabana" class="max-h-8 sm:max-h-9 max-w-full object-contain" loading="eager">
                     </div>
-                    <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-full border border-emerald-200">
+                    <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-full border border-emerald-200" title="RAG activo" aria-label="RAG activo">
                         <span class="relative flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -143,17 +56,17 @@
             </div>
 
             <!-- Navigation tabs -->
-            <nav class="flex gap-1 -mb-px overflow-x-auto" id="nav-tabs">
-                <button data-tab="chat" id="tab-btn-chat" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+            <nav class="flex gap-1 -mb-px overflow-x-auto" id="nav-tabs" aria-label="Secciones de Flebitech" role="tablist">
+                <button data-tab="chat" id="tab-btn-chat" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap" role="tab" aria-selected="true" aria-controls="tab-chat">
                     <i class="fa-solid fa-comments text-brand-600"></i> Chat Educativo
                 </button>
-                <button data-tab="meds" id="tab-btn-meds" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="meds" id="tab-btn-meds" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap" role="tab" aria-selected="false" aria-controls="tab-meds">
                     <i class="fa-solid fa-pills text-cardio-500"></i> Medicamentos
                 </button>
-                <button data-tab="cases" id="tab-btn-cases" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="cases" id="tab-btn-cases" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap" role="tab" aria-selected="false" aria-controls="tab-cases">
                     <i class="fa-solid fa-user-doctor text-emerald-600"></i> Casos Clínicos
                 </button>
-                <button data-tab="analytics" id="tab-btn-analytics" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="analytics" id="tab-btn-analytics" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap" role="tab" aria-selected="false" aria-controls="tab-analytics">
                     <i class="fa-solid fa-chart-line text-blue-600"></i> Métricas
                 </button>
             </nav>
@@ -164,10 +77,10 @@
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5">
 
         <!-- ─────────── TAB 1: CHAT EDUCATIVO ─────────── -->
-        <section id="tab-chat" class="tab-content">
+        <section id="tab-chat" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-chat">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
                 <!-- Chat column -->
-                <div class="lg:col-span-3 flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden" style="height:calc(100vh - 185px);min-height:520px;">
+                <div class="chat-shell lg:col-span-3 flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden">
 
                     <!-- Quick suggestions & controls -->
                     <div class="px-4 py-2 bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-100 flex items-center justify-between gap-2 overflow-x-auto" id="suggestions-bar">
@@ -185,8 +98,20 @@
                         </button>
                     </div>
 
+                    <details class="mx-3 mt-3 rounded-xl border border-brand-200 bg-brand-50/80 px-3 py-2 text-xs text-brand-900 lg:hidden">
+                        <summary class="flex min-h-9 cursor-pointer list-none items-center justify-between gap-3 font-bold text-brand-800">
+                            <span><i class="fa-solid fa-shield-halved mr-1.5 text-cardio-500"></i>Seguridad y límites clínicos</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-brand-500"></i>
+                        </summary>
+                        <div class="space-y-1.5 border-t border-brand-200/70 pt-2 leading-relaxed text-brand-800">
+                            <p><strong>pH &lt; 5 o &gt; 9</strong> y osmolaridad elevada aumentan el riesgo de daño endotelial.</p>
+                            <p><strong>Máximo 2 punciones</strong> por profesional y paciente.</p>
+                            <p>La respuesta se apoya en la base indexada; no sustituye validación clínica institucional. No ingreses datos reales de pacientes.</p>
+                        </div>
+                    </details>
+
                     <!-- Chat messages container -->
-                    <div id="chat-messages" class="flex-1 px-4 sm:px-6 py-5 overflow-y-auto space-y-5">
+                    <div id="chat-messages" class="flex-1 px-4 sm:px-6 py-5 overflow-y-auto space-y-5" role="log" aria-live="polite" aria-relevant="additions">
                         <!-- Welcome message -->
                         <div class="flex items-start gap-3 animate-fade-in">
                             <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-900/20">
@@ -195,7 +120,7 @@
                             <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 border-l-brand-700">
                                 <div class="flex items-center justify-between mb-1.5">
                                     <p class="font-bold text-brand-700">¡Hola! Soy Flebitech 🏥</p>
-                                    <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Tutor Clínico</span>
+                                    <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider hidden sm:inline">Tutor Clínico</span>
                                 </div>
                                 <p class="text-slate-600">Tu asistente inteligente en prevención de flebitis química y accesos venosos periféricos, con protocolos de <strong>laCardio</strong> y la <strong>Universidad de La Sabana</strong>.</p>
                                 <ul class="mt-2 space-y-1 text-slate-600">
@@ -210,10 +135,12 @@
                     </div>
 
                     <!-- Input form -->
-                    <div class="p-3 sm:p-4 bg-white border-t border-slate-200">
+                    <div class="chat-composer p-3 sm:p-4 bg-white border-t border-slate-200">
                         <form id="chat-form" class="flex gap-2">
+                            <label for="user-input" class="sr-only">Pregunta para Flebitech</label>
                             <input type="text" id="user-input"
                                    placeholder="Escribe tu pregunta sobre flebitis, medicamentos, pH, osmolaridad..."
+                                   aria-label="Pregunta para Flebitech"
                                    class="flex-1 px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent text-sm transition-all" required autocomplete="off">
                             <button type="submit" id="send-btn"
                                     class="px-5 py-3 bg-gradient-to-r from-brand-700 via-brand-600 to-cardio-500 hover:from-brand-800 hover:to-cardio-600 text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md shadow-brand-900/20 active:scale-95">
@@ -254,9 +181,9 @@
                     <!-- Safety guardrail note -->
                     <div class="bg-gradient-to-br from-brand-50 to-slate-50 border border-brand-200 p-4 rounded-2xl text-xs text-brand-900">
                         <p class="font-bold flex items-center gap-1.5 mb-1 text-brand-800">
-                            <i class="fa-solid fa-lock text-brand-600"></i> RAG Clínico Estricto
+                            <i class="fa-solid fa-lock text-brand-600"></i> RAG con base documental
                         </p>
-                        <p class="text-brand-700 leading-relaxed">Flebitech no alucina datos ni inventa dosis. Todas las respuestas provienen de guías oficiales indexadas.</p>
+                        <p class="text-brand-700 leading-relaxed">Flebitech prioriza la base documental indexada y señala cuando una consulta queda fuera de alcance. No sustituye validación clínica institucional.</p>
                     </div>
 
                     <!-- Session stats mini -->
@@ -279,7 +206,7 @@
         </section>
 
         <!-- ─────────── TAB 2: BIBLIOTECA DE MEDICAMENTOS ─────────── -->
-        <section id="tab-meds" class="tab-content hidden">
+        <section id="tab-meds" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-btn-meds">
             <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <div>
@@ -291,7 +218,9 @@
                     <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                         <div class="relative w-full sm:w-72">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                            <label for="med-search" class="sr-only">Buscar medicamento</label>
                             <input type="text" id="med-search" placeholder="Buscar fármaco (ej. Vancomicina, KCl)..."
+                                   aria-label="Buscar medicamento"
                                    class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-brand-600 outline-none transition-all">
                         </div>
                     </div>
@@ -321,7 +250,7 @@
         </section>
 
         <!-- ─────────── TAB 3: CASOS CLÍNICOS ─────────── -->
-        <section id="tab-cases" class="tab-content hidden">
+        <section id="tab-cases" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-btn-cases">
             <div class="max-w-4xl mx-auto space-y-6">
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
                     <div class="flex items-center justify-between mb-4">
@@ -439,7 +368,7 @@
         </section>
 
         <!-- ─────────── TAB 4: MÉTRICAS ─────────── -->
-        <section id="tab-analytics" class="tab-content hidden">
+        <section id="tab-analytics" class="tab-content hidden" role="tabpanel" aria-labelledby="tab-btn-analytics">
             <div class="mb-5 rounded-xl border border-blue-200 bg-blue-50/80 px-4 py-3 text-xs leading-relaxed text-blue-900">
                 <div class="flex items-start gap-2">
                     <i class="fa-solid fa-lock mt-0.5 text-blue-600"></i>
@@ -498,6 +427,6 @@
     </footer>
 
     <!-- ═══════════════════════════ JAVASCRIPT ═══════════════════════════ -->
-    <script src="assets/app.js"></script>
+    <script src="/assets/app.js"></script>
 </body>
 </html>

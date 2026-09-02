@@ -112,7 +112,7 @@ Requisito de cierre:
 
 Estado: CI reforzado localmente; garantía de repositorio incompleta.
 
-CI ejecuta los scripts heredados, pytest con cobertura de `backend` y `api`, e impone un umbral inicial de 55 %. Se añadieron pruebas de límites de API, privacidad, canario de prompt y configuración de frontend. `requirements.lock` fija las restricciones transitivas para Python 3.11.
+CI ejecuta los scripts heredados, pytest con cobertura de `backend` y `api`, e impone un umbral inicial de 55 %. Se añadieron pruebas de límites de API, privacidad, canario de prompt y configuración de frontend. `requirements-dev.txt` aplica `requirements.lock` para fijar restricciones de CI en Python 3.11; `requirements.txt` enumera de forma explícita y sin inclusiones el conjunto runtime compatible con el parser de Vercel.
 
 Riesgo residual:
 

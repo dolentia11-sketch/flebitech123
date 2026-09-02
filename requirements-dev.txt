@@ -1,3 +1,4 @@
+-c requirements.lock
 -r requirements.txt
 pytest==8.4.2
 pytest-cov==6.3.0

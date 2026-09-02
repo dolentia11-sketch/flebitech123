@@ -89,4 +89,4 @@ El repositorio conserva riesgos abiertos documentados en [docs/LINEA_BASE.md](do
 
 El chat acepta hasta 8 mensajes de historial y un cuerpo de 18 KiB. La vista de métricas muestra únicamente tema, fecha y resultado; no devuelve la consulta ni la respuesta. Esto reduce la exposición de una sesión, pero no convierte el `session_id` del navegador en autenticación: no ingreses datos reales de pacientes.
 
-Las dependencias directas y transitivas están fijadas en `requirements.txt`, `requirements-dev.txt` y `requirements.lock`. El CI usa Python 3.11 y exige una cobertura inicial de 55 %; la protección obligatoria de la rama se configura en GitHub, fuera del repositorio.
+`requirements.txt` contiene el conjunto completo de dependencias de ejecución con versiones fijadas y sin directivas de inclusión, para que Vercel pueda interpretarlo de forma reproducible. `requirements-dev.txt` aplica además las restricciones de `requirements.lock` para las herramientas de CI y desarrollo. El CI usa Python 3.11 y exige una cobertura inicial de 55 %; la protección obligatoria de la rama se configura en GitHub, fuera del repositorio.

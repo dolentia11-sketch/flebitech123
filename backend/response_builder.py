@@ -446,7 +446,7 @@ def build_local_response(query: str, context: str, sources: list[str], intent: s
         if lines:
             return "## Cuidados documentados\n\n" + _as_bullets(lines) + _source_line(sources)
 
-    medication_terms = ("ph", "osmolar", "tonic", "via", "diluy", "diluc", "volumen", "infus", "riesgo", "observacion", "cuidad")
+    medication_terms = ("ph", "osmolar", "tonic", "via", "diluy", "diluc", "volumen", "infus", "riesgo", "observacion", "cuidad", "efectos secundarios", "adverso", "dosis", "contraindicacion", "interaccion")
     if intent == "dato_puntual" or (intent == "medicamento" and any(x in text for x in medication_terms)):
         field_terms = []
         if "ph" in text: field_terms.append("ph")
@@ -458,20 +458,27 @@ def build_local_response(query: str, context: str, sources: list[str], intent: s
         if "cuidad" in text: field_terms.append("observacion")
         if "riesgo" in text: field_terms.append("riesgo")
         lines = _field_lines(_most_relevant_medication_blocks(search_query or query, blocks), tuple(field_terms) or medication_terms, limit=8, strict=True)
+        missing_terms = []
+        if "efectos secundarios" in text or "adverso" in text: missing_terms.append("efectos secundarios")
+        if "dosis" in text: missing_terms.append("dosis")
+        if "contraindicacion" in text: missing_terms.append("contraindicaciones")
+        if "interaccion" in text: missing_terms.append("interacciones")
+
         if lines:
             med_blocks = _most_relevant_medication_blocks(search_query or query, blocks)
             medication_name = ""
             if med_blocks:
                 first_med = re.search(r"MEDICAMENTO:\s*([^\n]+)", med_blocks[0], flags=re.IGNORECASE)
                 if first_med:
-                    # Si tiene un grupo farmacológico en el nombre, separarlo. (ej. "Nombre (Grupo)")
-                    raw_name = first_med.group(1).strip()
-                    if " (" in raw_name and "Antiinfeccioso" in raw_name: # Just a heuristic, but actually we can just take it all, wait. The test only expects KCL.
-                        pass
-                    # Let's just use raw_name
-                    medication_name = f" para {raw_name}"
-            return f"## Información puntual{medication_name}\n\n" + _as_bullets(lines) + _source_line(sources)
-
+                    medication_name = f" para {first_med.group(1).strip()}"
+            
+            note = ""
+            if missing_terms:
+                note = f"\n\nNota: La documentación de Flebitech no especifica información sobre {', '.join(missing_terms)}."
+                
+            return f"## Información puntual{medication_name}\n\n" + _as_bullets(lines) + note + _source_line(sources)
+        elif missing_terms:
+            return f"La documentación de Flebitech no especifica información sobre {', '.join(missing_terms)} en este contexto."
     if intent == "medicamento":
         med_blocks = _most_relevant_medication_blocks(search_query or query, blocks)
         records = _medication_records(med_blocks)

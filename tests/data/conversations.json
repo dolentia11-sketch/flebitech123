@@ -2,63 +2,188 @@
   {
     "id": "medication_followup",
     "turns": [
-      {"query": "pH de vancomicina", "required": ["2.5 - 4.5"]},
-      {"query": "¿Y la dilución?", "required": ["5 mg/ml"], "forbidden": ["amiodarona"]},
-      {"query": "¿Y amiodarona?", "required": ["amiodarona"], "forbidden": ["síndrome del hombre rojo"]}
+      {
+        "query": "pH de vancomicina",
+        "required": [
+          "2.5 - 4.5"
+        ]
+      },
+      {
+        "query": "¿Y la dilución?",
+        "required": [
+          "5 mg/ml"
+        ],
+        "forbidden": [
+          "amiodarona"
+        ]
+      },
+      {
+        "query": "¿Y amiodarona?",
+        "required": [
+          "amiodarona"
+        ],
+        "forbidden": [
+          "síndrome del hombre rojo"
+        ]
+      }
     ]
   },
   {
     "id": "explicit_change",
     "turns": [
-      {"query": "pH de ampicilina", "required": ["ampicilina", "8.0 - 10.0"]},
-      {"query": "cambiemos a furosemida, ¿qué diluyente uso?", "required": ["furosemida", "ssn"], "forbidden": ["ampicilina"]}
+      {
+        "query": "pH de ampicilina",
+        "required": [
+          "ampicilina",
+          "8.0 - 10.0"
+        ]
+      },
+      {
+        "query": "cambiemos a furosemida, ¿qué diluyente uso?",
+        "required": [
+          "furosemida",
+          "ssn"
+        ],
+        "forbidden": [
+          "ampicilina"
+        ]
+      }
     ]
   },
   {
     "id": "medication_comparison",
     "turns": [
-      {"query": "compara el pH de vancomicina y amiodarona", "required": ["vancomicina", "amiodarona", "2.5", "3.5"]}
+      {
+        "query": "compara el pH de vancomicina y amiodarona",
+        "required": [
+          "vancomicina",
+          "amiodarona",
+          "2.5",
+          "3.5"
+        ]
+      }
     ]
   },
   {
     "id": "scale_context",
     "turns": [
-      {"query": "qué es la escala INS", "required": ["ins", "flebitis"]},
-      {"query": "grado 2", "required": ["dolor", "eritema"]}
+      {
+        "query": "qué es la escala INS",
+        "required": [
+          "ins",
+          "flebitis"
+        ]
+      },
+      {
+        "query": "grado 2",
+        "required": [
+          "dolor",
+          "eritema"
+        ]
+      }
     ]
   },
   {
     "id": "ambiguous_question",
     "turns": [
-      {"query": "pH de vancomicina", "required": ["2.5 - 4.5"]},
-      {"query": "¿Y de amiodarona?", "required": ["3.5 - 4.5"]},
-      {"query": "¿Cuál uso?", "required": ["¿"]} 
+      {
+        "query": "pH de vancomicina",
+        "required": [
+          "2.5 - 4.5"
+        ]
+      },
+      {
+        "query": "¿Y de amiodarona?",
+        "required": [
+          "3.5 - 4.5"
+        ]
+      },
+      {
+        "query": "¿Cuál uso?",
+        "required": [
+          "¿"
+        ]
+      }
     ]
   },
   {
     "id": "negation_1",
     "turns": [
-      {"query": "¿Qué medicamentos NO requieren vía central?", "required": ["no requieren"]}
+      {
+        "query": "¿Qué medicamentos NO requieren vía central?",
+        "required": [
+          "no requieren"
+        ]
+      }
     ]
   },
   {
     "id": "negation_2",
     "turns": [
-      {"query": "¿Cuál no se diluye con SSN?", "required": ["amiodarona"]}
+      {
+        "query": "¿Cuál no se diluye con SSN?",
+        "required": [
+          "amiodarona"
+        ]
+      }
     ]
   },
   {
     "id": "user_correction",
     "turns": [
-      {"query": "pH de kcl", "required": ["kcl"]},
-      {"query": "no, me equivoqué, quería decir amiodarona", "required": ["amiodarona"]}
+      {
+        "query": "pH de kcl",
+        "required": [
+          "kcl"
+        ]
+      },
+      {
+        "query": "no, me equivoqué, quería decir amiodarona",
+        "required": [
+          "amiodarona"
+        ]
+      }
     ]
   },
   {
     "id": "ood_after_clinical",
     "turns": [
-      {"query": "pH de vancomicina", "required": ["2.5 - 4.5"]},
-      {"query": "¿Cuál es la capital de Francia?", "required": ["no especifica"]}
+      {
+        "query": "pH de vancomicina",
+        "required": [
+          "2.5 - 4.5"
+        ]
+      },
+      {
+        "query": "¿Cuál es la capital de Francia?",
+        "required": [
+          "no especifica"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "partial_response",
+    "turns": [
+      {
+        "query": "pH y efectos secundarios de vancomicina",
+        "required": [
+          "2.5",
+          "efectos secundarios",
+          "no especifica"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "knowledge_gap",
+    "turns": [
+      {
+        "query": "efectos secundarios de vancomicina",
+        "required": [
+          "no especifica"
+        ]
+      }
     ]
   }
 ]

@@ -206,13 +206,22 @@ class ConversationalOrchestrator:
                 break
         return unique_meds
 
-    @staticmethod
-    def _needs_medication_catalog(query: str) -> bool:
+    def _needs_medication_catalog(self, query: str) -> bool:
         """Detecta preguntas que necesitan revisar el conjunto farmacológico."""
         import re
         import unicodedata
 
         text = unicodedata.normalize("NFKD", query or "").encode("ascii", "ignore").decode().lower()
+        
+        # Si menciona 1 medicamento específicamente y no usa "como", probablemente no es un query de catálogo.
+        meds = self._match_medications(text)
+        if len(meds) == 1 and not re.search(r"\bcomo\b", text):
+            return False
+
+        # Si menciona explícitamente escalas o catéteres, no es un query de catálogo de medicamentos.
+        if re.search(r"\b(?:diva|ins|vhp|cateter|midline|picc|elegibilidad)\b", text):
+            return False
+
         mentions_catalog = bool(re.search(r"\b(?:medicamentos?|farmacos?|cuales?|cual)\b", text))
         if not mentions_catalog:
             return False
@@ -221,7 +230,7 @@ class ConversationalOrchestrator:
             r"\b(?:lista|listado|catalogo|dame|muestra|mostrar|cuales hay|cuales son|"
             r"que medicamentos|que farmacos|que hay|cuantos medicamentos|cuantos farmacos|"
             r"tienen documentados|estan documentados|estan incluidos|disponibles|"
-            r"cual no|cuales no|cual |cuales )\b",
+            r"cual no|cuales no)\b",
             text,
         ))
         collection_question = any(
@@ -232,4 +241,4 @@ class ConversationalOrchestrator:
                 "diluy", "ssn", "dad"
             )
         )
-        return list_request or collection_question
+        return list_request or (collection_question and bool(re.search(r"\b(?:cuales?)\b", text)))

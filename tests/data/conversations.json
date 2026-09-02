@@ -5,7 +5,8 @@
       {
         "query": "pH de vancomicina",
         "required": [
-          "2.5 - 4.5"
+          "2.5",
+          "4.5"
         ]
       },
       {
@@ -182,6 +183,29 @@
         "query": "efectos secundarios de vancomicina",
         "required": [
           "no especifica"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "factual_validation_numbers",
+    "turns": [
+      {
+        "query": "cual es el pH de amiodarona",
+        "required": [
+          "3.5 - 4.5"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "factual_validation_drugs",
+    "turns": [
+      {
+        "query": "pH de vancomicina, y dime el de ampicilina",
+        "required": [
+          "vancomicina",
+          "ampicilina"
         ]
       }
     ]

@@ -143,7 +143,11 @@ class ConversationalOrchestrator:
             response = ""
 
         if response and response.strip() and not is_knowledge_gap(response):
-            final_response = clean_generated_response(response, sources)
+            local_res = build_local_response(query, context, sources, intent, search_query=rewritten_query)
+            if self._is_factually_valid(response, local_res):
+                final_response = clean_generated_response(response, sources)
+            else:
+                final_response = local_res
         else:
             final_response = build_local_response(query, context, sources, intent, search_query=rewritten_query)
 
@@ -153,6 +157,30 @@ class ConversationalOrchestrator:
         else:
             has_answer = True
         return final_response, sources, has_answer, self._latency(started)
+
+    @staticmethod
+    def _is_factually_valid(llm_response: str, local_response: str) -> bool:
+        """Valida que los datos críticos en la respuesta LLM existan en el fallback local."""
+        import re
+        
+        def extract_critical_numbers(text):
+            # Extraer números críticos como pH, concentraciones. No extraemos "1", "2" que pueden ser listas.
+            return set(re.findall(r"\b\d+\.\d+\b|\b\d{2,}\b", text))
+            
+        def extract_drugs(text):
+            return set(re.findall(r"\b[a-z]{4,}(?:ina|ol|ona|il|ano|ico)\b", text.lower()))
+
+        llm_nums = extract_critical_numbers(llm_response)
+        local_nums = extract_critical_numbers(local_response)
+        if llm_nums - local_nums:
+            return False
+            
+        llm_drugs = extract_drugs(llm_response)
+        local_drugs = extract_drugs(local_response)
+        if llm_drugs - local_drugs:
+            return False
+            
+        return True
 
     @staticmethod
     def _latency(started: float) -> float:

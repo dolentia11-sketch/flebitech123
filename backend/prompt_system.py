@@ -29,12 +29,13 @@ def deterministic_route(query: str, history: list = None, known_medication: bool
     words = re.findall(r"[a-z0-9]+", text)
     clinical_terms = (
         "flebit", "cateter", "venos", "vena", "diva", "ins", "vhp", "vip", "puncion",
-        "calibre", "gauge", "osmolar", "tonic", "ph", "diluc", "infus", "medicament",
+        "calibre", "gauge", "osmolar", "tonic", "ph", "diluc", "diluy", "infus", "medicament",
         "farmac", "vancomicina", "amiodarona", "kcl", "potasio", "ceftriaxona", "npt",
         "nutricion parenteral", "clorhexidina", "antiseps", "midline", "picc", "cvc",
         "protocolo", "endotel", "extravas", "tromb", "paciente", "enfermer", "grado",
         "cordon", "palpable", "eritema", "edema", "dolor", "drenaje", "purulent",
-        "punto", "adult", "pediatr", "neonat", "elegib", "conducta", "cuidad"
+        "punto", "adult", "pediatr", "neonat", "elegib", "conducta", "cuidad",
+        "ssn", "dad", "suero"
     )
     is_clinical = known_medication or any(term in text for term in clinical_terms)
     is_greeting = bool(re.fullmatch(r"(?:hola|buenas?|buenos dias|buenas tardes|buenas noches|hey)[!. ]*", text))
@@ -46,7 +47,7 @@ def deterministic_route(query: str, history: list = None, known_medication: bool
     ))
 
     previous = " ".join(
-        str(m.get("content", "")) for m in (history or [])[-2:] if m.get("role") in {"user", "assistant"}
+        str(m.get("content", "")) for m in (history or [])[-2:] if m.get("role") == "user"
     )
     explicit_out_of_domain = any(x in text for x in ("capital de", "precio", "pasaje", "restaurante", "futbol", "fútbol", "clima", "acciones de bolsa"))
     

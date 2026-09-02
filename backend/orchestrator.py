@@ -79,22 +79,24 @@ class ConversationalOrchestrator:
 
         # Si el usuario nombra un fármaco nuevo, ese nombre reemplaza la entidad
         # activa anterior. Solo una comparación explícita necesita conservar ambos.
-        if current_medications and intent != "comparacion":
-            rewritten_query = query
+        if current_medications:
+            if intent != "comparacion":
+                rewritten_query = query
+            else:
+                current_medications = current_medications[:2]
 
         # Resuelve pronombres y preguntas elípticas ("¿y la dilución?") usando
         # la última entidad farmacológica del historial, sin volcar respuestas
         # completas dentro de la búsqueda.
         active_medications = current_medications
-        if route.get("is_continuation") and not active_medications:
+        if route.get("is_continuation") and not active_medications and intent != "out_of_domain":
             active_medications = self._last_medications_in_history(history)
             if active_medications:
+                if len(active_medications) > 1:
+                    return "¿Sobre cuál de estos medicamentos deseas consultar?", [], True, self._latency(started)
                 medication_names = " ".join(med.get("nombre", "") for med in active_medications)
                 rewritten_query = f"{medication_names} {query}".strip()
-                if intent == "out_of_domain":
-                    continuation_route = deterministic_route(query, history, known_medication=True)
-                    intent = continuation_route["intent"]
-                    depth = continuation_route["expected_depth"]
+
 
         if intent == "greeting":
             response = "Hola. Soy Flebitech. Puedo orientarte sobre medicamentos documentados, flebitis química, terapia intravenosa, escalas clínicas y selección de accesos vasculares."
@@ -166,11 +168,18 @@ class ConversationalOrchestrator:
             return []
 
     def _last_medications_in_history(self, history: list) -> list:
+        unique_meds = []
+        seen = set()
         for message in reversed((history or [])[-8:]):
-            medications = self._match_medications(str(message.get("content", "")))
-            if medications:
-                return medications
-        return []
+            meds = self._match_medications(str(message.get("content", "")))
+            for med in meds:
+                name = med.get("nombre")
+                if name not in seen:
+                    seen.add(name)
+                    unique_meds.append(med)
+            if len(unique_meds) >= 2:
+                break
+        return unique_meds
 
     @staticmethod
     def _needs_medication_catalog(query: str) -> bool:
@@ -179,14 +188,15 @@ class ConversationalOrchestrator:
         import unicodedata
 
         text = unicodedata.normalize("NFKD", query or "").encode("ascii", "ignore").decode().lower()
-        mentions_catalog = bool(re.search(r"\b(?:medicamentos?|farmacos?)\b", text))
+        mentions_catalog = bool(re.search(r"\b(?:medicamentos?|farmacos?|cuales?|cual)\b", text))
         if not mentions_catalog:
             return False
 
         list_request = bool(re.search(
             r"\b(?:lista|listado|catalogo|dame|muestra|mostrar|cuales hay|cuales son|"
             r"que medicamentos|que farmacos|que hay|cuantos medicamentos|cuantos farmacos|"
-            r"tienen documentados|estan documentados|estan incluidos|disponibles)\b",
+            r"tienen documentados|estan documentados|estan incluidos|disponibles|"
+            r"cual no|cuales no|cual |cuales )\b",
             text,
         ))
         collection_question = any(
@@ -194,6 +204,7 @@ class ConversationalOrchestrator:
             for term in (
                 "requieren", "via central", "via periferica", "mayor riesgo", "alto riesgo",
                 "ph", "osmolar", "dilucion", "infusion", "vesicante", "irritante",
+                "diluy", "ssn", "dad"
             )
         )
         return list_request or collection_question

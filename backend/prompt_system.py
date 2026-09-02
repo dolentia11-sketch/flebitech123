@@ -49,12 +49,17 @@ def deterministic_route(query: str, history: list = None, known_medication: bool
         str(m.get("content", "")) for m in (history or [])[-2:] if m.get("role") in {"user", "assistant"}
     )
     explicit_out_of_domain = any(x in text for x in ("capital de", "precio", "pasaje", "restaurante", "futbol", "fútbol", "clima", "acciones de bolsa"))
+    
+    negation_words = ("no", "nunca", "excepto", "sin", "cuales no", "cuáles no", "contraindicado")
+    has_negation = any(re.search(rf"\b{word}\b", text) for word in negation_words)
+    
     continuation = bool(history) and (
         text.startswith(("y ", "y?", "y en", "y la", "y el", "y si", "e "))
         or any(x in text for x in ("amplia", "amplia", "profundiza", "como se interpreta", "cual elegir", "qué grado", "que grado"))
         or bool(re.search(r"\b(su|sus|eso|esa|ese|aquello)\b", text))
         or ("grado" in text and not any(scale in text for scale in ("ins", "vhp", "vip")))
         or ("elegib" in text and not any(device in text for device in ("cateter", "midline", "picc", "cvc")))
+        or (has_negation and not is_clinical)
         or (not is_clinical and not explicit_out_of_domain)
     )
 
@@ -151,6 +156,7 @@ REGLAS:
 
 3. "rewritten_query": Reescribe la consulta para la búsqueda documental (RAG). 
    - Integra las referencias del historial si 'is_continuation' es true. Ej: si hablaban de "escala INS" y dice "grado 2", reescribe como "escala INS grado 2".
+   - PRESERVA las palabras de negación ("no", "nunca", "excepto", "sin", "contraindicado"). ¡No las elimines de la consulta reescrita!
    - Si es un término amplio ("catéter", "vancomicina"), déjalo igual pero añade palabras clave relevantes si la intención lo exige.
    - No respondas a la pregunta, solo reformúlala en una frase útil para buscar en una base de datos.
 

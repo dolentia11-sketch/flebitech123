@@ -157,22 +157,44 @@ def get_session_stats(session_id: Optional[str] = None) -> Dict[str, Any]:
     }
 
 
-def get_recent_interactions(limit: int = 10) -> List[Dict[str, Any]]:
+def get_recent_interactions(limit: int = 10, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
     conn = get_db_connection()
+    safe_limit = max(1, min(int(limit), 100))
     with _lock:
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM interactions ORDER BY id DESC LIMIT ?', (limit,))
+        if session_id:
+            cursor.execute(
+                "SELECT * FROM interactions WHERE session_id = ? ORDER BY id DESC LIMIT ?",
+                (session_id, safe_limit),
+            )
+        else:
+            cursor.execute(
+                "SELECT * FROM interactions ORDER BY id DESC LIMIT ?",
+                (safe_limit,),
+            )
         rows = [dict(r) for r in cursor.fetchall()]
     if not IS_VERCEL:
         conn.close()
     return rows
 
 
-def get_knowledge_gaps(limit: int = 10) -> List[Dict[str, Any]]:
+def get_knowledge_gaps(limit: int = 10, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
     conn = get_db_connection()
+    safe_limit = max(1, min(int(limit), 100))
     with _lock:
         cursor = conn.cursor()
-        cursor.execute('SELECT timestamp, query, topic FROM interactions WHERE had_answer = 0 ORDER BY id DESC LIMIT ?', (limit,))
+        if session_id:
+            cursor.execute(
+                "SELECT timestamp, query, topic FROM interactions "
+                "WHERE had_answer = 0 AND session_id = ? ORDER BY id DESC LIMIT ?",
+                (session_id, safe_limit),
+            )
+        else:
+            cursor.execute(
+                "SELECT timestamp, query, topic FROM interactions "
+                "WHERE had_answer = 0 ORDER BY id DESC LIMIT ?",
+                (safe_limit,),
+            )
         rows = [dict(r) for r in cursor.fetchall()]
     if not IS_VERCEL:
         conn.close()

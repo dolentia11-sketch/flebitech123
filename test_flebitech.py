@@ -196,6 +196,14 @@ test("Recent interactions devuelve lista", isinstance(recent, list) and len(rece
 gaps = get_knowledge_gaps(limit=5)
 test("Knowledge gaps devuelve lista", isinstance(gaps, list) and len(gaps) > 0)
 
+# Aislamiento de sesiones
+log_question("Pregunta session_a", "Respuesta", session_id="session_a", had_answer=True)
+log_question("B_PRIVADO info secreta", "Respuesta", session_id="session_b", had_answer=True)
+
+recent_a = get_recent_interactions(limit=10, session_id="session_a")
+test("Aislamiento: interactua solo con session_a", all(row["session_id"] == "session_a" for row in recent_a))
+test("Aislamiento: session_a no ve B_PRIVADO", not any("B_PRIVADO" in row["query"] for row in recent_a))
+
 # ===== 5. FASTAPI ENDPOINTS =====
 print("\n--- 5. FastAPI Endpoints ---")
 
@@ -259,12 +267,15 @@ suggestions = res.json()
 test("GET /api/suggested - >= 6 sugerencias", len(suggestions) >= 6)
 
 # GET /api/metrics
-res = client.get("/api/metrics")
-test("GET /api/metrics - status 200", res.status_code == 200)
+res = client.get("/api/metrics?session_id=session_a")
+test("GET /api/metrics - status 200", res.status_code == 200, res.text)
 metrics = res.json()
 test("GET /api/metrics - tiene stats", 'stats' in metrics)
 test("GET /api/metrics - tiene recent", 'recent' in metrics)
 test("GET /api/metrics - tiene gaps", 'gaps' in metrics)
+
+res_invalid = client.get("/api/metrics?session_id=../../etc/passwd")
+test("GET /api/metrics - invalid session id responde 400", res_invalid.status_code == 400)
 
 # POST /api/chat - Con historial de conversacion
 res_hist = client.post("/api/chat", json={

@@ -6,6 +6,7 @@ Gestiona los endpoints de la API de Flebitech.
 
 import os
 import sys
+import re
 
 # Agregar la raíz del proyecto al sys.path para importaciones de backend
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +19,7 @@ load_dotenv(override=True)
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 
 from backend.rag_engine import RAGEngine
@@ -37,12 +38,20 @@ app = FastAPI(
 )
 
 # Habilitar CORS para integración web y widget embebible
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv(
+        "FLEBITECH_CORS_ORIGINS",
+        "http://localhost:8000,http://127.0.0.1:8000",
+    ).split(",")
+    if origin.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=cors_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 # Inicializar motores
@@ -55,7 +64,7 @@ orchestrator = ConversationalOrchestrator(rag_engine=rag, groq_client=groq)
 # Modelos Pydantic
 class ChatRequest(BaseModel):
     query: str
-    session_id: Optional[str] = "web_session"
+    session_id: str = Field(default="web_session", min_length=3, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
     history: Optional[List[Dict[str, str]]] = None
 
 
@@ -150,11 +159,12 @@ def get_suggested():
 
 
 @app.get("/api/metrics")
-def get_metrics(session_id: Optional[str] = None):
+def get_metrics(session_id: str):
+    if not re.fullmatch(r"[A-Za-z0-9_-]{3,64}", session_id):
+        raise HTTPException(status_code=400, detail="session_id inválido")
     stats = get_session_stats(session_id)
-    recent = get_recent_interactions(limit=10)
-    from backend.metrics import get_knowledge_gaps
-    gaps = get_knowledge_gaps(limit=10)
+    recent = get_recent_interactions(limit=10, session_id=session_id)
+    gaps = get_knowledge_gaps(limit=10, session_id=session_id)
     return {
         "stats": stats,
         "recent": recent,

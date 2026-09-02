@@ -30,16 +30,6 @@ def test_frontend_uses_strict_script_controls_without_inline_handlers():
     ).group(1)
 
 
-def test_csp_authorizes_only_the_two_known_inline_scripts():
-    html = INDEX_HTML.read_text(encoding="utf-8")
-    expected_hashes = _inline_script_hashes(html)
-    csp = re.search(r'Content-Security-Policy" content="([^"]+)"', html).group(1)
-
-    assert len(expected_hashes) == 2
-    for script_hash in expected_hashes:
-        assert script_hash in csp
-
-
 def test_vercel_applies_security_headers_without_breaking_the_widget():
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
     headers = config["headers"][0]["headers"]

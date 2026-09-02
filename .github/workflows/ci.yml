@@ -22,9 +22,9 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements-dev.txt
       - run: python -m compileall -q backend api
-      - run: ruff check backend api tests
+      - run: python -m ruff check backend api tests
       - run: python test_conversacional.py
       - run: python test_orchestrator.py
       - run: python test_mock_1000.py
       - run: python test_flebitech.py
-      - run: pytest -q --cov=backend --cov=api --cov-report=term-missing
+      - run: python -m pytest -q --cov=backend --cov=api --cov-report=term-missing --cov-fail-under=55

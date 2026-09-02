@@ -6,6 +6,7 @@ Gestiona los endpoints de la API de Flebitech.
 import os
 import re
 import sys
+from typing import Literal
 
 # Agregar la raíz del proyecto al sys.path para importaciones de backend
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,14 +15,10 @@ if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
 from dotenv import load_dotenv
-
-load_dotenv(override=True)
-
-from typing import Literal
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
+from starlette.responses import JSONResponse
 
 from backend.groq_client import GroqClient
 from backend.metrics import (
@@ -34,12 +31,90 @@ from backend.metrics import (
 from backend.orchestrator import ConversationalOrchestrator
 from backend.rag_engine import RAGEngine
 
+load_dotenv(override=True)
+
+
+# Los límites se aplican antes de construir el historial o invocar el RAG.  El
+# frontend ya envía como máximo seis turnos, pero la API no debe depender de
+# que cada cliente respete esa convención.
+MAX_CHAT_HISTORY_MESSAGES = 8
+MAX_CHAT_REQUEST_BYTES = 18 * 1024
+
+
+class ChatRequestBodyLimitMiddleware:
+    """Rechaza cuerpos de ``/api/chat`` que excedan el presupuesto acordado.
+
+    ``Content-Length`` permite cortar pronto las solicitudes normales. También
+    se contabiliza el flujo recibido para que una carga HTTP fragmentada no
+    evada el límite. Este endpoint recibe JSON pequeño, por lo que reenviar el
+    cuerpo ya limitado al framework no altera el contrato ni el streaming.
+    """
+
+    def __init__(self, app, max_bytes: int):
+        self.app = app
+        self.max_bytes = max_bytes
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http" or scope.get("path") != "/api/chat":
+            await self.app(scope, receive, send)
+            return
+
+        headers = dict(scope.get("headers", []))
+        content_length = headers.get(b"content-length")
+        if content_length is not None:
+            try:
+                declared_size = int(content_length)
+            except ValueError:
+                await self._reject(scope, receive, send, 400, "Content-Length inválido.")
+                return
+            if declared_size > self.max_bytes:
+                await self._reject(scope, receive, send, 413, "El cuerpo de la solicitud excede el límite permitido.")
+                return
+
+        body_parts = []
+        received_size = 0
+        more_body = True
+        while more_body:
+            message = await receive()
+            if message["type"] == "http.disconnect":
+                return
+            if message["type"] != "http.request":
+                continue
+            chunk = message.get("body", b"")
+            received_size += len(chunk)
+            if received_size > self.max_bytes:
+                await self._reject(scope, receive, send, 413, "El cuerpo de la solicitud excede el límite permitido.")
+                return
+            body_parts.append(chunk)
+            more_body = message.get("more_body", False)
+
+        body = b"".join(body_parts)
+        body_sent = False
+
+        async def replay_body():
+            nonlocal body_sent
+            if body_sent:
+                return {"type": "http.disconnect"}
+            body_sent = True
+            return {"type": "http.request", "body": body, "more_body": False}
+
+        await self.app(scope, replay_body, send)
+
+    @staticmethod
+    async def _reject(scope, receive, send, status_code: int, detail: str):
+        response = JSONResponse({"detail": detail}, status_code=status_code)
+        await response(scope, receive, send)
+
 # Inicializar FastAPI
 app = FastAPI(
     title="Flebitech API",
     description="API Educativa sobre Flebitis Química para Enfermería (laCardio & Universidad de La Sabana)",
     version="1.3.0"
 )
+
+# El limitador se agrega antes de CORS para que las respuestas 413 mantengan
+# los encabezados CORS definidos para las integraciones permitidas.
+app.add_middleware(ChatRequestBodyLimitMiddleware, max_bytes=MAX_CHAT_REQUEST_BYTES)
 
 # Habilitar CORS para integración web y widget embebible
 cors_origins = [
@@ -69,17 +144,13 @@ orchestrator = ConversationalOrchestrator(rag_engine=rag, groq_client=groq)
 class ChatMessage(BaseModel):
     role: Literal["user", "assistant"]
     content: str = Field(min_length=1, max_length=2000)
-
-    class Config:
-        extra = "forbid"
+    model_config = ConfigDict(extra="forbid")
 
 class ChatRequest(BaseModel):
     query: str = Field(min_length=1, max_length=500)
     session_id: str = Field(default="web_session", min_length=3, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
-    history: list[ChatMessage] | None = None
-
-    class Config:
-        extra = "forbid"
+    history: list[ChatMessage] | None = Field(default=None, max_length=MAX_CHAT_HISTORY_MESSAGES)
+    model_config = ConfigDict(extra="forbid")
 
 
 class ChatResponse(BaseModel):
@@ -125,7 +196,7 @@ def chat_endpoint(req: ChatRequest):
         raise HTTPException(status_code=400, detail="La consulta es demasiado larga (máx. 500 caracteres).")
 
     # Utilizar el Orquestador Conversacional Pipeline
-    history_items = (req.history or [])[-8:]
+    history_items = (req.history or [])[-MAX_CHAT_HISTORY_MESSAGES:]
     history = [
         {"role": item.role, "content": item.content.strip()}
         for item in history_items

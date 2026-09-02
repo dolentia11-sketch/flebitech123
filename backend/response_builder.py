@@ -227,7 +227,10 @@ def _medication_collection_response(text: str, blocks: list[str], sources: list[
                 if _plain(record.get("Tipo de vía central", "")) == "exclusiva"
             ]
             title = "## Medicamentos con vía central exclusiva"
-            note = "Se incluyen únicamente fichas validadas como de vía central exclusiva."
+            note = (
+                "Se incluyen únicamente fichas clasificadas en la base local como de vía central exclusiva. "
+                "La validación clínica institucional sigue pendiente si la fuente de vía central no está aprobada."
+            )
         elif asks_conditional:
             selected = [
                 record for record in records

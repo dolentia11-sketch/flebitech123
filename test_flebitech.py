@@ -197,12 +197,14 @@ gaps = get_knowledge_gaps(limit=5)
 test("Knowledge gaps devuelve lista", isinstance(gaps, list) and len(gaps) > 0)
 
 # Aislamiento de sesiones
-log_question("Pregunta session_a", "Respuesta", session_id="session_a", had_answer=True)
-log_question("B_PRIVADO info secreta", "Respuesta", session_id="session_b", had_answer=True)
+isolated_session_a = f"session_a_{int(time.time() * 1000)}"
+isolated_session_b = f"session_b_{int(time.time() * 1000)}"
+log_question("Pregunta session_a", "Respuesta", session_id=isolated_session_a, had_answer=True)
+log_question("B_PRIVADO info secreta", "Respuesta", session_id=isolated_session_b, had_answer=False)
 
-recent_a = get_recent_interactions(limit=10, session_id="session_a")
-test("Aislamiento: interactua solo con session_a", all(row["session_id"] == "session_a" for row in recent_a))
-test("Aislamiento: session_a no ve B_PRIVADO", not any("B_PRIVADO" in row["query"] for row in recent_a))
+recent_a = get_recent_interactions(limit=10, session_id=isolated_session_a)
+test("Aislamiento: no mezcla resultado de session_b", all(row["had_answer"] == 1 for row in recent_a))
+test("Métricas públicas no exponen transcripciones", all("query" not in row and "response" not in row for row in recent_a))
 
 # ===== 5. FASTAPI ENDPOINTS =====
 print("\n--- 5. FastAPI Endpoints ---")

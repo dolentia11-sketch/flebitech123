@@ -6,8 +6,9 @@
     <title>Flebitech — Tutor de Flebitis Química y Terapia IV</title>
     <meta name="description" content="Asistente educativo de prevención de flebitis química para enfermería. Alianza laCardio & Universidad de La Sabana.">
     <meta name="theme-color" content="#002B66">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; connect-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net 'sha256-R5Xb0Yuwu4tuw0v6ydtYWSezQoPCQEHZ1XTQsfgEoIY=' 'sha256-CY+SqFLCJTy5NAIcYHQxPMHlIudIRF+GAhw8owY6/uc='; upgrade-insecure-requests">
     <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17" integrity="sha384-igm5BeiBt36UU4gqwWS7imYmelpTsZlQ45FZf+XBn9MuJbn4nQr7yx1yFydocC/K" crossorigin="anonymous"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -58,10 +59,10 @@
         }
     </script>
     <!-- Marked for Markdown rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js" integrity="sha384-H+hy9ULve6xfxRkWIh/YOtvDdpXgV2fmAGQkIDTxIgZwNoaoBal14Di2YTMR6MzR" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; }
@@ -191,16 +192,16 @@
 
             <!-- Navigation tabs -->
             <nav class="flex gap-1 -mb-px overflow-x-auto" id="nav-tabs">
-                <button onclick="switchTab('chat')" id="tab-btn-chat" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="chat" id="tab-btn-chat" class="tab-btn active px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
                     <i class="fa-solid fa-comments text-brand-600"></i> Chat Educativo
                 </button>
-                <button onclick="switchTab('meds')" id="tab-btn-meds" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="meds" id="tab-btn-meds" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
                     <i class="fa-solid fa-pills text-cardio-500"></i> Medicamentos
                 </button>
-                <button onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="cases" id="tab-btn-cases" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
                     <i class="fa-solid fa-user-doctor text-emerald-600"></i> Casos Clínicos
                 </button>
-                <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
+                <button data-tab="analytics" id="tab-btn-analytics" class="tab-btn px-4 py-3 text-sm font-medium text-slate-500 flex items-center gap-2 whitespace-nowrap">
                     <i class="fa-solid fa-chart-line text-blue-600"></i> Métricas
                 </button>
             </nav>
@@ -220,14 +221,14 @@
                     <div class="px-4 py-2 bg-gradient-to-r from-slate-50 via-white to-slate-50 border-b border-slate-100 flex items-center justify-between gap-2 overflow-x-auto" id="suggestions-bar">
                         <div class="flex items-center gap-2 overflow-x-auto py-1">
                             <span class="text-slate-400 text-xs font-semibold shrink-0 flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i>Rápidas:</span>
-                            <button onclick="askPreset('¿Qué es la valoración DIVA y cuándo usarla?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🔍 Escala DIVA</button>
-                            <button onclick="askPreset('¿Qué medicamentos requieren vía central obligatoria?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚠️ Vía Central</button>
-                            <button onclick="askPreset('¿Cómo se clasifica la flebitis según la escala INS?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">📊 Escala INS</button>
-                            <button onclick="askPreset('¿Cuáles son los cuidados y dilución con la Vancomicina?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">💊 Vancomicina</button>
-                            <button onclick="askPreset('¿Qué riesgos tiene el Cloruro de Potasio (KCl) periférico?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚡ KCl</button>
-                            <button onclick="askPreset('¿Qué calibre de catéter debo elegir según el tratamiento?')" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🩹 Catéteres</button>
+                            <button data-preset="¿Qué es la valoración DIVA y cuándo usarla?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🔍 Escala DIVA</button>
+                            <button data-preset="¿Qué medicamentos requieren vía central obligatoria?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚠️ Vía Central</button>
+                            <button data-preset="¿Cómo se clasifica la flebitis según la escala INS?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">📊 Escala INS</button>
+                            <button data-preset="¿Cuáles son los cuidados y dilución con la Vancomicina?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">💊 Vancomicina</button>
+                            <button data-preset="¿Qué riesgos tiene el Cloruro de Potasio (KCl) periférico?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">⚡ KCl</button>
+                            <button data-preset="¿Qué calibre de catéter debo elegir según el tratamiento?" class="pill-btn text-xs px-3 py-1.5 rounded-full bg-white text-slate-600 shrink-0">🩹 Catéteres</button>
                         </div>
-                        <button onclick="resetChat()" title="Reiniciar conversación" class="text-xs text-slate-400 hover:text-cardio-600 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors shrink-0 flex items-center gap-1">
+                        <button id="reset-chat" title="Reiniciar conversación" class="text-xs text-slate-400 hover:text-cardio-600 px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors shrink-0 flex items-center gap-1">
                             <i class="fa-solid fa-rotate-right"></i> <span class="hidden sm:inline">Limpiar</span>
                         </button>
                     </div>
@@ -258,7 +259,7 @@
 
                     <!-- Input form -->
                     <div class="p-3 sm:p-4 bg-white border-t border-slate-200">
-                        <form id="chat-form" onsubmit="handleChatSubmit(event)" class="flex gap-2">
+                        <form id="chat-form" class="flex gap-2">
                             <input type="text" id="user-input"
                                    placeholder="Escribe tu pregunta sobre flebitis, medicamentos, pH, osmolaridad..."
                                    class="flex-1 px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent text-sm transition-all" required autocomplete="off">
@@ -333,25 +334,32 @@
                         <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
                             <i class="fa-solid fa-pills text-cardio-500"></i> Biblioteca Farmacológica de Riesgo
                         </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Parámetros fisicoquímicos, diluciones y cuidados de enfermería para 15 fármacos críticos</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Parámetros fisicoquímicos, diluciones, vía y cuidados para 15 fármacos críticos</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                         <div class="relative w-full sm:w-72">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                            <input type="text" id="med-search" oninput="filterMeds()" placeholder="Buscar fármaco (ej. Vancomicina, KCl)..."
+                            <input type="text" id="med-search" placeholder="Buscar fármaco (ej. Vancomicina, KCl)..."
                                    class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-brand-600 outline-none transition-all">
                         </div>
+                    </div>
+                </div>
+
+                <div class="mb-5 rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-xs leading-relaxed text-amber-900">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-info mt-0.5 text-amber-600"></i>
+                        <p><strong>Estado clínico:</strong> las clasificaciones de vía central se muestran como campos operativos de la base local. Cuando la fuente diga pendiente, no deben leerse como aprobación clínica institucional final.</p>
                     </div>
                 </div>
 
                 <!-- Risk filter pills -->
                 <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-1 text-xs">
                     <span class="text-slate-400 font-semibold shrink-0">Filtrar por riesgo:</span>
-                    <button onclick="filterRisk('all')" class="risk-filter-btn px-3 py-1 rounded-full border border-slate-300 font-semibold bg-brand-700 text-white shrink-0" data-risk="all">Todos (15)</button>
-                    <button onclick="filterRisk('extremo')" class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-red-400 shrink-0" data-risk="extremo">Extremo / Vesicante</button>
-                    <button onclick="filterRisk('alto')" class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-amber-400 shrink-0" data-risk="alto">Alto</button>
-                    <button onclick="filterRisk('moderado')" class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-yellow-400 shrink-0" data-risk="moderado">Moderado</button>
-                    <button onclick="filterRisk('bajo')" class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-emerald-400 shrink-0" data-risk="bajo">Bajo / Isotónico</button>
+                    <button class="risk-filter-btn px-3 py-1 rounded-full border border-slate-300 font-semibold bg-brand-700 text-white shrink-0" data-risk="all">Todos (15)</button>
+                    <button class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-red-400 shrink-0" data-risk="extremo">Extremo / Vesicante</button>
+                    <button class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-amber-400 shrink-0" data-risk="alto">Alto</button>
+                    <button class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-yellow-400 shrink-0" data-risk="moderado">Moderado</button>
+                    <button class="risk-filter-btn px-3 py-1 rounded-full border border-slate-200 font-semibold bg-white text-slate-600 hover:border-emerald-400 shrink-0" data-risk="bajo">Bajo / Isotónico</button>
                 </div>
 
                 <div id="meds-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -405,7 +413,7 @@
                                         <span>C) Administrar en bolo directo rápido para no maltratar la vena.</span>
                                     </label>
                                 </div>
-                                <button onclick="evaluateCase(1)" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                <button data-case="1" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
                                     <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
                                 </button>
                                 <div id="case1-feedback" class="mt-3 hidden animate-slide-up"></div>
@@ -434,7 +442,7 @@
                                         <span>B) Detener la infusión, RETIRAR el catéter venoso periférico y rotar de sitio con mayor dilución.</span>
                                     </label>
                                 </div>
-                                <button onclick="evaluateCase(2)" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                <button data-case="2" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
                                     <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
                                 </button>
                                 <div id="case2-feedback" class="mt-3 hidden animate-slide-up"></div>
@@ -467,7 +475,7 @@
                                         <span>C) Diluir la NPT con SSN para bajar la osmolaridad y poder pasarla periféricamente.</span>
                                     </label>
                                 </div>
-                                <button onclick="evaluateCase(3)" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
+                                <button data-case="3" class="mt-4 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-xl text-sm font-semibold transition-all active:scale-95 shadow-sm">
                                     <i class="fa-solid fa-check mr-1"></i> Evaluar Decisión
                                 </button>
                                 <div id="case3-feedback" class="mt-3 hidden animate-slide-up"></div>
@@ -480,6 +488,12 @@
 
         <!-- ─────────── TAB 4: MÉTRICAS ─────────── -->
         <section id="tab-analytics" class="tab-content hidden">
+            <div class="mb-5 rounded-xl border border-blue-200 bg-blue-50/80 px-4 py-3 text-xs leading-relaxed text-blue-900">
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-lock mt-0.5 text-blue-600"></i>
+                    <p><strong>Alcance de privacidad:</strong> estas métricas son analítica educativa de sesión. El `session_id` del navegador no autentica a una persona; no escribas datos reales de pacientes en consultas o pruebas.</p>
+                </div>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Preguntas</p>
@@ -503,9 +517,9 @@
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-brand-700"></i> Historial Reciente
+                            <i class="fa-solid fa-clock-rotate-left text-brand-700"></i> Actividad reciente
                         </h3>
-                        <button onclick="loadMetrics()" class="text-xs text-brand-600 hover:text-brand-800 font-semibold"><i class="fa-solid fa-arrows-rotate mr-1"></i>Actualizar</button>
+                        <button id="refresh-metrics" class="text-xs text-brand-600 hover:text-brand-800 font-semibold"><i class="fa-solid fa-arrows-rotate mr-1"></i>Actualizar</button>
                     </div>
                     <div id="recent-list" class="space-y-2 text-sm max-h-96 overflow-y-auto">
                         <p class="text-slate-400 italic text-sm py-4 text-center">Sin consultas registradas aún.</p>
@@ -693,7 +707,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                         <div class="flex min-w-0 flex-wrap items-center gap-1.5 break-words">
                             <i class="fa-solid fa-book-bookmark text-brand-600"></i> Fuentes: ${srcNames} · ${Math.round(latency)} ms
                         </div>
-                        <button onclick="copyBubbleText(this)" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
+                        <button data-copy-response title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
                             <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>`;
@@ -702,7 +716,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                         <div class="flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-exclamation text-amber-500"></i> Fuera de la base indexada de Flebitech
                         </div>
-                        <button onclick="copyBubbleText(this)" title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
+                        <button data-copy-response title="Copiar respuesta" class="text-slate-400 hover:text-brand-700 transition-colors px-1.5 py-0.5 rounded cursor-pointer">
                             <i class="fa-regular fa-copy"></i>
                         </button>
                     </div>`;
@@ -794,6 +808,12 @@ const htmlContent = typeof DOMPurify !== 'undefined'
             }
             container.innerHTML = meds.map(m => {
                 const riskClass = getRiskClass(m.riesgo_flebitis);
+                const centralType = (m.tipo_via_central || 'pendiente_revision').replace(/_/g, ' ');
+                const centralSource = m.fuente_via_central || '';
+                const centralPending = centralType.includes('pendiente') || centralSource.toLowerCase().includes('pendiente');
+                const centralTone = centralPending
+                    ? 'bg-amber-50 text-amber-800 border-amber-200'
+                    : 'bg-brand-50 text-brand-800 border-brand-200';
                 return `
                 <div class="p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md hover:border-brand-300 transition-all duration-200 space-y-3 group flex flex-col justify-between">
                     <div>
@@ -808,6 +828,8 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                         </div>
                         <div class="text-xs text-slate-600 space-y-1 mt-2">
                             <p><strong class="text-slate-500">Vía:</strong> ${escapeHtml(m.via_recomendada || '')}</p>
+                            <p><strong class="text-slate-500">Vía central:</strong> <span class="inline-flex rounded-md border px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${centralTone}">${escapeHtml(centralType)}</span></p>
+                            ${centralSource ? `<p class="text-[11px] text-slate-500"><strong>Fuente vía central:</strong> ${escapeHtml(centralSource)}</p>` : ''}
                             <p><strong class="text-slate-500">Diluyente:</strong> ${escapeHtml(m.diluyente_recomendado || '')}</p>
                             <p><strong class="text-slate-500">Infusión:</strong> ${escapeHtml(m.tiempo_infusion_minimo || '')}</p>
                         </div>
@@ -906,7 +928,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                                 <i class="fa-solid ${r.had_answer ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
                             </span>
                             <div class="min-w-0">
-                                <p class="font-semibold text-slate-700 text-xs truncate">${escapeHtml(r.query || '')}</p>
+                                <p class="font-semibold text-slate-700 text-xs">Consulta registrada</p>
                                 <p class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(r.topic || '')} · ${escapeHtml(r.timestamp || '')}</p>
                             </div>
                         </div>
@@ -919,7 +941,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                 if (data.gaps && data.gaps.length > 0) {
                     gapsEl.innerHTML = data.gaps.map(g => `
                         <div class="p-3 bg-cardio-50/70 text-cardio-900 rounded-lg border border-cardio-200/60 text-xs">
-                            <p class="font-semibold">${escapeHtml(g.query || '')}</p>
+                            <p class="font-semibold">Brecha registrada</p>
                             <p class="text-cardio-700 mt-0.5">${escapeHtml(g.topic || '')} · ${escapeHtml(g.timestamp || '')}</p>
                         </div>
                     `).join('');
@@ -938,6 +960,24 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                 document.getElementById('user-input').focus();
             }
         });
+
+        // Los manejadores viven aquí, no en atributos HTML. Así la CSP puede
+        // bloquear JavaScript inline inyectado sin alterar los flujos visibles.
+        document.addEventListener('click', (event) => {
+            const button = event.target.closest('button');
+            if (!button) return;
+
+            if (button.dataset.tab) switchTab(button.dataset.tab);
+            if (button.dataset.preset) askPreset(button.dataset.preset);
+            if (button.id === 'reset-chat') resetChat();
+            if (button.classList.contains('risk-filter-btn')) filterRisk(button.dataset.risk);
+            if (button.dataset.case) evaluateCase(Number(button.dataset.case));
+            if (button.id === 'refresh-metrics') loadMetrics();
+            if (button.hasAttribute('data-copy-response')) copyBubbleText(button);
+        });
+
+        document.getElementById('chat-form').addEventListener('submit', handleChatSubmit);
+        document.getElementById('med-search').addEventListener('input', filterMeds);
     </script>
 </body>
 </html>

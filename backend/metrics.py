@@ -74,7 +74,9 @@ def _init_schema(conn: sqlite3.Connection):
 def init_db():
     # Mantenemos esta función por retrocompatibilidad, pero ahora get_db_connection
     # maneja la inicialización del esquema de manera eficiente (lazy)
-    get_db_connection()
+    conn = get_db_connection()
+    if not IS_VERCEL:
+        conn.close()
 
 
 def detect_topic(query: str) -> str:
@@ -157,18 +159,26 @@ def get_session_stats(session_id: str | None = None) -> dict[str, Any]:
 
 
 def get_recent_interactions(limit: int = 10, session_id: str | None = None) -> list[dict[str, Any]]:
+    """Devuelve solo metadatos agregables para la vista pública de métricas.
+
+    Las consultas y respuestas se conservan fuera de este contrato para que un
+    ``session_id`` conocido no permita leer una transcripción clínica. El
+    identificador de sesión sigue sin ser autenticación; esta función reduce la
+    exposición, no sustituye un control de acceso.
+    """
     conn = get_db_connection()
     safe_limit = max(1, min(int(limit), 100))
     with _lock:
         cursor = conn.cursor()
         if session_id:
             cursor.execute(
-                "SELECT * FROM interactions WHERE session_id = ? ORDER BY id DESC LIMIT ?",
+                "SELECT timestamp, topic, had_answer FROM interactions "
+                "WHERE session_id = ? ORDER BY id DESC LIMIT ?",
                 (session_id, safe_limit),
             )
         else:
             cursor.execute(
-                "SELECT * FROM interactions ORDER BY id DESC LIMIT ?",
+                "SELECT timestamp, topic, had_answer FROM interactions ORDER BY id DESC LIMIT ?",
                 (safe_limit,),
             )
         rows = [dict(r) for r in cursor.fetchall()]
@@ -178,19 +188,20 @@ def get_recent_interactions(limit: int = 10, session_id: str | None = None) -> l
 
 
 def get_knowledge_gaps(limit: int = 10, session_id: str | None = None) -> list[dict[str, Any]]:
+    """Devuelve metadatos de brechas sin repetir la consulta de la persona."""
     conn = get_db_connection()
     safe_limit = max(1, min(int(limit), 100))
     with _lock:
         cursor = conn.cursor()
         if session_id:
             cursor.execute(
-                "SELECT timestamp, query, topic FROM interactions "
+                "SELECT timestamp, topic FROM interactions "
                 "WHERE had_answer = 0 AND session_id = ? ORDER BY id DESC LIMIT ?",
                 (session_id, safe_limit),
             )
         else:
             cursor.execute(
-                "SELECT timestamp, query, topic FROM interactions "
+                "SELECT timestamp, topic FROM interactions "
                 "WHERE had_answer = 0 ORDER BY id DESC LIMIT ?",
                 (safe_limit,),
             )

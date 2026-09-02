@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Cliente Groq con degradación controlada y diagnóstico seguro.
 
 El cliente no decide qué texto mostrar al usuario. Cuando el proveedor falla,
@@ -9,7 +8,7 @@ fallback genérico que parezca una respuesta vacía.
 import json
 import os
 import time
-from typing import Any, Dict, Tuple
+from typing import Any
 
 from dotenv import load_dotenv
 
@@ -94,7 +93,7 @@ class GroqClient:
         self.ensure_client()
         return self.client is not None and time.time() >= self.cooldown_until
 
-    def generate_json(self, messages: list) -> Dict[str, Any]:
+    def generate_json(self, messages: list) -> dict[str, Any]:
         """Genera JSON una vez; ante fallo devuelve un objeto neutro y trazable."""
         self.last_json_ok = False
         if not self._can_call():
@@ -144,7 +143,7 @@ class GroqClient:
             "last_error": self.last_error,
         }
 
-    def ask(self, query: str, context: str, has_relevant_content: bool = True, history: list = None) -> Tuple[str, float]:
+    def ask(self, query: str, context: str, has_relevant_content: bool = True, history: list = None) -> tuple[str, float]:
         """Compatibilidad con la API anterior; el orquestador es el flujo principal."""
         start_time = time.time()
         return FALLBACK_MESSAGE, (time.time() - start_time) * 1000

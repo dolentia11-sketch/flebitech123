@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Respuestas locales legibles cuando el LLM no está disponible.
 
 No intenta inventar una respuesta: solo selecciona y presenta texto que ya fue
@@ -7,14 +6,14 @@ recuperado por el índice documental.
 
 import re
 import unicodedata
-from typing import Iterable, List
+from collections.abc import Iterable
 
 
 def _plain(text: str) -> str:
     return unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
 
 
-def _blocks(context: str) -> List[str]:
+def _blocks(context: str) -> list[str]:
     return [b.strip() for b in re.split(r"(?=### \[Fuente:)", context or "") if b.strip()]
 
 
@@ -30,7 +29,7 @@ def _as_bullets(lines: Iterable[str]) -> str:
     )
 
 
-def _clean_lines(block: str) -> List[str]:
+def _clean_lines(block: str) -> list[str]:
     lines = []
     for line in block.splitlines():
         value = line.strip()
@@ -40,7 +39,7 @@ def _clean_lines(block: str) -> List[str]:
     return lines
 
 
-def _field_lines(blocks: List[str], terms: tuple, limit: int = 8, strict: bool = False) -> List[str]:
+def _field_lines(blocks: list[str], terms: tuple, limit: int = 8, strict: bool = False) -> list[str]:
     selected = []
     for block in blocks:
         for line in _clean_lines(block):
@@ -53,7 +52,7 @@ def _field_lines(blocks: List[str], terms: tuple, limit: int = 8, strict: bool =
     return list(dict.fromkeys(selected))[:limit]
 
 
-def _most_relevant_medication_blocks(query: str, blocks: List[str]) -> List[str]:
+def _most_relevant_medication_blocks(query: str, blocks: list[str]) -> list[str]:
     """Evita mezclar la ficha del fármaco con reglas generales de otros documentos."""
     query_words = [w for w in re.findall(r"[a-z0-9]+", _plain(query)) if len(w) > 3]
     matches = []
@@ -72,7 +71,7 @@ def _first_heading(block: str) -> str:
     return match.group(1).strip() if match else "Información documental"
 
 
-def _topic_map(query: str) -> List[str]:
+def _topic_map(query: str) -> list[str]:
     text = _plain(query)
     areas = []
     if any(x in text for x in ("diva", "acceso dificil")):
@@ -88,7 +87,7 @@ def _topic_map(query: str) -> List[str]:
     return areas
 
 
-def _section_excerpt(blocks: List[str], marker: str, limit: int = 10) -> str:
+def _section_excerpt(blocks: list[str], marker: str, limit: int = 10) -> str:
     """Extrae una subsección documental sin arrastrar el resto del capítulo."""
     marker = _plain(marker)
     for block in blocks:
@@ -105,7 +104,7 @@ def _section_excerpt(blocks: List[str], marker: str, limit: int = 10) -> str:
     return ""
 
 
-def _table_rows(blocks: List[str], marker: str) -> List[List[str]]:
+def _table_rows(blocks: list[str], marker: str) -> list[list[str]]:
     marker = _plain(marker)
     rows = []
     for block in blocks:
@@ -116,7 +115,7 @@ def _table_rows(blocks: List[str], marker: str) -> List[List[str]]:
     return rows
 
 
-def _format_scale_row(cells: List[str], scale: str) -> str:
+def _format_scale_row(cells: list[str], scale: str) -> str:
     if len(cells) >= 4:
         return (
             f"## {scale}: {cells[0].replace('**', '')}\n\n"
@@ -127,7 +126,7 @@ def _format_scale_row(cells: List[str], scale: str) -> str:
     return "\n".join(cells)
 
 
-def _vhp_item(blocks: List[str], score: str) -> str:
+def _vhp_item(blocks: list[str], score: str) -> str:
     marker = f"vhp {score}"
     for block in blocks:
         lines = _clean_lines(block)
@@ -140,7 +139,7 @@ def _vhp_item(blocks: List[str], score: str) -> str:
     return ""
 
 
-def _medication_names(blocks: List[str]) -> List[str]:
+def _medication_names(blocks: list[str]) -> list[str]:
     names = []
     for block in blocks:
         title = _first_heading(block)
@@ -181,7 +180,7 @@ def _medication_record(block: str) -> dict:
     return record
 
 
-def _medication_records(blocks: List[str]) -> List[dict]:
+def _medication_records(blocks: list[str]) -> list[dict]:
     return [record for record in (_medication_record(block) for block in blocks) if record]
 
 
@@ -206,7 +205,7 @@ def _is_plain_medication_catalog_request(text: str) -> bool:
     return has_list_language and not has_filter
 
 
-def _medication_collection_response(text: str, blocks: List[str], sources: List[str]) -> str:
+def _medication_collection_response(text: str, blocks: list[str], sources: list[str]) -> str:
     """Responde filtros sobre todo el catálogo conservando el texto documental exacto."""
     records = _medication_records(blocks)
     if not records:
@@ -283,7 +282,7 @@ def _medication_collection_response(text: str, blocks: List[str], sources: List[
     return ""
 
 
-def _medication_comparison(blocks: List[str], sources: List[str]) -> str:
+def _medication_comparison(blocks: list[str], sources: list[str]) -> str:
     records = _medication_records(blocks)
     if len(records) < 2:
         return ""
@@ -297,7 +296,7 @@ def _medication_comparison(blocks: List[str], sources: List[str]) -> str:
     return f"## Comparación farmacológica\n\n{header}\n{separator}\n{rows}{_source_line(sources)}"
 
 
-def build_local_response(query: str, context: str, sources: List[str], intent: str = "clinical_query", search_query: str = "") -> str:
+def build_local_response(query: str, context: str, sources: list[str], intent: str = "clinical_query", search_query: str = "") -> str:
     """Construye una respuesta útil, breve y rastreable desde el contexto RAG."""
     text = _plain(query)
     effective_text = _plain(f"{search_query} {query}")
@@ -461,7 +460,7 @@ def build_local_response(query: str, context: str, sources: List[str], intent: s
     return f"## Respuesta\n\n{excerpt}{_source_line(sources)}"
 
 
-def clean_generated_response(response: str, sources: List[str]) -> str:
+def clean_generated_response(response: str, sources: list[str]) -> str:
     """Elimina cierres robóticos y garantiza una referencia documental mínima."""
     value = (response or "").strip()
     if not value:

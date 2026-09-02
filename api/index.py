@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 Punto de entrada Serverless para Vercel (FastAPI).
 Gestiona los endpoints de la API de Flebitech.
 """
 
 import os
-import sys
 import re
+import sys
 
 # Agregar la raíz del proyecto al sys.path para importaciones de backend
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -15,20 +14,25 @@ if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
 from dotenv import load_dotenv
+
 load_dotenv(override=True)
+
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Any, Literal
 
-from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
-from backend.orchestrator import ConversationalOrchestrator
 from backend.metrics import (
-    log_question, get_session_stats, get_recent_interactions,
-    get_knowledge_gaps, detect_topic
+    detect_topic,
+    get_knowledge_gaps,
+    get_recent_interactions,
+    get_session_stats,
+    log_question,
 )
+from backend.orchestrator import ConversationalOrchestrator
+from backend.rag_engine import RAGEngine
 
 # Inicializar FastAPI
 app = FastAPI(
@@ -72,7 +76,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     query: str = Field(min_length=1, max_length=500)
     session_id: str = Field(default="web_session", min_length=3, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
-    history: Optional[List[ChatMessage]] = None
+    history: list[ChatMessage] | None = None
 
     class Config:
         extra = "forbid"
@@ -80,7 +84,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
-    sources: List[str]
+    sources: list[str]
     had_answer: bool
     topic: str
     latency_ms: float

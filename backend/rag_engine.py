@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 """
 Motor de Búsqueda y Recuperación Aumentada (RAG) de Flebitech.
 Combina búsqueda léxica BM25 con filtro de stopwords y coincidencia de entidades farmacológicas.
 """
 
-import os
 import json
-import re
 import math
+import os
+import re
 import unicodedata
-from typing import List, Dict, Any, Tuple
+from typing import Any
 
 SPANISH_STOPWORDS = {
     'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'de', 'del', 'a', 'al',
@@ -54,11 +53,11 @@ CLINICAL_KEYWORDS = {
 class RAGEngine:
     def __init__(self, knowledge_base_path: str = "./knowledge_base/"):
         self.kb_path = os.path.abspath(knowledge_base_path)
-        self.chunks: List[Dict[str, Any]] = []
-        self.medications: List[Dict[str, Any]] = []
-        self.idf: Dict[str, float] = {}
-        self.doc_vectors: List[Dict[str, int]] = []
-        self.doc_lengths: List[int] = []
+        self.chunks: list[dict[str, Any]] = []
+        self.medications: list[dict[str, Any]] = []
+        self.idf: dict[str, float] = {}
+        self.doc_vectors: list[dict[str, int]] = []
+        self.doc_lengths: list[int] = []
         self.avg_dl: float = 0.0
         self.index_documents()
 
@@ -67,7 +66,7 @@ class RAGEngine:
         """Normaliza el texto quitando acentos y pasándolo a minúsculas."""
         return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii').lower()
 
-    def _tokenize(self, text: str, remove_stopwords: bool = True) -> List[str]:
+    def _tokenize(self, text: str, remove_stopwords: bool = True) -> list[str]:
         # Indexar y consultar con la misma normalización evita que "fenitoína"
         # y "fenitoina" terminen en vocabularios distintos.
         cleaned = re.sub(r'[^\w\s\.\,\-\%]', ' ', self._normalize(text))
@@ -77,7 +76,7 @@ class RAGEngine:
         return tokens
 
     @classmethod
-    def _medication_aliases(cls, medication_name: str) -> List[str]:
+    def _medication_aliases(cls, medication_name: str) -> list[str]:
         """Construye alias buscables a partir del catálogo, sin mantener otra lista paralela.
 
         Los alias explícitos cubren marcas o abreviaturas clínicas. Las variantes
@@ -152,7 +151,7 @@ class RAGEngine:
                 
         return -1
 
-    def match_medications(self, query: str) -> List[Dict[str, Any]]:
+    def match_medications(self, query: str) -> list[dict[str, Any]]:
         """Devuelve, en orden de mención, los medicamentos nombrados en la consulta."""
         normalized_query = self._normalize(query or "")
         matches = []
@@ -167,7 +166,7 @@ class RAGEngine:
                 matches.append((min(positions), medication))
         return [medication for _, medication in sorted(matches, key=lambda item: item[0])]
 
-    def medication_context(self, query: str) -> Tuple[str, List[str], bool]:
+    def medication_context(self, query: str) -> tuple[str, list[str], bool]:
         """Recupera únicamente las fichas farmacológicas mencionadas en la consulta."""
         matched = self.match_medications(query)
         if not matched:
@@ -303,7 +302,7 @@ class RAGEngine:
             
             self.doc_vectors.append(tf)
 
-    def search(self, query: str, top_k: int = 3) -> Tuple[str, List[str], bool]:
+    def search(self, query: str, top_k: int = 3) -> tuple[str, list[str], bool]:
         if not self.chunks:
             return "", [], False
 
@@ -399,7 +398,7 @@ class RAGEngine:
         full_context = "\n\n".join(formatted_context_parts)
         return full_context, sources, True
 
-    def medication_catalog_context(self) -> Tuple[str, List[str], bool]:
+    def medication_catalog_context(self) -> tuple[str, list[str], bool]:
         """Devuelve las fichas farmacológicas completas para consultas de catálogo."""
         medication_chunks = [chunk for chunk in self.chunks if chunk.get('entity_key')]
         if not medication_chunks:

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 """Pipeline conversacional de Flebitech con degradación segura."""
 
 import time
-from typing import List, Tuple
 
 from backend.groq_client import GroqClient
 from backend.prompt_system import (
@@ -23,7 +21,7 @@ class ConversationalOrchestrator:
         self.rag = rag_engine
         self.groq = groq_client
 
-    def chat(self, original_query: str, history: list = None) -> Tuple[str, List[str], bool, float]:
+    def chat(self, original_query: str, history: list = None) -> tuple[str, list[str], bool, float]:
         """Ejecuta router, rewrite, RAG, generación y validación local.
 
         La respuesta nunca depende exclusivamente del LLM: si la API falla, el

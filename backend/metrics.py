@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Módulo de Métricas y Analítica de Aprendizaje para Flebitech.
 Base de datos SQLite para registrar interacciones, temas y brechas de conocimiento.
@@ -6,11 +5,11 @@ Usa SQLite en memoria en entornos serverless (Vercel) y archivo local en otros e
 """
 
 import os
+import re
 import sqlite3
 import threading
-import re
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Any
 
 # Detectar si estamos en Vercel (filesystem efímero, /tmp es la única zona escribible)
 IS_VERCEL = bool(os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"))
@@ -23,7 +22,7 @@ else:
 
 # Thread-local storage para conexiones en memoria
 _local = threading.local()
-_memory_db: Optional[sqlite3.Connection] = None
+_memory_db: sqlite3.Connection | None = None
 _lock = threading.Lock()
 _schema_initialized = False
 
@@ -127,7 +126,7 @@ def log_question(query: str, response: str, session_id: str = 'default',
     return row_id
 
 
-def get_session_stats(session_id: Optional[str] = None) -> Dict[str, Any]:
+def get_session_stats(session_id: str | None = None) -> dict[str, Any]:
     conn = get_db_connection()
     
     with _lock:
@@ -157,7 +156,7 @@ def get_session_stats(session_id: Optional[str] = None) -> Dict[str, Any]:
     }
 
 
-def get_recent_interactions(limit: int = 10, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
+def get_recent_interactions(limit: int = 10, session_id: str | None = None) -> list[dict[str, Any]]:
     conn = get_db_connection()
     safe_limit = max(1, min(int(limit), 100))
     with _lock:
@@ -178,7 +177,7 @@ def get_recent_interactions(limit: int = 10, session_id: Optional[str] = None) -
     return rows
 
 
-def get_knowledge_gaps(limit: int = 10, session_id: Optional[str] = None) -> List[Dict[str, Any]]:
+def get_knowledge_gaps(limit: int = 10, session_id: str | None = None) -> list[dict[str, Any]]:
     conn = get_db_connection()
     safe_limit = max(1, min(int(limit), 100))
     with _lock:

@@ -1,5 +1,5 @@
-import pytest
-from backend.metrics import get_recent_interactions, log_question, init_db
+from backend.metrics import get_recent_interactions, init_db, log_question
+
 
 def test_session_isolation():
     init_db()

@@ -344,7 +344,7 @@ def build_local_response(query: str, context: str, sources: list[str], intent: s
         return "La documentación de Flebitech no contiene un fragmento suficiente para responder esta consulta."
 
     if intent == "greeting":
-        return "Hola. Soy Flebitech, un tutor clínico sobre flebitis química, terapia intravenosa y accesos vasculares."
+        return "¡Hola! Soy Flebitech, tu asistente inteligente en prevención de flebitis química y accesos venosos periféricos, con protocolos de laCardio."
 
     if intent == "tematica_general":
         titles = list(dict.fromkeys(_first_heading(b) for b in blocks))[:4]

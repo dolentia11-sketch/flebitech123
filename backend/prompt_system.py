@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Prompts, routing y reglas de estilo del motor conversacional."""
 
 import re
@@ -227,8 +226,11 @@ def build_generation_prompt(query: str, context: str, expected_depth: str, histo
     messages = [{"role": "system", "content": system_content}]
     
     if history:
-        for msg in history[-8:]: # últimos 4 turnos para mayor contexto
-            messages.append({"role": msg.get("role", "user"), "content": msg.get("content", "")})
+        for msg in history[-8:]:
+            role = msg.get("role")
+            content = str(msg.get("content", "")).strip()[:2000]
+            if role in {"user", "assistant"} and content:
+                messages.append({"role": role, "content": content})
             
     user_content = f"<contexto_documental>\n{context}\n</contexto_documental>\n\n"
     user_content += f"<pregunta_usuario>\n{query}\n</pregunta_usuario>\n\n"

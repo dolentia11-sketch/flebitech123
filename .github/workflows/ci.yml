@@ -5,6 +5,13 @@ on:
   push:
     branches: [master]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: flebitech-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -12,19 +19,35 @@ jobs:
     env:
       GROQ_API_KEY: ""
       PYTHONUTF8: "1"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Obtener el código
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Configurar Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.11"
           cache: pip
-      - run: python -m pip install --upgrade pip
-      - run: pip install -r requirements-dev.txt
-      - run: python -m compileall -q backend api
-      - run: python -m ruff check backend api tests
-      - run: python test_conversacional.py
-      - run: python test_orchestrator.py
-      - run: python test_mock_1000.py
-      - run: python test_flebitech.py
-      - run: python -m pytest -q --cov=backend --cov=api --cov-report=term-missing --cov-fail-under=55
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+            requirements.lock
+      - name: Instalar dependencias bloqueadas
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip check
+      - name: Validar sintaxis Python
+        run: python -m compileall -q backend api
+      - name: Ejecutar Ruff
+        run: python -m ruff check backend api tests --output-format=github
+      - name: Ejecutar pruebas conversacionales
+        run: python test_conversacional.py
+      - name: Ejecutar pruebas del orquestador
+        run: python test_orchestrator.py
+      - name: Ejecutar pruebas masivas
+        run: python test_mock_1000.py
+      - name: Ejecutar pruebas funcionales
+        run: python test_flebitech.py
+      - name: Ejecutar pruebas unitarias con cobertura
+        run: python -m pytest tests -q --cov=backend --cov=api --cov-report=term-missing --cov-fail-under=55

@@ -50,6 +50,15 @@ CLINICAL_KEYWORDS = {
     'evaluacion', 'cuidados', 'riesgo', 'algoritmo', 'trombosis', 'tromboflebitis'
 }
 
+REQUIRED_MEDICATION_FIELDS = {
+    "nombre", "ph", "osmolaridad", "via_recomendada",
+    "riesgo_flebitis", "diluyente_recomendado",
+    "tiempo_infusion_minimo", "observaciones_enfermeria",
+}
+
+def _validate_medication_record(record: dict) -> list:
+    return sorted(field for field in REQUIRED_MEDICATION_FIELDS if not record.get(field))
+
 class RAGEngine:
     def __init__(self, knowledge_base_path: str = "./knowledge_base/"):
         self.kb_path = os.path.abspath(knowledge_base_path)
@@ -210,8 +219,12 @@ class RAGEngine:
                 
                 # Procesamiento específico si parece ser medicamentos
                 if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict) and 'nombre' in data[0]:
-                    self.medications.extend(data)
                     for med in data:
+                        missing = _validate_medication_record(med)
+                        if missing:
+                            print(f"[!] Aviso: Medicamento incompleto '{med.get('nombre', 'Desconocido')}'. Faltan campos: {', '.join(missing)}")
+                            continue
+                        self.medications.append(med)
                         content = (
                             f"MEDICAMENTO: {med.get('nombre')} ({med.get('grupo', '')})\n"
                             f"- pH: {med.get('ph')}\n"
@@ -232,7 +245,9 @@ class RAGEngine:
                             'source': fname,
                             'title': f"Ficha Farmacológica: {med.get('nombre')}",
                             'content': content,
-                            'entity_key': med.get('nombre', '').lower()
+                            'entity_key': med.get('nombre', '').lower(),
+                            'evidence_status': med.get('evidencia', {}).get('estado', 'pendiente_revision'),
+                            'source_version': med.get('evidencia', {}).get('version_edicion', '')
                         })
             except Exception as e:
                 print(f"Aviso cargando {fname}: {e}")

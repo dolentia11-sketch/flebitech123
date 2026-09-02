@@ -1,0 +1,15 @@
+[
+  {
+    "id": "med_vancomycin_ph",
+    "query": "pH de vancomicina",
+    "expected_sources": ["medicamentos.json"],
+    "required_terms": ["2.5 - 4.5"],
+    "forbidden_terms": ["amiodarona"]
+  },
+  {
+    "id": "ood_capital",
+    "query": "capital de Francia",
+    "expected_had_answer": false,
+    "required_terms": ["no especifica"]
+  }
+]

@@ -153,7 +153,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
 
             if (role === 'user') {
                 div.innerHTML = `
-                    <div class="ml-auto bubble-user p-3.5 max-w-xl min-w-0 break-words text-sm shadow-md leading-relaxed">
+                    <div class="ml-auto bubble-user p-4 max-w-[85%] md:max-w-xl min-w-0 break-words text-sm shadow-md leading-relaxed rounded-2xl rounded-tr-sm text-white" style="background: linear-gradient(135deg, #002B66 0%, #0A3882 100%);">
                         ${escapeHtml(text)}
                     </div>`;
             } else {
@@ -182,7 +182,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                     <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-900/20">
                         <i class="fa-solid fa-user-nurse"></i>
                     </div>
-                    <div class="bubble-ai min-w-0 flex-1 p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 ${hadAnswer ? 'border-l-brand-600' : 'border-l-amber-400'}">
+                    <div class="bubble-ai bg-white border border-slate-100 min-w-0 flex-1 p-5 max-w-2xl shadow-sm rounded-2xl rounded-tl-sm text-sm leading-relaxed ${hadAnswer ? 'border-l-4 border-l-brand-600' : 'border-l-4 border-l-amber-400'}">
                         ${htmlContent}
                         ${sourceBadge}
                     </div>`;
@@ -207,7 +207,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
                 <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-900/20">
                     <i class="fa-solid fa-user-nurse"></i>
                 </div>
-                <div class="bubble-ai p-4 shadow-sm flex items-center gap-2">
+                <div class="bubble-ai bg-white border border-slate-100 shadow-sm rounded-2xl rounded-tl-sm p-4 flex items-center gap-2">
                     <div class="flex gap-1">
                         <div class="typing-dot w-2 h-2 rounded-full bg-brand-600"></div>
                         <div class="typing-dot w-2 h-2 rounded-full bg-cardio-500"></div>

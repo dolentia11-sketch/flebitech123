@@ -109,13 +109,13 @@
                     </details>
 
                     <!-- Chat messages container -->
-                    <div id="chat-messages" class="flex-1 px-4 sm:px-6 py-5 overflow-y-auto space-y-5" role="log" aria-live="polite" aria-relevant="additions">
+                    <div id="chat-messages" class="flex-1 px-4 sm:px-6 py-5 overflow-y-auto chat-scroll flex flex-col gap-6" role="log" aria-live="polite" aria-relevant="additions">
                         <!-- Welcome message -->
                         <div class="flex items-start gap-3 animate-fade-in">
                             <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center text-sm shrink-0 shadow-md shadow-brand-900/20">
                                 <i class="fa-solid fa-user-nurse"></i>
                             </div>
-                            <div class="bubble-ai p-4 max-w-2xl shadow-sm text-sm leading-relaxed border-l-4 border-l-brand-700">
+                            <div class="bubble-ai bg-white border border-slate-100 min-w-0 flex-1 p-5 max-w-2xl shadow-sm rounded-2xl rounded-tl-sm text-sm leading-relaxed border-l-4 border-l-brand-700">
                                 <div class="flex items-center justify-between mb-1.5">
                                     <p class="font-bold text-brand-700">¡Hola! Soy Flebitech 🏥</p>
                                     <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider hidden sm:inline">Tutor Clínico</span>
@@ -133,17 +133,32 @@
                     </div>
 
                     <!-- Input form -->
-                    <div class="chat-composer p-3 sm:p-4 bg-white border-t border-slate-200">
-                        <form id="chat-form" class="flex gap-2">
+                    <div class="chat-composer p-4 bg-white/90 backdrop-blur-lg border-t border-slate-200 z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] flex flex-col gap-2">
+                        <!-- Quick Actions Chips -->
+                        <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar mb-1 items-center">
+                            <button type="button" onclick="document.getElementById('user-input').value='Calculadora DIVA'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-calculator text-[14px]"></i>
+                                Check DIVA Scale
+                            </button>
+                            <button type="button" onclick="document.getElementById('user-input').value='Estándares INS 2024'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-book-medical text-[14px]"></i>
+                                INS Standards
+                            </button>
+                            <button type="button" onclick="document.getElementById('user-input').value='Lista de medicamentos documentados'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-pills text-[14px]"></i>
+                                Farmacología
+                            </button>
+                        </div>
+                        <form id="chat-form" class="flex gap-2 relative items-center">
                             <label for="user-input" class="sr-only">Pregunta para Flebitech</label>
                             <input type="text" id="user-input"
-                                   placeholder="Escribe tu pregunta sobre flebitis, medicamentos, pH, osmolaridad..."
+                                   class="flex-1 w-full bg-slate-100 border-none rounded-3xl py-4 pl-5 pr-5 text-sm text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-brand-600/50 focus:bg-white transition-all shadow-inner"
+                                   placeholder="Escribe tu consulta clínica..."
                                    aria-label="Pregunta para Flebitech"
-                                   class="flex-1 px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent text-sm transition-all" required autocomplete="off">
+                                   required autocomplete="off">
                             <button type="submit" id="send-btn"
-                                    class="px-5 py-3 bg-gradient-to-r from-brand-700 via-brand-600 to-cardio-500 hover:from-brand-800 hover:to-cardio-600 text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-2 shadow-md shadow-brand-900/20 active:scale-95">
-                                <span class="hidden sm:inline">Consultar</span>
-                                <i class="fa-solid fa-paper-plane"></i>
+                                    class="h-12 w-12 rounded-full bg-gradient-to-r from-brand-700 to-brand-800 text-white flex items-center justify-center shrink-0 shadow-md hover:bg-brand-900 transition-colors active:scale-95 group">
+                                <i class="fa-solid fa-paper-plane group-hover:translate-x-0.5 transition-transform"></i>
                             </button>
                         </form>
                     </div>

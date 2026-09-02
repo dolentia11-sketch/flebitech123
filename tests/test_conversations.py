@@ -1,9 +1,11 @@
 import json
 import os
+
 import pytest
-from backend.rag_engine import RAGEngine
-from backend.orchestrator import ConversationalOrchestrator
+
 from backend.groq_client import GroqClient
+from backend.orchestrator import ConversationalOrchestrator
+from backend.rag_engine import RAGEngine
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
@@ -36,7 +38,7 @@ def test_conversations(orchestrator):
         history = []
         for turn in conv["turns"]:
             query = turn["query"]
-            response, sources, has_answer, latency = orchestrator.chat(query, history=history)
+            response, _sources, _has_answer, _latency = orchestrator.chat(query, history=history)
             
             normalized = response.lower()
             

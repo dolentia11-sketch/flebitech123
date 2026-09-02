@@ -177,10 +177,7 @@ class ConversationalOrchestrator:
             
         llm_drugs = extract_drugs(llm_response)
         local_drugs = extract_drugs(local_response)
-        if llm_drugs - local_drugs:
-            return False
-            
-        return True
+        return not llm_drugs - local_drugs
 
     @staticmethod
     def _latency(started: float) -> float:

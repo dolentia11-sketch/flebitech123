@@ -59,6 +59,7 @@
     </script>
     <!-- Marked for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -667,7 +668,17 @@
             const div = document.createElement('div');
             div.className = 'flex w-full min-w-0 items-start gap-3 animate-slide-up';
 
-            const htmlContent = typeof marked !== 'undefined' ? marked.parse(text) : text.replace(/\n/g, '<br>');
+            const markdownHtml = typeof marked !== 'undefined'
+    ? marked.parse(text, { breaks: true, gfm: true })
+    : escapeHtml(text).replace(/\n/g, '<br>');
+
+const htmlContent = typeof DOMPurify !== 'undefined'
+    ? DOMPurify.sanitize(markdownHtml, {
+        USE_PROFILES: { html: true },
+        FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'style', 'form'],
+        FORBID_ATTR: ['onerror', 'onload', 'onclick', 'srcdoc']
+    })
+    : escapeHtml(text).replace(/\n/g, '<br>');
 
             if (role === 'user') {
                 div.innerHTML = `

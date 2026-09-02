@@ -20,7 +20,7 @@ load_dotenv(override=True)
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 
 from backend.rag_engine import RAGEngine
 from backend.groq_client import GroqClient
@@ -62,10 +62,20 @@ orchestrator = ConversationalOrchestrator(rag_engine=rag, groq_client=groq)
 
 
 # Modelos Pydantic
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=2000)
+
+    class Config:
+        extra = "forbid"
+
 class ChatRequest(BaseModel):
-    query: str
+    query: str = Field(min_length=1, max_length=500)
     session_id: str = Field(default="web_session", min_length=3, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
-    history: Optional[List[Dict[str, str]]] = None
+    history: Optional[List[ChatMessage]] = None
+
+    class Config:
+        extra = "forbid"
 
 
 class ChatResponse(BaseModel):
@@ -111,7 +121,12 @@ def chat_endpoint(req: ChatRequest):
         raise HTTPException(status_code=400, detail="La consulta es demasiado larga (máx. 500 caracteres).")
 
     # Utilizar el Orquestador Conversacional Pipeline
-    history = req.history if hasattr(req, 'history') else None
+    history_items = (req.history or [])[-8:]
+    history = [
+        {"role": item.role, "content": item.content.strip()}
+        for item in history_items
+        if item.content.strip()
+    ]
     response_text, sources, had_answer, latency = orchestrator.chat(original_query=query, history=history)
 
     # Clasificación temática

@@ -52,21 +52,23 @@ def test_frontend_uses_local_compiled_css_and_strict_style_policy():
     assert FAVICON.is_file()
 
 
-def test_vercel_applies_security_headers_without_breaking_the_widget():
+def test_vercel_routes_apply_security_headers_without_breaking_the_widget():
     html = INDEX_HTML.read_text(encoding="utf-8")
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
-    headers = config["headers"][0]["headers"]
-    header_names = {header["key"] for header in headers}
-    csp_header = next(
-        header["value"] for header in headers if header["key"] == "Content-Security-Policy"
-    )
+    security_route = config["routes"][0]
+    headers = security_route["headers"]
+    csp_header = headers["Content-Security-Policy"]
     csp_meta = re.search(
         r'<meta http-equiv="Content-Security-Policy" content="([^"]+)">', html
     ).group(1)
 
-    assert {"Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy"} <= header_names
-    assert "X-Frame-Options" not in header_names
+    assert "headers" not in config
+    assert security_route["src"] == "/(.*)"
+    assert security_route["continue"] is True
+    assert {"Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy"} <= headers.keys()
+    assert "X-Frame-Options" not in headers
     assert csp_header == csp_meta
     assert "https://cdn.tailwindcss.com" not in csp_header
+    assert "connect-src 'self' https://cdn.jsdelivr.net" in csp_header
     assert "style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com" in csp_header
     assert "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com" in csp_header

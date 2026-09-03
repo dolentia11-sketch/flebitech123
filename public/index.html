@@ -136,15 +136,15 @@
                     <div class="chat-composer p-4 bg-white/90 backdrop-blur-lg border-t border-slate-200 z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] flex flex-col gap-2">
                         <!-- Quick Actions Chips -->
                         <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar mb-1 items-center">
-                            <button type="button" onclick="document.getElementById('user-input').value='Calculadora DIVA'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                            <button type="button" data-prompt="Calculadora DIVA" class="quick-prompt-btn shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-calculator text-[14px]"></i>
                                 Check DIVA Scale
                             </button>
-                            <button type="button" onclick="document.getElementById('user-input').value='Estándares INS 2024'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                            <button type="button" data-prompt="Estándares INS 2024" class="quick-prompt-btn shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-book-medical text-[14px]"></i>
                                 INS Standards
                             </button>
-                            <button type="button" onclick="document.getElementById('user-input').value='Lista de medicamentos documentados'; document.getElementById('chat-form').dispatchEvent(new Event('submit'));" class="shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                            <button type="button" data-prompt="Lista de medicamentos documentados" class="quick-prompt-btn shrink-0 bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
                                 <i class="fa-solid fa-pills text-[14px]"></i>
                                 Farmacología
                             </button>

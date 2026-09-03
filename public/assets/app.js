@@ -434,4 +434,15 @@ const htmlContent = typeof DOMPurify !== 'undefined'
         });
 
         document.getElementById('chat-form').addEventListener('submit', handleChatSubmit);
+
+        // Add event listeners for quick prompt chips
+        document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const prompt = btn.getAttribute('data-prompt');
+                if (prompt) {
+                    document.getElementById('user-input').value = prompt;
+                    document.getElementById('chat-form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }
+            });
+        });
         document.getElementById('med-search').addEventListener('input', filterMeds);

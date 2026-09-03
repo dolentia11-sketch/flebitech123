@@ -94,6 +94,25 @@ Flebitech opera bajo RAG estricto: no debe inventar dosis, vias, diluciones ni d
 
 Las clasificaciones de via central son campos estructurados para evitar respuestas ambiguas. Mientras `fuente_via_central` indique `PENDIENTE`, deben tratarse como clasificacion operativa pendiente de validacion institucional, no como aprobacion clinica final.
 
+---
+
+## Arquitectura y Funcionalidades del Modelo
+
+Flebitech utiliza un enfoque de **RAG (Retrieval-Augmented Generation)** estricto con una arquitectura orientada a despliegues serverless (ej. Vercel).
+
+### Capacidades Principales
+- **Búsqueda Híbrida BM25 + Entidades:** El motor de búsqueda (`rag_engine.py`) utiliza un algoritmo léxico (BM25) combinado con un sistema de reconocimiento exacto de entidades farmacológicas (tolerante a errores tipográficos). Esto permite localizar información crítica sin depender de costosas bases de datos vectoriales.
+- **Enrutamiento Determinista (Graceful Degradation):** El orquestador (`orchestrator.py`) clasifica la intención del usuario primero mediante expresiones regulares. Si la API del LLM falla, excede su cuota, o no está configurada, el sistema es capaz de entregar respuestas estructuradas extraídas localmente, asegurando alta disponibilidad.
+- **Prevención de Alucinaciones Clínicas:** El "Prompt System" restringe estrictamente la generación de datos. Adicionalmente, el código valida que los números y nombres de fármacos generados por el LLM existan obligatoriamente en el texto fuente antes de emitir la respuesta final, descartando respuestas que introduzcan entidades inventadas.
+- **Métricas y Análisis de Brechas:** El sistema registra consultas sin respuesta para identificar brechas de conocimiento en la base documental, permitiendo una mejora continua del contenido educativo.
+
+### Notas para Producción (Auditoría Técnica)
+- **Seguridad de API:** La API FastAPI incluye middlewares (`ChatRequestBodyLimitMiddleware`) que limitan el tamaño de los payloads entrantes para prevenir ataques de agotamiento de recursos. El CORS es restrictivo y manejable por variables de entorno.
+- **Analíticas en Serverless:** Si se despliega en entornos como Vercel, la base de datos de métricas SQLite nativa (que por defecto usa `:memory:` en Vercel) debe ser migrada a una solución gestionada (ej. Vercel Postgres, Supabase o Turso) para garantizar la persistencia de los datos analíticos entre ejecuciones.
+- **Configuración del LLM:** Asegúrese de definir un modelo válido de Groq en la variable de entorno `GROQ_MODEL` (por ejemplo, `llama-3.3-70b-versatile` o `llama-3.1-8b-instant`), ya que un modelo inválido forzará al sistema a operar permanentemente en modo de contingencia local.
+
+---
+
 ## Estado de endurecimiento
 
 El repositorio conserva riesgos abiertos documentados en [docs/LINEA_BASE.md](docs/LINEA_BASE.md) y en `Flebitech_Plan_Paso_a_Paso/`. Las etapas priorizadas cubren seguridad clinica, privacidad de metricas, prompt injection, XSS, pruebas automatizadas, reproducibilidad y gobernanza de fuentes.

@@ -168,7 +168,8 @@ class ConversationalOrchestrator:
             return set(re.findall(r"\b\d+\.\d+\b|\b\d{2,}\b", text))
             
         def extract_drugs(text):
-            return set(re.findall(r"\b[a-z]{4,}(?:ina|ol|ona|il|ano|ico)\b", text.lower()))
+            # Extract common drug suffixes but avoid generic Spanish words ending in 'ico' (like clínico, médico)
+            return set(re.findall(r"\b[a-z]{4,}(?:micina|floxacina|azol|mab|vir|ciclina|statina|pril|sartan)\b", text.lower()))
 
         llm_nums = extract_critical_numbers(llm_response)
         local_nums = extract_critical_numbers(local_response)

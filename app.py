@@ -356,7 +356,7 @@ with tab_analytics:
         if recent:
             for r in recent:
                 icon = "✅" if r["had_answer"] else "⚠️"
-                st.markdown(f"**{icon} [{r['timestamp']}]** ({r['topic']}): *{r['query']}*")
+                st.markdown(f"**{icon} [{r['timestamp']}]** ({r['topic']}): *{r.get('query', 'Consulta anónima/oculta')}*")
         else:
             st.info("Aún no hay interacciones registradas en esta sesión.")
             
@@ -365,6 +365,6 @@ with tab_analytics:
         gaps = get_knowledge_gaps(limit=8)
         if gaps:
             for g in gaps:
-                st.markdown(f'<div class="gap-alert">📌 <b>{g["timestamp"]}</b> ({g["topic"]}): {g["query"]}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="gap-alert">📌 <b>{g["timestamp"]}</b> ({g["topic"]}): {g.get("query", "Brecha registrada (consulta oculta)")}</div>', unsafe_allow_html=True)
         else:
             st.success("🎉 No se han detectado brechas de conocimiento sin responder.")

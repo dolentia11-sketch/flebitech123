@@ -47,16 +47,6 @@ Abre `http://localhost:8000`. Este servidor replica localmente las rutas estáti
 streamlit run app.py
 ```
 
-### 6. Regenerar los estilos del frontend
-
-La interfaz usa CSS compilado y servido desde el mismo origen; no depende del runtime de Tailwind en el navegador. Si cambias clases o estilos, regenera el archivo versionado con:
-
-```bash
-npx --yes tailwindcss@3.4.17 -c public/assets/tailwind.config.js -i public/assets/tailwind.input.css -o public/assets/app.css --minify
-```
-
----
-
 ## Estructura del proyecto
 
 ```text

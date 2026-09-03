@@ -153,7 +153,7 @@ const htmlContent = typeof DOMPurify !== 'undefined'
 
             if (role === 'user') {
                 div.innerHTML = `
-                    <div class="ml-auto bubble-user p-4 max-w-[85%] md:max-w-xl min-w-0 break-words text-sm shadow-md leading-relaxed rounded-2xl rounded-tr-sm text-white" style="background: linear-gradient(135deg, #002B66 0%, #0A3882 100%);">
+                    <div class="ml-auto bubble-user p-4 max-w-[85%] md:max-w-xl min-w-0 break-words text-sm shadow-md leading-relaxed rounded-2xl rounded-tr-sm text-white">
                         ${escapeHtml(text)}
                     </div>`;
             } else {

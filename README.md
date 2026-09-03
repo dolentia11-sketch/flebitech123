@@ -4,6 +4,21 @@ Flebitech es un tutor conversacional para estudiantes y profesionales de enferme
 
 ---
 
+## 💡 Resumen Ejecutivo (Guía para Presentación)
+
+**El Problema:** La flebitis química y las complicaciones por accesos venosos periféricos inadecuados son riesgos constantes en la hospitalización. Los protocolos son extensos y a menudo difíciles de consultar rápidamente durante el turno.
+
+**Nuestra Solución (Flebitech):** Un tutor interactivo que ofrece acceso inmediato a la información crítica de la terapia intravenosa, construido con un enfoque inquebrantable en la seguridad del paciente.
+
+**Propuesta de Valor (Lo que nos diferencia):**
+1. **Cero Alucinaciones (RAG Estricto):** A diferencia de modelos genéricos como ChatGPT, Flebitech está "anclado" a los protocolos institucionales. Si la respuesta no está en el protocolo, la IA no inventa, sino que deriva al supervisor clínico.
+2. **Casos de Uso Clínicos en Tiempo Real:**
+   - **Fármacos Críticos:** Orientación instantánea sobre pH, osmolaridad, necesidad de vía central y dilución de medicamentos de alto riesgo (Ej. Vancomicina, Potasio, Amiodarona).
+   - **Escalas de Valoración:** Guía paso a paso sobre el uso de escalas como **DIVA** (Accesos Difíciles), **INS** y **VHP** (Grados de flebitis).
+3. **Analítica de Aprendizaje (Panel Docente):** El sistema identifica proactivamente las "brechas de conocimiento" registrando cuáles son las dudas más frecuentes o no documentadas de los estudiantes. Esto permite retroalimentar el currículo de enfermería y actualizar los protocolos hospitalarios.
+
+---
+
 ## Inicio Rapido
 
 ### 1. Requisitos previos

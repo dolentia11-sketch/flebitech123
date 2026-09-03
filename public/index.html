@@ -46,12 +46,11 @@
                         <img src="/assets/logo_unisabana.png" alt="Universidad de La Sabana" class="max-h-8 sm:max-h-9 max-w-full object-contain" loading="eager">
                     </div>
 
-                    <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-full border border-emerald-200" title="RAG activo" aria-label="RAG activo">
+                    <div id="rag-status-indicator" class="flex items-center gap-1.5 text-[11px] text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-full border border-slate-200" title="Comprobando estado..." aria-label="Comprobando estado">
                         <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-400"></span>
                         </span>
-                        <span class="font-semibold hidden sm:inline">RAG Activo</span>
+                        <span id="rag-status-text" class="font-semibold hidden sm:inline">Comprobando...</span>
                     </div>
                 </div>
             </div>

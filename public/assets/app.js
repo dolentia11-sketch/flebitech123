@@ -104,6 +104,7 @@
                 sessionQuestions++;
                 if (data.had_answer) sessionResolved++;
                 updateSidebarCounters();
+                checkSystemHealth();
             } catch (err) {
                 removeLoading(loadingId);
                 appendMessage('ai', '⚠️ Error conectando con el servidor de Flebitech. Verifica que el backend esté en ejecución e intenta nuevamente.', [], false, 0);
@@ -446,3 +447,57 @@ const htmlContent = typeof DOMPurify !== 'undefined'
             });
         });
         document.getElementById('med-search').addEventListener('input', filterMeds);
+
+        // ─── Real-time Health Status ───
+        async function checkSystemHealth() {
+            try {
+                const res = await fetch('/api/health');
+                const data = await res.json();
+                const indicator = document.getElementById('rag-status-indicator');
+                const textEl = document.getElementById('rag-status-text');
+                
+                if (data.status === 'healthy') {
+                    if (data.llm && data.llm.configured && !data.llm.cooldown) {
+                        // All good
+                        indicator.className = "flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-2.5 py-1.5 rounded-full border border-emerald-200 transition-colors";
+                        indicator.title = "RAG y LLM Activos";
+                        indicator.querySelector('span.relative.flex').innerHTML = `
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        `;
+                        textEl.textContent = "RAG + LLM Activo";
+                    } else {
+                        // Fallback (LLM is in cooldown or not configured)
+                        indicator.className = "flex items-center gap-1.5 text-[11px] text-amber-700 bg-amber-50 px-2.5 py-1.5 rounded-full border border-amber-200 transition-colors";
+                        const titleText = (data.llm && data.llm.cooldown) ? "LLM en cooldown. RAG Local activo." : "LLM no configurado. RAG Local activo.";
+                        indicator.title = titleText;
+                        indicator.querySelector('span.relative.flex').innerHTML = `
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                        `;
+                        textEl.textContent = "RAG Local (LLM Off)";
+                    }
+                } else {
+                    // System unhealthy
+                    indicator.className = "flex items-center gap-1.5 text-[11px] text-red-700 bg-red-50 px-2.5 py-1.5 rounded-full border border-red-200 transition-colors";
+                    indicator.title = "Sistema Inactivo";
+                    indicator.querySelector('span.relative.flex').innerHTML = `
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    `;
+                    textEl.textContent = "Sistema Inactivo";
+                }
+            } catch (err) {
+                const indicator = document.getElementById('rag-status-indicator');
+                const textEl = document.getElementById('rag-status-text');
+                indicator.className = "flex items-center gap-1.5 text-[11px] text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-full border border-slate-200 transition-colors";
+                indicator.title = "Desconectado";
+                indicator.querySelector('span.relative.flex').innerHTML = `
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-400"></span>
+                `;
+                textEl.textContent = "Desconectado";
+            }
+        }
+
+        // Run health check initially and every 30 seconds
+        checkSystemHealth();
+        setInterval(checkSystemHealth, 30000);
+
